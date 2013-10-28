@@ -32,6 +32,7 @@ commands			:	command
 command				:	packet
 					|	include
 					|	unknown_command
+					|	NL
 					;
 
 packet				:	PACKET BLOCK_BEGIN BLOCK_END
@@ -40,7 +41,7 @@ packet				:	PACKET BLOCK_BEGIN BLOCK_END
 						}
 					;
 
-include				:	INCLUDE STRING_LITERAL
+include				:	INCLUDE STRING_LITERAL NL
 						{
 							printf("include directive\n");
 						}
@@ -50,8 +51,6 @@ unknown_command		:	ID
 							printf("unknown command\n");
 						}
 					;
-
-
 
 
 
