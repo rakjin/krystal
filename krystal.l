@@ -19,7 +19,10 @@ NUM					{D}+(\.{D}+)?(E[+\-]?{D}+)?
 "{"					{ return BLOCK_BEGIN; }
 "}"					{ return BLOCK_END; }
 
-\"(\\.|[^\\"])*\"	{ return STRING_LITERAL; }
+\"(\\.|[^\\"])*\"	{
+						yylval.string = strdup(yytext);
+						return STRING_LITERAL;
+					}
 
 "packet"			{ return PACKET; }
 "#include"			{ return INCLUDE; }
