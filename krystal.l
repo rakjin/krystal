@@ -4,12 +4,11 @@
 #include "krystal.tab.h"
 %}
 
-WS			[ \t]+
-NL			\n
-NR			\r
+WS			[ \t\n\r]+
 L			[a-zA-Z_]
 D			[0-9]
 ID			{L}({L}|{D})*
+NUM			{D}+(\.{D}+)?(E[+\-]?{D}+)?
 
 
 
@@ -18,8 +17,9 @@ ID			{L}({L}|{D})*
 %%
 
 {WS}		{ ; }
-{NL}		{ ; }
-{NR}		{ ; }
-{ID}		{
-				return ID;
-			}
+
+"{"			{ return BLOCK_BEGIN; }
+"}"			{ return BLOCK_END; }
+"packet"	{ return PACKET; }
+
+{ID}		{ return ID; }
