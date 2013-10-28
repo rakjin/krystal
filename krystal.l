@@ -21,5 +21,6 @@ NUM			{D}+(\.{D}+)?(E[+\-]?{D}+)?
 "{"			{ return BLOCK_BEGIN; }
 "}"			{ return BLOCK_END; }
 "packet"	{ return PACKET; }
+"#include"	{ return INCLUDE; }
 
 {ID}		{ return ID; }

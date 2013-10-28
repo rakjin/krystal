@@ -7,6 +7,7 @@ int yyerror(char* s);
 %}
 
 %token ID
+%token INCLUDE
 %token PACKET
 %token BLOCK_BEGIN BLOCK_END
 
@@ -26,19 +27,26 @@ commands			:	command
 					;
 
 command				:	packet
-					|	ID
-						{
-							printf("command\n");
-						}
+					|	include
+					|	unknown_command
 					;
 
-packet	:			PACKET BLOCK_BEGIN BLOCK_END
+packet				:	PACKET BLOCK_BEGIN BLOCK_END
 						{
 							printf("packet declaration\n");
 						}
 					;
 
+include				:	INCLUDE
+						{
+							printf("include directive\n");
+						}
 
+unknown_command		:	ID
+						{
+							printf("unknown command\n");
+						}
+					;
 
 
 
