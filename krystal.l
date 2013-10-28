@@ -27,5 +27,8 @@ NUM					{D}+(\.{D}+)?(E[+\-]?{D}+)?
 "packet"			{ return PACKET; }
 "#include"			{ return INCLUDE; }
 
-{ID}				{ return ID; }
+{ID}				{
+						yylval.string = strdup(yytext);
+						return ID;
+					}
 

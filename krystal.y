@@ -13,7 +13,7 @@ int yyerror(char* s);
 }
 
 %token NL
-%token ID
+%token<string> ID
 %token<string>	STRING_LITERAL
 
 %token INCLUDE
@@ -54,7 +54,7 @@ include				:	INCLUDE STRING_LITERAL NL
 
 unknown_command		:	ID
 						{
-							printf("unknown command\n");
+							printf("unknown command: %s\n", $1);
 						}
 					;
 
