@@ -4,6 +4,8 @@
 #include "krystal.tab.h"
 %}
 
+%x					COMMENT_C
+
 NL					[\n\r]+
 WS					[ \t]+
 L					[a-zA-Z_]
@@ -11,7 +13,6 @@ D					[0-9]
 ID					{L}({L}|{D})*
 NUM					{D}+(\.{D}+)?(E[+\-]?{D}+)?
 COMMENT_CPP			"//"[^\n]*$
-COMMENT_C			"/*"[^(*/)]*"*/"
 
 %%
 
@@ -19,7 +20,9 @@ COMMENT_C			"/*"[^(*/)]*"*/"
 {WS}				{ ; }
 
 {COMMENT_CPP}		{ ; }
-{COMMENT_C}			{ ; }
+"/*"				{ BEGIN(COMMENT_C); }
+<COMMENT_C>"*/"		{ BEGIN(INITIAL); }
+<COMMENT_C>.		{ ; }
 
 "{"					{ return BLOCK_BEGIN; }
 "}"					{ return BLOCK_END; }
