@@ -6,7 +6,7 @@ int yyerror(char* s);
 
 %}
 
-%token DIGIT
+%token ID
 
 
 
@@ -16,16 +16,20 @@ int yyerror(char* s);
 
 %%
 
-line	:	expr '\n'		{ putchar('\n'); }
-		;
+program		:
+			|	commands
+			;
 
-expr	:	expr '+' term	{ putchar('+'); }
-		|	expr '-' term	{ putchar('-'); }
-		|	term
-		;
+commands	:	command
+			|	commands command
+			;
 
-term	:	DIGIT			{ printf("%d", yylval); }
-		;
+command		:	ID
+				{
+					printf("command\n");
+				}
+			;
+
 
 
 
@@ -45,3 +49,4 @@ int main()
 	if (yyparse() == 0) printf("Parsing OK!\n\n");
 	else printf("Parsing Error!\n\n");
 }
+

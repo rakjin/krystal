@@ -4,12 +4,22 @@
 #include "krystal.tab.h"
 %}
 
+WS			[ \t]+
+NL			\n
+NR			\r
+L			[a-zA-Z_]
+D			[0-9]
+ID			{L}({L}|{D})*
+
 
 
 
 
 %%
 
-[ \t]+		{ ; }
-[0-9]		{ yylval = yytext[0] - '0'; return DIGIT; }
-[+\-\n]		{ return yytext[0]; }
+{WS}		{ ; }
+{NL}		{ ; }
+{NR}		{ ; }
+{ID}		{
+				return ID;
+			}
