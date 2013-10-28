@@ -6,7 +6,10 @@ int yyerror(char* s);
 
 %}
 
+%token NL
 %token ID
+%token STRING_LITERAL
+
 %token INCLUDE
 %token PACKET
 %token BLOCK_BEGIN BLOCK_END
@@ -37,7 +40,7 @@ packet				:	PACKET BLOCK_BEGIN BLOCK_END
 						}
 					;
 
-include				:	INCLUDE
+include				:	INCLUDE STRING_LITERAL
 						{
 							printf("include directive\n");
 						}
