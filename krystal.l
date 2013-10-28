@@ -5,7 +5,7 @@
 %}
 
 NL					[\n\r]+
-WS					[ \t\n\r]+
+WS					[ \t]+
 L					[a-zA-Z_]
 D					[0-9]
 ID					{L}({L}|{D})*
