@@ -10,11 +10,16 @@ L					[a-zA-Z_]
 D					[0-9]
 ID					{L}({L}|{D})*
 NUM					{D}+(\.{D}+)?(E[+\-]?{D}+)?
+COMMENT_CPP			"//"[^\n]*$
+COMMENT_C			"/*"[^(*/)]*"*/"
 
 %%
 
 {NL}				{ return NL; }
 {WS}				{ ; }
+
+{COMMENT_CPP}		{ ; }
+{COMMENT_C}			{ ; }
 
 "{"					{ return BLOCK_BEGIN; }
 "}"					{ return BLOCK_END; }
