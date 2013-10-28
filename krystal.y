@@ -7,7 +7,8 @@ int yyerror(char* s);
 %}
 
 %token ID
-
+%token PACKET
+%token BLOCK_BEGIN BLOCK_END
 
 
 
@@ -16,19 +17,26 @@ int yyerror(char* s);
 
 %%
 
-program		:
-			|	commands
-			;
+program				:
+					|	commands
+					;
 
-commands	:	command
-			|	commands command
-			;
+commands			:	command
+					|	commands command
+					;
 
-command		:	ID
-				{
-					printf("command\n");
-				}
-			;
+command				:	packet
+					|	ID
+						{
+							printf("command\n");
+						}
+					;
+
+packet	:			PACKET BLOCK_BEGIN BLOCK_END
+						{
+							printf("packet declaration\n");
+						}
+					;
 
 
 
