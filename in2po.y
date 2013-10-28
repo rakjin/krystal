@@ -1,6 +1,9 @@
 %{
 #include <stdio.h>
 #include <ctype.h>
+
+int yyerror(char* s);
+
 %}
 
 %token DIGIT
@@ -31,6 +34,11 @@ term	:	DIGIT			{ printf("%d", yylval); }
 
 
 %%
+
+int yyerror(char* s)
+{
+	printf("%s\n", s);
+}
 
 int main()
 {
