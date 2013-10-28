@@ -1,7 +1,7 @@
 %option noyywrap
 
 %{
-#include "in2po.tab.h"
+#include "krystal.tab.h"
 %}
 
 
