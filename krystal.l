@@ -16,7 +16,7 @@ COMMENT_CPP			"//"[^\n]*$
 
 %%
 
-{NL}				{ return NL; }
+{NL}				{ ; }
 {WS}				{ ; }
 
 {COMMENT_CPP}		{ ; }
