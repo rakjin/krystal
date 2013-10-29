@@ -26,6 +26,7 @@ COMMENT_CPP			"//"[^\n]*$
 
 "{"					{ return BLOCK_BEGIN; }
 "}"					{ return BLOCK_END; }
+";"					{ return SEMICOLON; }
 
 \"(\\.|[^\\"])*\"	{
 						yylval.string = strdup(yytext);
@@ -34,6 +35,10 @@ COMMENT_CPP			"//"[^\n]*$
 
 "packet"			{ return PACKET; }
 "#include"			{ return INCLUDE; }
+
+"bool"				{ return BOOL; }
+"int"				{ return INT; }
+"uint"				{ return UINT; }
 
 {ID}				{
 						yylval.string = strdup(yytext);

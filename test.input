@@ -1,7 +1,36 @@
 
-hello
+UNKNOWN_COMMAND_1
+     
+packet {
+	
+	int PACKET_MEMBER_1;
+	bool PACKET_MEMBER_2;
 
-packet {}
+}
 
-#include "world"
+packet {
+	
+	int PACKET_MEMBER_1;
+	bool PACKET_MEMBER_2;
 
+}
+
+#include  	"world"     // aaa
+
+#include /* aaa
+            bbb */ "apart"
+
+#include "BBB" /* xxxxxx */ 
+
+UNKNOWN_COMMAND_2
+
+    /* nested
+
+    /*
+    COMMENT_ */
+
+#include "Hello // World" //aaa
+
+UNKNOWN_COMMAND_3
+
+#include "Hello // World"

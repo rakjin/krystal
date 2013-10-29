@@ -15,6 +15,10 @@ int yyerror(char* s);
 %token<string> ID
 %token<string>	STRING_LITERAL
 
+%token SEMICOLON
+
+%token<string> BOOL INT UINT
+
 %token INCLUDE
 %token PACKET
 %token BLOCK_BEGIN BLOCK_END
@@ -39,9 +43,30 @@ command				:	packet
 					|	unknown_command
 					;
 
-packet				:	PACKET BLOCK_BEGIN BLOCK_END
+packet				:	PACKET BLOCK_BEGIN packet_members BLOCK_END
 						{
-							printf("packet declaration\n");
+							printf("packet\n");
+						}
+					;
+
+packet_members		:	packet_member
+					|	packet_members packet_member
+					;
+
+packet_member		:	packet_member_type packet_member_name SEMICOLON
+					;
+
+packet_member_type	:	BOOL
+					|	INT
+					|	UINT
+						{
+							printf("packet_member_type: %s\n", $1);
+						}
+					;
+
+packet_member_name	:	ID
+						{
+							printf("packet_member_name: %s\n", $1);
 						}
 					;
 
