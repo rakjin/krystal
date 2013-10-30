@@ -6,13 +6,20 @@
 
 %option nodefault yyclass="Scanner" noyywrap c++
 
+L					[a-zA-Z_]
+D					[0-9]
+ID					{L}({L}|{D})*
+COMMENT_CPP			"//"[^\n]*$
+
 %%
 
 %{
 	yylloc->step();
 %}
 
-[^\[\]\n= \t][^\[\]\n=]+[^\[\]\n= \t]  { *yylval = yytext; return Rakjin::Krystal::Parser::token::STRING; }
+{COMMENT_CPP}	{ ; }
+
+{ID}         { *yylval = yytext; return Rakjin::Krystal::Parser::token::STRING; }
 
 "["          { return Rakjin::Krystal::Parser::token::SECTION_START; }
 "]"          { return Rakjin::Krystal::Parser::token::SECTION_END; }
