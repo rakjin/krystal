@@ -13,7 +13,9 @@ scanner.o : parser.y scanner.l Scanner.h
 	flex scanner.l
 	$(CC) $(CFLAGS) -c -o scanner.o lex.yy.cc
 
-.PHONY : clean
+
+.PHONY : all clean test
+
 clean :
 # remove bison generated files
 	rm -rf parser.tab.c parser.tab.h location.hh position.hh stack.hh
@@ -21,4 +23,7 @@ clean :
 	rm -rf lex.yy.cc
 # remove compiled files
 	rm -rf $(BIN) *.o
+
+test : $(BIN) test.kst
+	./$(BIN) test.kst
 
