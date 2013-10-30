@@ -27,8 +27,7 @@ on windows, install them:
         - copy C:\MinGW\bin\libstdc++-6.dll file to C:\Windows\SysWOW64\ (x64)
             - http://stackoverflow.com/questions/14889407/the-procedure-entry-point-gxx-personality-sj0-could-not-be-located-in
 
-on mac os x, update bison version to 2.4.1 or newer
-in terminal,
+on os x, update bison version to 2.4.1 or newer. in terminal,
 
 ```
 brew --prefix
