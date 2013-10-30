@@ -8,6 +8,8 @@
 
 %x					COMMENT_C
 
+NL					[\n\r]+
+WS					[ \t]+
 L					[a-zA-Z_]
 D					[0-9]
 ID					{L}({L}|{D})*
@@ -20,18 +22,37 @@ COMMENT_CPP			"//"[^\n]*$
 %}
 
 
-{COMMENT_CPP}		{ ; }
+{NL}				{ yylloc->lines(yyleng); yylloc->step(); }
+{WS}				{ yylloc->step(); }
+
+{COMMENT_CPP}		{ yylloc->step(); }
 
 "/*"				{ BEGIN(COMMENT_C); }
 <COMMENT_C>"*/"		{ BEGIN(INITIAL); }
-<COMMENT_C>.		{ ; }
+<COMMENT_C>{NL}		{ yylloc->lines(yyleng); yylloc->step(); }
+<COMMENT_C>.		{ yylloc->step(); }
 
 
-{ID}         { *yylval = yytext; return Rakjin::Krystal::Parser::token::STRING; }
+"{"					{ return Rakjin::Krystal::Parser::token::BLOCK_BEGIN; }
+"}"					{ return Rakjin::Krystal::Parser::token::BLOCK_END; }
+";"					{ return Rakjin::Krystal::Parser::token::SEMICOLON; }
 
-"["          { return Rakjin::Krystal::Parser::token::SECTION_START; }
-"]"          { return Rakjin::Krystal::Parser::token::SECTION_END; }
-"="          { return Rakjin::Krystal::Parser::token::ASSIGNMENT; }
-.            { yylloc->step(); }
-"\n"+        { yylloc->lines(yyleng); yylloc->step(); }
+\"(\\.|[^\\"])*\"	{
+						*yylval = yytext;
+						return Rakjin::Krystal::Parser::token::STRING_LITERAL;
+					}
+
+"packet"			{ return Rakjin::Krystal::Parser::token::PACKET; }
+"#include"			{ return Rakjin::Krystal::Parser::token::INCLUDE; }
+
+"bool"				{ return Rakjin::Krystal::Parser::token::BOOL; }
+"int"				{ return Rakjin::Krystal::Parser::token::INT; }
+"uint"				{ return Rakjin::Krystal::Parser::token::UINT; }
+
+{ID}				{
+						*yylval = yytext;
+						return Rakjin::Krystal::Parser::token::ID;
+					}
+
+.					{ std::cout << "UNKNOWN CHARACTER: " << yytext << "\n"; }
 

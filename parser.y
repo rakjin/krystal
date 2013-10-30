@@ -36,27 +36,68 @@
 	                 Rakjin::Krystal::Scanner &scanner);
 }
 
-%token STRING SECTION_START SECTION_END ASSIGNMENT
+%token BLOCK_BEGIN BLOCK_END
+%token SEMICOLON
+%token STRING_LITERAL
+%token PACKET
+%token INCLUDE
+%token BOOL INT UINT
+%token ID
 
 %%
 
-input
-	: input line
-	| line
-	;
-	
-line
-	: section
-	| value
-	;
-	
-section
-	: SECTION_START STRING SECTION_END { currentSection = $2; }
-	;
-	
-value
-	: STRING ASSIGNMENT STRING { kstData[currentSection][$1] = $3; }
-	;
+program				:
+					|	commands
+					;
+
+commands			:	command
+					|	commands command
+					;
+
+command				:	packet
+					|	include
+					|	unknown_command
+					;
+
+packet				:	PACKET ID BLOCK_BEGIN packet_members BLOCK_END
+						{
+							std::cout << "packet: " << $2 << "\n";
+						}
+					;
+
+packet_members		:	packet_member
+					|	packet_members packet_member
+					;
+
+packet_member		:	packet_member_type packet_member_name SEMICOLON
+					;
+
+packet_member_type	:	BOOL
+					|	INT
+					|	UINT
+						{
+							std::cout << "packet_member_type: " << $1 << "\n";
+						}
+					;
+
+packet_member_name	:	ID
+						{
+							std::cout << "packet_member_name: " << $1 << "\n";
+						}
+					;
+
+include				:	INCLUDE STRING_LITERAL
+						{
+							std::cout << "include directive: " << $2 << "\n";
+						}
+
+unknown_command		:	ID
+						{
+							std::cout << "unknown command: " << $1 << "\n";
+						}
+					;
+
+
 	
 %%
 
