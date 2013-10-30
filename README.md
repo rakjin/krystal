@@ -28,28 +28,29 @@ on windows, install them:
             - http://stackoverflow.com/questions/14889407/the-procedure-entry-point-gxx-personality-sj0-could-not-be-located-in
 
 on mac os x, update bison version to 2.4.1 or newer
+in terminal,
 
-- in terminal,
-    ```
-    brew --prefix
-    brew versions bison
-    git checkout 804bcf6 Library/Formula/bison.rb
-    brew unlink bison
-    brew install bison
-    bison --version
-    brew switch bison 2.7.1
-    bison --version
-    which bison
-    ls -lah /usr/local/Cellar/bison/2.7.1/bin/
-    yacc --version
-    /usr/local/Cellar/bison/2.7.1/bin/bison --version
-    /usr/local/Cellar/bison/2.7.1/bin/yacc --version
-    which yacc
-    mv /usr/bin/yacc /usr/bin/yacc-2.3
-    sudo mv /usr/bin/yacc /usr/bin/yacc-2.3
-    sudo mv /usr/bin/bison /usr/bin/bison-2.3
-    sudo ln -s /usr/local/Cellar/bison/2.7.1/bin/bison /usr/bin/bison
-    sudo ln -s /usr/local/Cellar/bison/2.7.1/bin/yacc /usr/bin/yacc
-    bison --version
-    ```
-    http://stackoverflow.com/questions/3987683/homebrew-install-specific-version-of-formula
+```
+brew --prefix
+brew versions bison
+git checkout 804bcf6 Library/Formula/bison.rb
+brew unlink bison
+brew install bison
+bison --version
+brew switch bison 2.7.1
+bison --version
+which bison
+ls -lah /usr/local/Cellar/bison/2.7.1/bin/
+yacc --version
+/usr/local/Cellar/bison/2.7.1/bin/bison --version
+/usr/local/Cellar/bison/2.7.1/bin/yacc --version
+which yacc
+mv /usr/bin/yacc /usr/bin/yacc-2.3
+sudo mv /usr/bin/yacc /usr/bin/yacc-2.3
+sudo mv /usr/bin/bison /usr/bin/bison-2.3
+sudo ln -s /usr/local/Cellar/bison/2.7.1/bin/bison /usr/bin/bison
+sudo ln -s /usr/local/Cellar/bison/2.7.1/bin/yacc /usr/bin/yacc
+bison --version
+```
+
+http://stackoverflow.com/questions/3987683/homebrew-install-specific-version-of-formula
