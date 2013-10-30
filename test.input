@@ -1,14 +1,15 @@
 
 UNKNOWN_COMMAND_1
      
-packet {
+packet TestPacket01 {
 	
 	int PACKET_MEMBER_1;
 	bool PACKET_MEMBER_2;
 
 }
 
-packet {
+packet test_P_A_C_K_E_T_02
+{
 	
 	int PACKET_MEMBER_1;
 	bool PACKET_MEMBER_2;

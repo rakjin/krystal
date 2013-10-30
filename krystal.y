@@ -43,9 +43,9 @@ command				:	packet
 					|	unknown_command
 					;
 
-packet				:	PACKET BLOCK_BEGIN packet_members BLOCK_END
+packet				:	PACKET ID BLOCK_BEGIN packet_members BLOCK_END
 						{
-							printf("packet\n");
+							printf("packet: %s\n", $2);
 						}
 					;
 
