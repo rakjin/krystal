@@ -1,9 +1,3 @@
-/* This program is free software. It comes without any warranty, to
- * the extent permitted by applicable law. You can redistribute it
- * and/or modify it under the terms of the Do What The Fuck You Want
- * To Public License, Version 2, as published by Sam Hocevar. See
- * http://sam.zoy.org/wtfpl/COPYING for more details. */
- 
 #pragma once
 
 // Only include FlexLexer.h if it hasn't been already included
@@ -13,14 +7,14 @@
 
 // Override the interface for yylex since we namespaced it
 #undef YY_DECL
-#define YY_DECL int Waffleshop::IniLoader::Scanner::yylex()
+#define YY_DECL int Rakjin::Krystal::Scanner::yylex()
 
 // Include Bison for types / tokens
 #include "parser.tab.h"
 
 
-namespace Waffleshop {
-	namespace IniLoader {
+namespace Rakjin {
+	namespace Krystal {
 		class Scanner : public yyFlexLexer {
 			public:
 				// constructor accepts the input and output streams

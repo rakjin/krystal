@@ -1,8 +1,8 @@
 CC     = g++
 CFLAGS = -Wall
-BIN    = ini-parser
+BIN    = krystal
 
-$(BIN) : parser.o scanner.o Main.cpp IniLoader.h
+$(BIN) : parser.o scanner.o Main.cpp Krystal.h
 	$(CC) $(CFLAGS) Main.cpp scanner.o parser.o -o $(BIN)
 
 parser.o : parser.y
