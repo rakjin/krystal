@@ -12,9 +12,10 @@ class Node;
 
 class NodeKst;
     class NodeInclude;
-    class NodePacketMember;
-        class NodePacketMemberType;
-        class NodePacketMemberName;
+    class NodePacket;
+        class NodePacketMember;
+            class NodePacketMemberType;
+            class NodePacketMemberName;
 
 
 class Node
@@ -70,10 +71,10 @@ class NodeInclude : public Node
 class NodePacket : public Node
 {
     Node* packetName;
-    std::list<Node*> packetMembers;
+    std::list<Node*>* packetMembers;
 
     public:
-    explicit NodePacket(Node* _packetName, std::list<Node*> _packetMembers) : Node()
+    explicit NodePacket(Node* _packetName, std::list<Node*>* _packetMembers) : Node()
     {
         packetName = _packetName;
         packetMembers = _packetMembers;
@@ -88,10 +89,11 @@ class NodePacket : public Node
     {
         std::stringstream parsed;
 
-        // parsed << *(memberType->getParsed());
-        // parsed << " ";
-        // parsed << *(memberName->getParsed());
-        // parsed << ";\n";
+        parsed << "packet ";
+        parsed << *(packetName->getParsed());
+        parsed << " {\n";
+        parsed << "\t[packets_members]\n";
+        parsed << "}\n";
 
         return new std::string(parsed.str());
     }

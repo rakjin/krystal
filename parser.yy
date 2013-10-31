@@ -53,8 +53,8 @@
 %token <string>	STRING_LITERAL
 %token <string>	DATA_TYPE
 
-%type <node>				packet_member packet_member_type packet_member_name
-%destructor { delete $$; }	packet_member packet_member_type packet_member_name
+%type <node>				packet packet_member packet_member_type packet_member_name
+%destructor { delete $$; }	packet packet_member packet_member_type packet_member_name
 
 %type <nodes>				packet_members
 %destructor { delete $$; }	packet_members
@@ -79,12 +79,15 @@ packet				:	PACKET packet_member_name BLOCK_BEGIN packet_members BLOCK_END
 						{
 							//std::cout << "packet: " << *$2 << "\n";
 
-							std::list<Node*>::iterator i   = $4->begin();
-							std::list<Node*>::iterator end = $4->end();
-							for (; i != end; ++i)
-							{
-								std::cout << "packet - member:" << *((*i)->getParsed()) << "\n";
-							}
+							//std::list<Node*>::iterator i   = $4->begin();
+							//std::list<Node*>::iterator end = $4->end();
+							//for (; i != end; ++i)
+							//{
+							//	std::cout << "packet - member:" << *((*i)->getParsed()) << "\n";
+							//}
+
+							$$ = new NodePacket($2, $4);
+							std::cout << *($$->getParsed()) << "\n";
 						}
 					;
 
