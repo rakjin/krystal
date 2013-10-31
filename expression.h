@@ -2,10 +2,8 @@
 #define EXPRESSION_H
 
 #include <list>
-#include <ostream>
 #include <sstream>
 #include <iostream>
-#include <stdexcept>
 
 
 class Node;
