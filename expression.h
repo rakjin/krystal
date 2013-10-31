@@ -69,14 +69,14 @@ class NodeInclude : public Node
 
 class NodePacketMember : public Node
 {
-    Node* nodeType;
-    Node* nodeName;
+    Node* memberType;
+    Node* memberName;
 
     public:
-    explicit NodePacketMember(Node* _nodeType, Node* _nodeName) : Node()
+    explicit NodePacketMember(Node* _memberType, Node* _memberName) : Node()
     {
-        nodeType = _nodeType;
-        nodeName = _nodeName;
+        memberType = _memberType;
+        memberName = _memberName;
     }
 
     virtual std::string getType()
@@ -88,9 +88,9 @@ class NodePacketMember : public Node
     {
         std::stringstream parsed;
 
-        parsed << *(nodeType->getParsed());
+        parsed << *(memberType->getParsed());
         parsed << " ";
-        parsed << *(nodeName->getParsed());
+        parsed << *(memberName->getParsed());
         parsed << ";\n";
 
         return new std::string(parsed.str());
