@@ -16,7 +16,7 @@
 	#include "expression.h"
 
 	// We want to return a string
-	#define YYSTYPE std::string
+	// #define YYSTYPE std::string
 
 	namespace Rakjin {
 		namespace Krystal {
@@ -37,13 +37,23 @@
 	                 Rakjin::Krystal::Scanner &scanner);
 }
 
+%union {
+	int inteverValue;
+	std::string* string;
+	class Node* node;
+}
+
 %token BLOCK_BEGIN BLOCK_END
 %token SEMICOLON
-%token STRING_LITERAL
 %token PACKET
 %token INCLUDE
-%token BOOL INT UINT
-%token ID
+
+%token <string>	ID
+%token <string>	STRING_LITERAL
+%token <string>	BOOL INT UINT
+
+%type <node>				packet_member_type
+%destructor { delete $$; }	packet_member_type
 
 %%
 
@@ -62,7 +72,7 @@ command				:	packet
 
 packet				:	PACKET ID BLOCK_BEGIN packet_members BLOCK_END
 						{
-							std::cout << "packet: " << $2 << "\n";
+							std::cout << "packet: " << *$2 << "\n";
 						}
 					;
 
@@ -77,24 +87,25 @@ packet_member_type	:	BOOL
 					|	INT
 					|	UINT
 						{
-							std::cout << "packet_member_type: " << $1 << "\n";
+							std::cout << "packet_member_type: " << *$1 << "\n";
+							$$ = new NodePacketMemberType($1);
 						}
 					;
 
 packet_member_name	:	ID
 						{
-							std::cout << "packet_member_name: " << $1 << "\n";
+							std::cout << "packet_member_name: " << *$1 << "\n";
 						}
 					;
 
 include				:	INCLUDE STRING_LITERAL
 						{
-							std::cout << "include directive: " << $2 << "\n";
+							std::cout << "include directive: " << *$2 << "\n";
 						}
 
 unknown_command		:	ID
 						{
-							std::cout << "unknown command: " << $1 << "\n";
+							std::cout << "unknown command: " << *$1 << "\n";
 						}
 					;
 

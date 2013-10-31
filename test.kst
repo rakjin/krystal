@@ -5,6 +5,7 @@ packet TestPacket01 {
 	
 	int PACKET_MEMBER_1;
 	bool PACKET_MEMBER_2;
+	uint PACKET_MEMBER_3;
 
 }
 

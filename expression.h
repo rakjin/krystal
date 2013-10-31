@@ -8,14 +8,12 @@
 class Node
 {
 public:
-    /// required for virtual functions. in the derived classes the operands are
-    /// deleted.
     virtual ~Node()
     {
     }
 
-    virtual std::string getType();
-    virtual std::string	getParsed();
+    std::string     getType() { return 0; };
+    std::string*	getParsed() { return 0; };
 
 };
 
@@ -24,7 +22,6 @@ class NodeKst : public Node
     std::list<Node> children;
     
     public:
-    /// construct a constant calculation node from a value
     explicit NodeKst() : Node()
     {
     }
@@ -34,16 +31,15 @@ class NodeKst : public Node
        return "KST_FILE";
     }
 
-    virtual std::string getParsed()
+    virtual std::string* getParsed()
     {
-       return "parsed contents";
+       return new std::string("");
     }
 };
 
 class NodeInclude : public Node
 {
     public:
-    /// construct a constant calculation node from a value
     explicit NodeInclude() : Node()
     {
     }
@@ -53,19 +49,19 @@ class NodeInclude : public Node
        return "INCLUDE";
     }
 
-    virtual std::string getParsed()
+    virtual std::string* getParsed()
     {
-       return "#include \"somefile\"\n";
+       return new std::string("#include \"somefile\"\n");
     }
 };
 
 
 class NodePacketMemberName : public Node
 {
-    std::string value;
+    std::string* value;
 
     public:
-    explicit NodePacketMemberName(std::string _value) : Node()
+    explicit NodePacketMemberName(std::string* _value) : Node()
     {
         value = _value;
     }
@@ -75,7 +71,7 @@ class NodePacketMemberName : public Node
        return "PacketMemberName";
     }
 
-    virtual std::string getParsed()
+    virtual std::string* getParsed()
     {
        return value;
     }
@@ -84,10 +80,10 @@ class NodePacketMemberName : public Node
 
 class NodePacketMemberType : public Node
 {
-    std::string value;
+    std::string* value;
 
     public:
-    explicit NodePacketMemberType(std::string _value) : Node()
+    explicit NodePacketMemberType(std::string* _value) : Node()
     {
         value = _value;
     }
@@ -97,7 +93,7 @@ class NodePacketMemberType : public Node
        return "PacketMemberType";
     }
 
-    virtual std::string getParsed()
+    virtual std::string* getParsed()
     {
        return value;
     }

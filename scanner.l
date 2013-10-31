@@ -38,19 +38,19 @@ COMMENT_CPP			"//"[^\n]*$
 ";"					{ return Rakjin::Krystal::Parser::token::SEMICOLON; }
 
 \"(\\.|[^\\"])*\"	{
-						*yylval = yytext;
+						yylval->string = new std::string(yytext, yyleng);
 						return Rakjin::Krystal::Parser::token::STRING_LITERAL;
 					}
 
 "packet"			{ return Rakjin::Krystal::Parser::token::PACKET; }
 "#include"			{ return Rakjin::Krystal::Parser::token::INCLUDE; }
 
-"bool"				{ return Rakjin::Krystal::Parser::token::BOOL; }
-"int"				{ return Rakjin::Krystal::Parser::token::INT; }
-"uint"				{ return Rakjin::Krystal::Parser::token::UINT; }
+"bool"				{ yylval->string = new std::string(yytext, yyleng); return Rakjin::Krystal::Parser::token::BOOL; }
+"int"				{ yylval->string = new std::string(yytext, yyleng); return Rakjin::Krystal::Parser::token::INT; }
+"uint"				{ yylval->string = new std::string(yytext, yyleng); return Rakjin::Krystal::Parser::token::UINT; }
 
 {ID}				{
-						*yylval = yytext;
+						yylval->string = new std::string(yytext, yyleng);
 						return Rakjin::Krystal::Parser::token::ID;
 					}
 
