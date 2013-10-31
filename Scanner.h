@@ -10,7 +10,7 @@
 #define YY_DECL int Rakjin::Krystal::Scanner::yylex()
 
 // Include Bison for types / tokens
-#include "parser.tab.h"
+#include "parser.tab.hh"
 
 
 namespace Rakjin {

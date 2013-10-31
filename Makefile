@@ -5,11 +5,11 @@ BIN    = krystal
 $(BIN) : parser.o scanner.o Main.cpp Krystal.h
 	$(CC) $(CFLAGS) Main.cpp scanner.o parser.o -o $(BIN)
 
-parser.o : parser.y
-	bison parser.y
-	$(CC) $(CFLAGS) -c -o parser.o parser.tab.c 
+parser.o : parser.yy
+	bison parser.yy
+	$(CC) $(CFLAGS) -c -o parser.o parser.tab.cc
 
-scanner.o : parser.y scanner.l Scanner.h
+scanner.o : parser.yy scanner.l Scanner.h
 	flex scanner.l
 	$(CC) $(CFLAGS) -c -o scanner.o lex.yy.cc
 
@@ -18,7 +18,7 @@ scanner.o : parser.y scanner.l Scanner.h
 
 clean :
 # remove bison generated files
-	rm -rf parser.tab.c parser.tab.h location.hh position.hh stack.hh
+	rm -rf parser.tab.cc parser.tab.hh location.hh position.hh stack.hh
 # remove flex generated files
 	rm -rf lex.yy.cc
 # remove compiled files
