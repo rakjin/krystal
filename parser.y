@@ -5,7 +5,6 @@
 %define namespace "Rakjin::Krystal"
 %define parser_class_name "Parser"
 %parse-param { Rakjin::Krystal::Scanner &scanner }
-%parse-param { std::string currentSection }
 %parse-param { Rakjin::Krystal::mapData &kstData }
 %lex-param   { Rakjin::Krystal::Scanner &scanner }
 
