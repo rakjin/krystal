@@ -50,7 +50,7 @@
 
 %token <string>	ID
 %token <string>	STRING_LITERAL
-%token <string>	BOOL INT UINT
+%token <string>	DATA_TYPE
 
 %type <node>				packet_member_type
 %destructor { delete $$; }	packet_member_type
@@ -83,9 +83,7 @@ packet_members		:	packet_member
 packet_member		:	packet_member_type packet_member_name SEMICOLON
 					;
 
-packet_member_type	:	BOOL
-					|	INT
-					|	UINT
+packet_member_type	:	DATA_TYPE
 						{
 							std::cout << "packet_member_type: " << *$1 << "\n";
 							$$ = new NodePacketMemberType($1);

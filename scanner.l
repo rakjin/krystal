@@ -45,9 +45,9 @@ COMMENT_CPP			"//"[^\n]*$
 "packet"			{ return Rakjin::Krystal::Parser::token::PACKET; }
 "#include"			{ return Rakjin::Krystal::Parser::token::INCLUDE; }
 
-"bool"				{ yylval->string = new std::string(yytext, yyleng); return Rakjin::Krystal::Parser::token::BOOL; }
-"int"				{ yylval->string = new std::string(yytext, yyleng); return Rakjin::Krystal::Parser::token::INT; }
-"uint"				{ yylval->string = new std::string(yytext, yyleng); return Rakjin::Krystal::Parser::token::UINT; }
+"bool"	|
+"int"	|
+"uint"				{ yylval->string = new std::string(yytext, yyleng); return Rakjin::Krystal::Parser::token::DATA_TYPE; }
 
 {ID}				{
 						yylval->string = new std::string(yytext, yyleng);
