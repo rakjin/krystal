@@ -67,16 +67,46 @@ class NodeInclude : public Node
     }
 };
 
+class NodePacket : public Node
+{
+    Node* packetName;
+    std::list<Node*> packetMembers;
+
+    public:
+    explicit NodePacket(Node* _packetName, std::list<Node*> _packetMembers) : Node()
+    {
+        packetName = _packetName;
+        packetMembers = _packetMembers;
+    }
+
+    virtual std::string getType()
+    {
+       return "Packet";
+    }
+
+    virtual std::string* getParsed()
+    {
+        std::stringstream parsed;
+
+        // parsed << *(memberType->getParsed());
+        // parsed << " ";
+        // parsed << *(memberName->getParsed());
+        // parsed << ";\n";
+
+        return new std::string(parsed.str());
+    }
+};
+
 class NodePacketMember : public Node
 {
     Node* memberType;
     Node* memberName;
 
     public:
-    explicit NodePacketMember(Node* _memberType, Node* _memberName) : Node()
+    explicit NodePacketMember(Node* _packetName, Node* _packetMembers) : Node()
     {
-        memberType = _memberType;
-        memberName = _memberName;
+        memberType = _packetName;
+        memberName = _packetMembers;
     }
 
     virtual std::string getType()

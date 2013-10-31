@@ -40,7 +40,8 @@
 %union {
 	int inteverValue;
 	std::string* string;
-	class Node* node;
+	Node* node;
+	std::list<Node*>* nodes;
 }
 
 %token BLOCK_BEGIN BLOCK_END
@@ -54,6 +55,10 @@
 
 %type <node>				packet_member packet_member_type packet_member_name
 %destructor { delete $$; }	packet_member packet_member_type packet_member_name
+
+%type <nodes>				packet_members
+%destructor { delete $$; }	packet_members
+
 
 %%
 
@@ -72,18 +77,39 @@ command				:	packet
 
 packet				:	PACKET ID BLOCK_BEGIN packet_members BLOCK_END
 						{
-							std::cout << "packet: " << *$2 << "\n";
+							//std::cout << "packet: " << *$2 << "\n";
+
+							std::list<Node*>::iterator i   = $4->begin();
+							std::list<Node*>::iterator end = $4->end();
+							for (; i != end; ++i)
+							{
+								std::cout << "packet - member:" << *((*i)->getParsed()) << "\n";
+							}
 						}
 					;
 
 packet_members		:	packet_member
+						{
+							//std::cout << "\tpacket_member\n";
+							//std::cout << "\t\t" << *($1->getParsed()) << "\n";
+
+							$$ = new std::list<Node*>;
+							$$->push_back( $1 );
+						}
 					|	packet_members packet_member
+						{
+							//std::cout << "\tpacket_members packet_member\n";
+							//std::cout << "\t\t" << *($2->getParsed()) << "\n";
+
+							$1->push_back( $2 );
+							$$ = $1;
+						}
 					;
 
 packet_member		:	packet_member_type packet_member_name SEMICOLON
 						{
 							$$ = new NodePacketMember($1, $2);
-							std::cout << "packet_member: " << *($$->getParsed()) << "\n";
+							//std::cout << "packet_member: " << *($$->getParsed()) << "\n";
 						}
 					;
 
@@ -103,12 +129,12 @@ packet_member_name	:	ID
 
 include				:	INCLUDE STRING_LITERAL
 						{
-							std::cout << "include directive: " << *$2 << "\n";
+							//std::cout << "include directive: " << *$2 << "\n";
 						}
 
 unknown_command		:	ID
 						{
-							std::cout << "unknown command: " << *$1 << "\n";
+							//std::cout << "unknown command: " << *$1 << "\n";
 						}
 					;
 
