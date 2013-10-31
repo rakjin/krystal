@@ -14,6 +14,8 @@
 	#include <sstream>
 	#include <map>
 
+	#include "expression.h"
+
 	// We want to return a string
 	#define YYSTYPE std::string
 
