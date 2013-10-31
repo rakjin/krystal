@@ -3,7 +3,19 @@
 
 #include <list>
 #include <ostream>
+#include <sstream>
+#include <iostream>
 #include <stdexcept>
+
+
+class Node;
+
+class NodeKst;
+    class NodeInclude;
+    class NodePacketMember;
+        class NodePacketMemberType;
+        class NodePacketMemberName;
+
 
 class Node
 {
@@ -12,8 +24,8 @@ public:
     {
     }
 
-    std::string     getType() { return 0; };
-    std::string*	getParsed() { return 0; };
+    virtual std::string     getType() { return 0; }; //TODO: remove getType() if unnecessary
+    virtual std::string*	getParsed() { return 0; };
 
 };
 
@@ -51,32 +63,39 @@ class NodeInclude : public Node
 
     virtual std::string* getParsed()
     {
-       return new std::string("#include \"somefile\"\n");
+        return new std::string("#include \"somefile\"\n");
     }
 };
 
-
-class NodePacketMemberName : public Node
+class NodePacketMember : public Node
 {
-    std::string* value;
+    Node* nodeType;
+    Node* nodeName;
 
     public:
-    explicit NodePacketMemberName(std::string* _value) : Node()
+    explicit NodePacketMember(Node* _nodeType, Node* _nodeName) : Node()
     {
-        value = _value;
+        nodeType = _nodeType;
+        nodeName = _nodeName;
     }
 
     virtual std::string getType()
     {
-       return "PacketMemberName";
+       return "PacketMember";
     }
 
     virtual std::string* getParsed()
     {
-       return value;
+        std::stringstream parsed;
+
+        parsed << *(nodeType->getParsed());
+        parsed << " ";
+        parsed << *(nodeName->getParsed());
+        parsed << ";\n";
+
+        return new std::string(parsed.str());
     }
 };
-
 
 class NodePacketMemberType : public Node
 {
@@ -99,6 +118,26 @@ class NodePacketMemberType : public Node
     }
 };
 
+class NodePacketMemberName : public Node
+{
+    std::string* value;
+
+    public:
+    explicit NodePacketMemberName(std::string* _value) : Node()
+    {
+        value = _value;
+    }
+
+    virtual std::string getType()
+    {
+       return "PacketMemberName";
+    }
+
+    virtual std::string* getParsed()
+    {
+       return value;
+    }
+};
 
 
 #endif // EXPRESSION_H

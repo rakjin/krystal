@@ -52,8 +52,8 @@
 %token <string>	STRING_LITERAL
 %token <string>	DATA_TYPE
 
-%type <node>				packet_member_type
-%destructor { delete $$; }	packet_member_type
+%type <node>				packet_member packet_member_type packet_member_name
+%destructor { delete $$; }	packet_member packet_member_type packet_member_name
 
 %%
 
@@ -81,18 +81,23 @@ packet_members		:	packet_member
 					;
 
 packet_member		:	packet_member_type packet_member_name SEMICOLON
+						{
+							$$ = new NodePacketMember($1, $2);
+							std::cout << "packet_member: " << *($$->getParsed()) << "\n";
+						}
 					;
 
 packet_member_type	:	DATA_TYPE
 						{
-							std::cout << "packet_member_type: " << *$1 << "\n";
+							//std::cout << "packet_member_type: " << *$1 << "\n";
 							$$ = new NodePacketMemberType($1);
 						}
 					;
 
 packet_member_name	:	ID
 						{
-							std::cout << "packet_member_name: " << *$1 << "\n";
+							//std::cout << "packet_member_name: " << *$1 << "\n";
+							$$ = new NodePacketMemberName($1);
 						}
 					;
 
