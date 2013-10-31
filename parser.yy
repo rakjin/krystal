@@ -75,7 +75,7 @@ command				:	packet
 					|	unknown_command
 					;
 
-packet				:	PACKET ID BLOCK_BEGIN packet_members BLOCK_END
+packet				:	PACKET packet_member_name BLOCK_BEGIN packet_members BLOCK_END
 						{
 							//std::cout << "packet: " << *$2 << "\n";
 
