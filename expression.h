@@ -92,7 +92,15 @@ class NodePacket : public Node
         parsed << "packet ";
         parsed << *(packetName->getParsed());
         parsed << " {\n";
-        parsed << "\t[packets_members]\n";
+
+        //parsed << "\t[packets_members]\n";
+        std::list<Node*>::iterator i = packetMembers->begin();
+        std::list<Node*>::iterator end = packetMembers->end();
+        for (; i != end; ++i)
+        {
+            parsed << "\t" << *((*i)->getParsed());
+        }
+
         parsed << "}\n";
 
         return new std::string(parsed.str());
