@@ -5,6 +5,7 @@ lex&amp;yacc practice
 
 - http://www.thebinaryidiot.com/archives/2010/03/06/flex-bison-cpp-example
 - http://www.thebinaryidiot.com/archives/2010/04/19/ini-parser-using-flex-and-bison-in-c
+- http://panthema.net/2007/flex-bison-cpp-example
 
 on windows, install them:
 
