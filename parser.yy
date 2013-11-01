@@ -53,11 +53,11 @@
 %token <string>	STRING_LITERAL
 %token <string>	DATA_TYPE
 
-%type <node>				include packet packet_member packet_member_type packet_member_name
-%destructor { delete $$; }	include packet packet_member packet_member_type packet_member_name
+%type <node>				command include packet packet_member packet_member_type packet_member_name
+%destructor { delete $$; }	command include packet packet_member packet_member_type packet_member_name
 
-%type <nodes>				packet_members
-%destructor { delete $$; }	packet_members
+%type <nodes>				commands packet_members
+%destructor { delete $$; }	commands packet_members
 
 
 %%
@@ -76,28 +76,30 @@ program :
 commands :
 	command
 	{
-		;
+		$$ = new std::list<Node*>;
+		$$->push_back( $1 );
 	}
 	|
 	commands command
 	{
-		;
+		$1->push_back( $2 );
+		$$ = $1;
 	}
 
 command :
 	packet
 	{
-		;
+		$$ = $1;
 	}
 	|
 	include
 	{
-		;
+		$$ = $1;
 	}
 	|
 	unknown_command
 	{
-		;
+		$$ = NULL;
 	}
 
 packet :
@@ -167,7 +169,8 @@ include :
 unknown_command :
 	ID
 	{
-		//std::cout << "unknown command: " << *$1 << "\n";
+		std::cout << "UNKNOWN_COMMAND: ";
+		std::cout << *$1 << "\n";
 	}
 
 
