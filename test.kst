@@ -35,7 +35,7 @@ packet test_P_A_C_K_E_T_02
 
 //UNKNOWN_COMMAND_3
 
- = * $
+// = * $
 
 #include "Hello // World"
 
