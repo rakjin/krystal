@@ -52,6 +52,7 @@
 %token <string>	ID
 %token <string>	STRING_LITERAL
 %token <string>	DATA_TYPE
+%token <string> UNKNOWN_CHARACTER
 
 %type <string>				unknown_command
 %destructor { delete $$; }	unknown_command
@@ -185,8 +186,11 @@ include :
 unknown_command :
 	ID
 	{
-		//std::cerr << "UNKNOWN_COMMAND: ";
-		//std::cerr << *$1 << "\n";
+		$$ = new std::string(*$1);
+	}
+	|
+	UNKNOWN_CHARACTER
+	{
 		$$ = new std::string(*$1);
 	}
 
