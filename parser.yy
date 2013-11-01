@@ -53,6 +53,9 @@
 %token <string>	STRING_LITERAL
 %token <string>	DATA_TYPE
 
+%type <string>				unknown_command
+%destructor { delete $$; }	unknown_command
+
 %type <node>				kst command include packet packet_member packet_member_type packet_member_name
 %destructor { delete $$; }	kst command include packet packet_member packet_member_type packet_member_name
 
@@ -110,7 +113,9 @@ command :
 	unknown_command
 	{
 		$$ = NULL;
-		//TODO: throw error
+		error(yyloc, std::string("Unknown Command \"") + *$1 + "\"");
+		delete $1;
+		YYERROR;
 	}
 
 packet :
@@ -180,8 +185,9 @@ include :
 unknown_command :
 	ID
 	{
-		std::cerr << "UNKNOWN_COMMAND: ";
-		std::cerr << *$1 << "\n";
+		//std::cerr << "UNKNOWN_COMMAND: ";
+		//std::cerr << *$1 << "\n";
+		$$ = new std::string(*$1);
 	}
 
 
