@@ -55,5 +55,5 @@ COMMENT_CPP			"//"[^\n]*$
 						return Rakjin::Krystal::Parser::token::ID;
 					}
 
-.					{ std::cout << "UNKNOWN CHARACTER: " << yytext << "\n"; }
+.					{ std::cerr << "UNKNOWN CHARACTER: " << yytext << "\n"; }
 

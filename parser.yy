@@ -180,8 +180,8 @@ include :
 unknown_command :
 	ID
 	{
-		std::cout << "UNKNOWN_COMMAND: ";
-		std::cout << *$1 << "\n";
+		std::cerr << "UNKNOWN_COMMAND: ";
+		std::cerr << *$1 << "\n";
 	}
 
 
