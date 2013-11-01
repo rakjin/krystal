@@ -53,8 +53,8 @@
 %token <string>	STRING_LITERAL
 %token <string>	DATA_TYPE
 
-%type <node>				packet packet_member packet_member_type packet_member_name
-%destructor { delete $$; }	packet packet_member packet_member_type packet_member_name
+%type <node>				include packet packet_member packet_member_type packet_member_name
+%destructor { delete $$; }	include packet packet_member packet_member_type packet_member_name
 
 %type <nodes>				packet_members
 %destructor { delete $$; }	packet_members
@@ -133,6 +133,8 @@ packet_member_name	:	ID
 include				:	INCLUDE STRING_LITERAL
 						{
 							//std::cout << "include directive: " << *$2 << "\n";
+							$$ = new NodeInclude($2);
+							std::cout << *($$->getParsed()) << "\n";
 						}
 
 unknown_command		:	ID

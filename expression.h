@@ -50,9 +50,12 @@ class NodeKst : public Node
 
 class NodeInclude : public Node
 {
+    std::string* value;
+
     public:
-    explicit NodeInclude() : Node()
+    explicit NodeInclude(std::string* _value) : Node()
     {
+        value = _value;
     }
 
     virtual std::string getType()
@@ -62,7 +65,13 @@ class NodeInclude : public Node
 
     virtual std::string* getParsed()
     {
-        return new std::string("#include \"somefile\"\n");
+        std::stringstream parsed;
+
+        parsed << "#include \"";
+        parsed << *(value);
+        parsed << "\"\n";
+
+        return new std::string(parsed.str());
     }
 };
 
