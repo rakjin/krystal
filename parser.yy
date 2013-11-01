@@ -186,12 +186,12 @@ include :
 unknown_command :
 	ID
 	{
-		$$ = new std::string(*$1);
+		$$ = $1;
 	}
 	|
 	UNKNOWN_CHARACTER
 	{
-		$$ = new std::string(*$1);
+		$$ = $1;
 	}
 
 
