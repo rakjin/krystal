@@ -62,86 +62,115 @@
 
 %%
 
-program				:
-					|	commands
-					;
+program :
+	/* null */
+	{
+		;
+	}
+	|
+	commands
+	{
+		;
+	}
 
-commands			:	command
-					|	commands command
-					;
+commands :
+	command
+	{
+		;
+	}
+	|
+	commands command
+	{
+		;
+	}
 
-command				:	packet
-					|	include
-					|	unknown_command
-					;
+command :
+	packet
+	{
+		;
+	}
+	|
+	include
+	{
+		;
+	}
+	|
+	unknown_command
+	{
+		;
+	}
 
-packet				:	PACKET packet_member_name BLOCK_BEGIN packet_members BLOCK_END
-						{
-							//std::cout << "packet: " << *$2 << "\n";
+packet :
+	PACKET packet_member_name BLOCK_BEGIN packet_members BLOCK_END
+	{
+		//std::cout << "packet: " << *$2 << "\n";
 
-							//std::list<Node*>::iterator i   = $4->begin();
-							//std::list<Node*>::iterator end = $4->end();
-							//for (; i != end; ++i)
-							//{
-							//	std::cout << "packet - member:" << *((*i)->getParsed()) << "\n";
-							//}
+		//std::list<Node*>::iterator i   = $4->begin();
+		//std::list<Node*>::iterator end = $4->end();
+		//for (; i != end; ++i)
+		//{
+		//	std::cout << "packet - member:" << *((*i)->getParsed()) << "\n";
+		//}
 
-							$$ = new NodePacket($2, $4);
-							std::cout << *($$->getParsed()) << "\n";
-						}
-					;
+		$$ = new NodePacket($2, $4);
+		std::cout << *($$->getParsed()) << "\n";
+	}
 
-packet_members		:	packet_member
-						{
-							//std::cout << "\tpacket_member\n";
-							//std::cout << "\t\t" << *($1->getParsed()) << "\n";
+packet_members :
+	packet_member
+	{
+		//std::cout << "\tpacket_member\n";
+		//std::cout << "\t\t" << *($1->getParsed()) << "\n";
 
-							$$ = new std::list<Node*>;
-							$$->push_back( $1 );
-						}
-					|	packet_members packet_member
-						{
-							//std::cout << "\tpacket_members packet_member\n";
-							//std::cout << "\t\t" << *($2->getParsed()) << "\n";
+		$$ = new std::list<Node*>;
+		$$->push_back( $1 );
+	}
+	|
+	packet_members packet_member
+	{
+		//std::cout << "\tpacket_members packet_member\n";
+		//std::cout << "\t\t" << *($2->getParsed()) << "\n";
 
-							$1->push_back( $2 );
-							$$ = $1;
-						}
-					;
+		$1->push_back( $2 );
+		$$ = $1;
+	}
 
-packet_member		:	packet_member_type packet_member_name SEMICOLON
-						{
-							$$ = new NodePacketMember($1, $2);
-							//std::cout << "packet_member: " << *($$->getParsed()) << "\n";
-						}
-					;
+packet_member :
+	packet_member_type packet_member_name SEMICOLON
+	{
+		$$ = new NodePacketMember($1, $2);
+		//std::cout << "packet_member: " << *($$->getParsed()) << "\n";
+	}
 
-packet_member_type	:	DATA_TYPE
-						{
-							//std::cout << "packet_member_type: " << *$1 << "\n";
-							$$ = new NodePacketMemberType($1);
-						}
-					;
+packet_member_type :
+	DATA_TYPE
+	{
+		//std::cout << "packet_member_type: " << *$1 << "\n";
+		$$ = new NodePacketMemberType($1);
+	}
 
-packet_member_name	:	ID
-						{
-							//std::cout << "packet_member_name: " << *$1 << "\n";
-							$$ = new NodePacketMemberName($1);
-						}
-					;
+packet_member_name :
+	ID
+	{
+		//std::cout << "packet_member_name: " << *$1 << "\n";
+		$$ = new NodePacketMemberName($1);
+	}
 
-include				:	INCLUDE STRING_LITERAL
-						{
-							//std::cout << "include directive: " << *$2 << "\n";
-							$$ = new NodeInclude($2);
-							std::cout << *($$->getParsed()) << "\n";
-						}
+include :
+	INCLUDE STRING_LITERAL
+	{
+		//std::cout << "include directive: " << *$2 << "\n";
+		$$ = new NodeInclude($2);
+		std::cout << *($$->getParsed()) << "\n";
+	}
 
-unknown_command		:	ID
-						{
-							//std::cout << "unknown command: " << *$1 << "\n";
-						}
-					;
+unknown_command :
+	ID
+	{
+		//std::cout << "unknown command: " << *$1 << "\n";
+	}
+
+
 
 
 	
