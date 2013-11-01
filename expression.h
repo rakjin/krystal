@@ -30,21 +30,35 @@ public:
 
 class NodeKst : public Node
 {
-    std::list<Node> children;
+    std::list<Node*>* commands;
     
     public:
-    explicit NodeKst() : Node()
+    explicit NodeKst(std::list<Node*>* _commands) : Node()
     {
+        commands = _commands;
     }
 
     virtual std::string getType()
     {
-       return "KST_FILE";
+       return "KST";
     }
 
     virtual std::string* getParsed()
     {
-       return new std::string("");
+        std::stringstream parsed;
+
+        parsed << "/* file info here */\n\n";
+
+        std::list<Node*>::iterator i = commands->begin();
+        std::list<Node*>::iterator end = commands->end();
+        for (; i != end; ++i)
+        {
+            parsed << *((*i)->getParsed());
+        }
+
+        parsed << "\n\n";
+
+        return new std::string(parsed.str());
     }
 };
 

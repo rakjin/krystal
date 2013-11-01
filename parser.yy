@@ -53,8 +53,8 @@
 %token <string>	STRING_LITERAL
 %token <string>	DATA_TYPE
 
-%type <node>				command include packet packet_member packet_member_type packet_member_name
-%destructor { delete $$; }	command include packet packet_member packet_member_type packet_member_name
+%type <node>				kst command include packet packet_member packet_member_type packet_member_name
+%destructor { delete $$; }	kst command include packet packet_member packet_member_type packet_member_name
 
 %type <nodes>				commands packet_members
 %destructor { delete $$; }	commands packet_members
@@ -62,27 +62,37 @@
 
 %%
 
-program :
+/* the root node of a .kst file */
+kst :
 	/* null */
 	{
-		;
+		std::list<Node*>* commands = new std::list<Node*>;
+		$$ = new NodeKst(commands);
 	}
 	|
 	commands
 	{
-		;
+		$$ = new NodeKst($1);
+		std::cout << *($$->getParsed()) << "\n";
 	}
 
 commands :
 	command
 	{
 		$$ = new std::list<Node*>;
-		$$->push_back( $1 );
+
+		if ($1 != NULL)
+		{
+			$$->push_back( $1 );
+		}
 	}
 	|
 	commands command
 	{
-		$1->push_back( $2 );
+		if ($2 != NULL)
+		{
+			$$->push_back( $2 );
+		}
 		$$ = $1;
 	}
 
@@ -100,6 +110,7 @@ command :
 	unknown_command
 	{
 		$$ = NULL;
+		//TODO: throw error
 	}
 
 packet :
@@ -115,7 +126,7 @@ packet :
 		//}
 
 		$$ = new NodePacket($2, $4);
-		std::cout << *($$->getParsed()) << "\n";
+		//std::cout << *($$->getParsed()) << "\n";
 	}
 
 packet_members :
@@ -163,7 +174,7 @@ include :
 	{
 		//std::cout << "include directive: " << *$2 << "\n";
 		$$ = new NodeInclude($2);
-		std::cout << *($$->getParsed()) << "\n";
+		//std::cout << *($$->getParsed()) << "\n";
 	}
 
 unknown_command :
