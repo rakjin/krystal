@@ -38,7 +38,8 @@ COMMENT_CPP			"//"[^\n]*$
 ";"					{ return Rakjin::Krystal::Parser::token::SEMICOLON; }
 
 \"(\\.|[^\\"])*\"	{
-						yylval->string = new std::string(yytext, yyleng);
+						yylval->string = new std::string(yytext + 1, yyleng - 2); // +1/-2 to remove quotes
+						//std::cout << *(yylval->string);
 						return Rakjin::Krystal::Parser::token::STRING_LITERAL;
 					}
 
