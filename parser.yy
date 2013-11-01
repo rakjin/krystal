@@ -45,7 +45,10 @@
 }
 
 %token BLOCK_BEGIN BLOCK_END
-%token SEMICOLON
+%token LT GT
+%token SEMICOLON COMMA
+%token MAP LIST
+
 %token PACKET
 %token INCLUDE
 
@@ -166,6 +169,21 @@ packet_member_type :
 	{
 		//std::cout << "packet_member_type: " << *$1 << "\n";
 		$$ = new NodePacketMemberType($1);
+	}
+	|
+	ID
+	{
+		$$ = new NodePacketMemberType($1);
+	}
+	|
+	LIST LT packet_member_type GT
+	{
+		$$ = new NodePacketMemberType(new std::string("TEMP_LIST_TYPE"));
+	}
+	|
+	MAP LT packet_member_type COMMA packet_member_type GT
+	{
+		$$ = new NodePacketMemberType(new std::string("TEMP_MAP_TYPE"));
 	}
 
 packet_member_name :

@@ -14,7 +14,11 @@ packet test_P_A_C_K_E_T_02
 	
 	int PACKET_MEMBER_1;
 	bool PACKET_MEMBER_2;
-
+	QQQQ PACKET_MEMBER_3;
+	list <int> PACKET_MEMBER_4;
+	map <int, bool> PACKET_MEMBER_5;
+	list < map < int, QQQQ> > PACKET_MEMBER_6;
+	map < map<QQQQ, QQQQ> , map<XXXX, list<bool>> > PACKET_MEMBER_7;
 }
 
 #include  	"world"     // aaa

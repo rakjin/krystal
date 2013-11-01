@@ -35,7 +35,10 @@ COMMENT_CPP			"//"[^\n]*$
 
 "{"					{ return Rakjin::Krystal::Parser::token::BLOCK_BEGIN; }
 "}"					{ return Rakjin::Krystal::Parser::token::BLOCK_END; }
+"<"					{ return Rakjin::Krystal::Parser::token::LT; }
+">"					{ return Rakjin::Krystal::Parser::token::GT; }
 ";"					{ return Rakjin::Krystal::Parser::token::SEMICOLON; }
+","					{ return Rakjin::Krystal::Parser::token::COMMA; }
 
 \"(\\.|[^\\"])*\"	{
 						yylval->string = new std::string(yytext + 1, yyleng - 2); // +1/-2 to remove quotes
@@ -48,7 +51,20 @@ COMMENT_CPP			"//"[^\n]*$
 
 "bool"	|
 "int"	|
-"uint"				{ yylval->string = new std::string(yytext, yyleng); return Rakjin::Krystal::Parser::token::DATA_TYPE; }
+"uint"				{
+						yylval->string = new std::string(yytext, yyleng);
+						return Rakjin::Krystal::Parser::token::DATA_TYPE;
+					}
+
+"map"				{
+						yylval->string = new std::string(yytext, yyleng);
+						return Rakjin::Krystal::Parser::token::MAP;
+					}
+
+"list"				{
+						yylval->string = new std::string(yytext, yyleng);
+						return Rakjin::Krystal::Parser::token::LIST;
+					}
 
 {ID}				{
 						yylval->string = new std::string(yytext, yyleng);
