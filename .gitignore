@@ -12,6 +12,7 @@
 *.la
 *.a
 
+# lex/yacc
 *.exe
 *.tab.c
 *.tab.h
@@ -22,4 +23,7 @@
 location.hh
 position.hh
 stack.hh
+
+# output
+krystal
 
