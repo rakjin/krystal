@@ -54,8 +54,10 @@
 
 %token <string>	ID
 %token <string>	STRING_LITERAL
+%token <string>	UNKNOWN_CHARACTER
+
 %token <string>	PRIMITIVE_DATA_TYPE
-%token <string> UNKNOWN_CHARACTER
+%token <string>	REFERENCE_DATA_TYPE
 
 %type <string>				unknown_command
 %destructor { delete $$; }	unknown_command
