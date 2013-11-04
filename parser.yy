@@ -170,22 +170,22 @@ packet_member_type :
 	PRIMITIVE_DATA_TYPE
 	{
 		//std::cout << "packet_member_type: " << *$1 << "\n";
-		$$ = new NodePacketMemberType($1);
+		$$ = new NodePacketMemberType(token::PRIMITIVE_DATA_TYPE, $1);
 	}
 	|
 	ID
 	{
-		$$ = new NodePacketMemberType($1);
+		$$ = new NodePacketMemberType(token::REFERENCE_DATA_TYPE, $1);
 	}
 	|
 	LIST LT packet_member_type GT
 	{
-		$$ = new NodePacketMemberType(new std::string("TEMP_LIST_TYPE"));
+		$$ = new NodePacketMemberType(token::LIST, new std::string("TYPE1"));
 	}
 	|
 	MAP LT packet_member_type COMMA packet_member_type GT
 	{
-		$$ = new NodePacketMemberType(new std::string("TEMP_MAP_TYPE"));
+		$$ = new NodePacketMemberType(token::MAP, new std::string("T1"), new std::string("T2"));
 	}
 
 packet_member_name :

@@ -5,6 +5,8 @@
 #include <sstream>
 #include <iostream>
 
+#include "parser.tab.hh"
+
 
 class Node;
 
@@ -160,12 +162,34 @@ class NodePacketMember : public Node
 
 class NodePacketMemberType : public Node
 {
-    std::string* value;
+    int typeType; // one of PRIMITIVE_DATA_TYPE, REFERENCE_DATA_TYPE, MAP, LIST
+    std::string* value1; // "int", "bool", ..., "MyPacket", "Skill", LIST<value1>
+    std::string* value2; // MAP<value1, value2>
+    std::string* value3; // reserved
 
     public:
-    explicit NodePacketMemberType(std::string* _value) : Node()
+    explicit NodePacketMemberType(int _type, std::string* _value) : Node()
     {
-        value = _value;
+        typeType = _type;
+        value1 = _value;
+        value2 = NULL;
+        value3 = NULL;
+    }
+
+    explicit NodePacketMemberType(int _type, std::string* _value1, std::string* _value2) : Node()
+    {
+        typeType = _type;
+        value1 = _value1;
+        value2 = _value2;
+        value3 = NULL;
+    }
+
+    explicit NodePacketMemberType(int _type, std::string* _value1, std::string* _value2, std::string* _value3) : Node()
+    {
+        typeType = _type;
+        value1 = _value1;
+        value2 = _value2;
+        value3 = _value3;
     }
 
     virtual std::string getType()
@@ -175,7 +199,7 @@ class NodePacketMemberType : public Node
 
     virtual std::string* getParsed()
     {
-       return value;
+       return value1;
     }
 };
 
