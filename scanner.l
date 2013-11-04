@@ -53,7 +53,7 @@ COMMENT_CPP			"//"[^\n]*$
 "int"	|
 "uint"				{
 						yylval->string = new std::string(yytext, yyleng);
-						return Rakjin::Krystal::Parser::token::DATA_TYPE;
+						return Rakjin::Krystal::Parser::token::PRIMITIVE_DATA_TYPE;
 					}
 
 "map"				{

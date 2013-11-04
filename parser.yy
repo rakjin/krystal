@@ -54,7 +54,7 @@
 
 %token <string>	ID
 %token <string>	STRING_LITERAL
-%token <string>	DATA_TYPE
+%token <string>	PRIMITIVE_DATA_TYPE
 %token <string> UNKNOWN_CHARACTER
 
 %type <string>				unknown_command
@@ -165,7 +165,7 @@ packet_member :
 	}
 
 packet_member_type :
-	DATA_TYPE
+	PRIMITIVE_DATA_TYPE
 	{
 		//std::cout << "packet_member_type: " << *$1 << "\n";
 		$$ = new NodePacketMemberType($1);
