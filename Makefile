@@ -22,7 +22,7 @@ clean :
 # remove flex generated files
 	rm -rf lex.yy.cc
 # remove compiled files
-	rm -rf $(BIN) *.o
+	rm -rf $(BIN) $(BIN).exe *.o
 
 test : $(BIN) test.kst
 	./$(BIN) test.kst
