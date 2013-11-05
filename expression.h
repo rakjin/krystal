@@ -18,7 +18,7 @@ class NodeKst;
 
 class Node
 {
-public:
+    public:
     virtual ~Node();
     virtual std::string     getType(); //TODO: remove getType() if unnecessary
     virtual std::string*	getParsed();
