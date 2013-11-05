@@ -2,7 +2,6 @@
 
 #include <fstream>
 #include "Scanner.h"
-#include "expression.h"
 
 namespace Rakjin {
 	class KstFile {

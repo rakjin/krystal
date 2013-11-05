@@ -13,7 +13,7 @@
 	#include <sstream>
 	#include <map>
 
-	#include "expression.h"
+	#include "SyntaxTree.h"
 
 	// We want to return a string
 	// #define YYSTYPE std::string
@@ -238,5 +238,5 @@ static int yylex(Rakjin::Krystal::Parser::semantic_type * yylval,
 }
 
 
-#include "expression.cpp"
+#include "SyntaxTree.cpp"
 

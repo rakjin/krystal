@@ -1,5 +1,5 @@
-#ifndef EXPRESSION_H
-#define EXPRESSION_H
+#ifndef SYNTAXTREE_H
+#define SYNTAXTREE_H
 
 #include <list>
 #include <sstream>
@@ -88,4 +88,4 @@ class NodePacketMemberName : public Node
 };
 
 
-#endif // EXPRESSION_H
+#endif // SYNTAXTREE_H

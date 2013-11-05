@@ -3,7 +3,7 @@
 #include <iostream>
 #include <stdexcept>
 
-#include "expression.h"
+#include "SyntaxTree.h"
 
 
 // class Node
