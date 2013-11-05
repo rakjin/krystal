@@ -65,13 +65,15 @@ class NodePacketMember : public Node
 class NodePacketMemberType : public Node
 {
     int typeType; // one of PRIMITIVE_DATA_TYPE, REFERENCE_DATA_TYPE, MAP, LIST
-    std::string* value1; // "int", "bool", ..., "MyPacket", "Skill", LIST<value1>
-    std::string* value2; // MAP<value1, value2>
-    std::string* value3; // reserved
+    std::string* value; // "int", "bool", ..., "MyPacket", "Skill" or NULL when type is MAP or LIST
+    Node* generic1; // LIST<generic1>
+    Node* generic2; // MAP <generic1, generic2>
+    Node* generic3; // reserved
     public:
     explicit NodePacketMemberType(int _type, std::string* _value);
-    explicit NodePacketMemberType(int _type, std::string* _value1, std::string* _value2);
-    explicit NodePacketMemberType(int _type, std::string* _value1, std::string* _value2, std::string* _value3);
+    explicit NodePacketMemberType(int _type, Node* _generic1);
+    explicit NodePacketMemberType(int _type, Node* _generic1, Node* _generic2);
+    explicit NodePacketMemberType(int _type, Node* _generic1, Node* _generic2, Node* _generic3);
     virtual std::string getType();
     virtual std::string* getParsed();
 };

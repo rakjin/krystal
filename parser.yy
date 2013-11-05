@@ -180,12 +180,12 @@ packet_member_type :
 	|
 	LIST LT packet_member_type GT
 	{
-		$$ = new NodePacketMemberType(token::LIST, new std::string("TYPE1"));
+		$$ = new NodePacketMemberType(token::LIST, $3);
 	}
 	|
 	MAP LT packet_member_type COMMA packet_member_type GT
 	{
-		$$ = new NodePacketMemberType(token::MAP, new std::string("T1"), new std::string("T2"));
+		$$ = new NodePacketMemberType(token::MAP, $3, $5);
 	}
 
 packet_member_name :

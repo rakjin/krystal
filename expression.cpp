@@ -147,32 +147,45 @@
 // class NodePacketMemberType : public Node
 // {
 //     int typeType; // one of PRIMITIVE_DATA_TYPE, REFERENCE_DATA_TYPE, MAP, LIST
-//     std::string* value1; // "int", "bool", ..., "MyPacket", "Skill", LIST<value1>
-//     std::string* value2; // MAP<value1, value2>
-//     std::string* value3; // reserved
+//     std::string* value; // "int", "bool", ..., "MyPacket", "Skill" or NULL when type is MAP or LIST
+//     Node* generic1; // LIST<generic1>
+//     Node* generic2; // MAP <generic1, generic2>
+//     Node* generic3; // reserved
 //     public:
     NodePacketMemberType::NodePacketMemberType(int _type, std::string* _value) : Node()
     {
         typeType = _type;
-        value1 = _value;
-        value2 = NULL;
-        value3 = NULL;
+        value = _value;
+        generic1 = NULL;
+        generic2 = NULL;
+        generic3 = NULL;
     }
 
-    NodePacketMemberType::NodePacketMemberType(int _type, std::string* _value1, std::string* _value2) : Node()
+    NodePacketMemberType::NodePacketMemberType(int _type, Node* _generic1) : Node()
     {
         typeType = _type;
-        value1 = _value1;
-        value2 = _value2;
-        value3 = NULL;
+        value = NULL;
+        generic1 = _generic1;
+        generic2 = NULL;
+        generic3 = NULL;
     }
 
-    NodePacketMemberType::NodePacketMemberType(int _type, std::string* _value1, std::string* _value2, std::string* _value3) : Node()
+    NodePacketMemberType::NodePacketMemberType(int _type, Node* _generic1, Node* _generic2) : Node()
     {
         typeType = _type;
-        value1 = _value1;
-        value2 = _value2;
-        value3 = _value3;
+        value = NULL;
+        generic1 = _generic1;
+        generic2 = _generic2;
+        generic3 = NULL;
+    }
+
+    NodePacketMemberType::NodePacketMemberType(int _type, Node* _generic1, Node* _generic2, Node* _generic3) : Node()
+    {
+        typeType = _type;
+        value = NULL;
+        generic1 = _generic1;
+        generic2 = _generic2;
+        generic3 = _generic3;
     }
 
     std::string NodePacketMemberType::getType()
@@ -187,25 +200,25 @@
         switch (typeType) {
 
             case Rakjin::Krystal::Parser::token::PRIMITIVE_DATA_TYPE:
-            parsed << *value1;
+            parsed << *value;
             break;
 
             case Rakjin::Krystal::Parser::token::REFERENCE_DATA_TYPE:
-            parsed << *value1;
+            parsed << *value;
             break;
 
             case Rakjin::Krystal::Parser::token::MAP:
             parsed << "Dictionary";
-            parsed << "<" << *value1 << ", " << *value2 << ">";
+            parsed << "<" << *(generic1->getParsed()) << ", " << *(generic2->getParsed()) << ">";
             break;
 
             case Rakjin::Krystal::Parser::token::LIST:
             parsed << "List";
-            parsed << "<" << *value1 << ">";
+            parsed << "<" << *(generic1->getParsed()) << ">";
             break;
 
             default:
-            throw(std::runtime_error("Unknown variable."));
+            throw(std::runtime_error("Unknown NodePacketMemberType type."));
             break;
         }
 
