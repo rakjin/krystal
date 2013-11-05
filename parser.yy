@@ -237,3 +237,6 @@ static int yylex(Rakjin::Krystal::Parser::semantic_type * yylval,
 	return scanner.yylex(yylval, yylloc);
 }
 
+
+#include "expression.cpp"
+
