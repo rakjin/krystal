@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include "Scanner.h"
+#include "SyntaxTree.h"
 
 namespace Rakjin {
 	class KstFile {
@@ -11,7 +12,7 @@ namespace Rakjin {
 			inline explicit KstFile(std::istream &kstStream) throw(std::string);
 
 			// Get a value from section and key
-			const char * getValue(const char * const section, const char * const key) const;
+			std::string* getParsed();
 		private:
 			// supress default constructor
 			KstFile();
@@ -21,7 +22,7 @@ namespace Rakjin {
 			KstFile &operator=(KstFile const &rhs);
 			
 			// the kst data
-			Krystal::mapData kstData;
+			Node* root = NULL;
 	};
 	
 	/**
@@ -34,7 +35,8 @@ namespace Rakjin {
 		}
 		
 		Krystal::Scanner scanner(&inFile);
-		Krystal::Parser parser(scanner, kstData);
+		root = NULL;
+		Krystal::Parser parser(scanner, root);
 		parser.parse();
 	}
 
@@ -43,7 +45,8 @@ namespace Rakjin {
 	 */
 	KstFile::KstFile(std::istream &kstStream) throw(std::string) {
 		Krystal::Scanner scanner(&kstStream);
-		Krystal::Parser parser(scanner, kstData);
+		root = NULL;
+		Krystal::Parser parser(scanner, root);
 		parser.parse();
 	}
 	
@@ -51,21 +54,8 @@ namespace Rakjin {
 	/**
 	 * Retrieve a value
 	 */
-	char const * KstFile::getValue(const char * const section, const char * const key) const {
-	    // find the section
-	    Krystal::mapData::const_iterator iSection = kstData.find(section);
-	    if (iSection == kstData.end()) {
-	        return 0;
-	    }
-	    
-	    // find the value
-	    std::map<std::string, std::string>::const_iterator iValue = iSection->second.find(key);
-	    if (iValue == iSection->second.end()) {
-	        return 0;
-	    }
-	    
-	    // return the result
-		return iValue->second.c_str();
+	std::string* KstFile::getParsed() {
+		return root->getParsed();
 	}
 }
 

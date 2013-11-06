@@ -5,7 +5,7 @@
 %define namespace "Rakjin::Krystal"
 %define parser_class_name "Parser"
 %parse-param { Rakjin::Krystal::Scanner &scanner }
-%parse-param { Rakjin::Krystal::mapData &kstData }
+%parse-param { Node* &root}
 %lex-param   { Rakjin::Krystal::Scanner &scanner }
 
 %code requires {
@@ -23,9 +23,6 @@
 			// Forward-declare the Scanner class; the Parser needs to be assigned a 
 			// Scanner, but the Scanner can't be declared without the Parser
 			class Scanner;
-		
-			// We use a map to store the KST(INI) data
-			typedef std::map<std::string, std::map<std::string, std::string> > mapData;
 		}
 	}
 }
@@ -75,14 +72,15 @@
 kst :
 	/* null */
 	{
-		std::list<Node*>* commands = new std::list<Node*>;
-		$$ = new NodeKst(commands);
+		std::list<Node*>* emptyCommands = new std::list<Node*>;
+		root = new NodeKst(emptyCommands);
+		$$ = root;
 	}
 	|
 	commands
 	{
-		$$ = new NodeKst($1);
-		std::cout << *($$->getParsed()) << "\n";
+		root = new NodeKst($1);
+		$$ = root;
 	}
 
 commands :

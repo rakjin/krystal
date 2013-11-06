@@ -11,7 +11,7 @@ int main(int argc, char * argv[]) {
 	}
 
 	// try and open the KST file
-	Rakjin::KstFile * kstFile;
+	Rakjin::KstFile* kstFile = NULL;
 	try {
 		// - means stdin, not a file named '-'
 		if (strcmp(argv[1], "-") == 0) {
@@ -24,11 +24,7 @@ int main(int argc, char * argv[]) {
 		return 255;
 	}
 
-	// print a value
-	std::cout << kstFile->getValue("OMG", "WTF") << std::endl;
-	std::cout << kstFile->getValue("ABC", "KEY1") << std::endl;
-	std::cout << kstFile->getValue("ABC", "KEY2") << std::endl;
-	std::cout << kstFile->getValue("ABC", "KEY3") << std::endl;
+	std::cout << *(kstFile->getParsed());
 
     delete kstFile;
 	return 0;
