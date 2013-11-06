@@ -60,13 +60,13 @@
 %token <string>	REFERENCE_DATA_TYPE
 
 %type <string>				unknown_command
-%destructor { delete $$; }	unknown_command
+//%destructor { delete $$; }	unknown_command
 
 %type <node>				kst command include packet packet_member packet_member_type packet_member_name
-%destructor { delete $$; }	kst command include packet packet_member packet_member_type packet_member_name
+//%destructor { delete $$; }	kst command include packet packet_member packet_member_type packet_member_name
 
 %type <nodes>				commands packet_members
-%destructor { delete $$; }	commands packet_members
+//%destructor { delete $$; }	commands packet_members
 
 
 %%
