@@ -22,7 +22,7 @@ namespace Rakjin {
 			KstFile &operator=(KstFile const &rhs);
 			
 			// the kst data
-			Node* root = NULL;
+			Node* root;
 	};
 	
 	/**
