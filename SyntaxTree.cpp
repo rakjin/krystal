@@ -1,9 +1,13 @@
+#include "SyntaxTree.h"
+
 #include <list>
 #include <sstream>
 #include <iostream>
 #include <stdexcept>
 
-#include "SyntaxTree.h"
+#include <boost/format.hpp>
+
+#include "template.cs.h"
 
 
 // class Node
@@ -36,7 +40,7 @@
     {
         std::stringstream parsed;
 
-        parsed << "/* file info here */\n\n";
+        parsed << TCS_USINGS;
 
         std::list<Node*>::iterator i = commands->begin();
         std::list<Node*>::iterator end = commands->end();
