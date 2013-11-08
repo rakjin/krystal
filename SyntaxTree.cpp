@@ -45,12 +45,18 @@
         parsed << boost::format(TCS_HEADER) % *fileName;
         parsed << TCS_USINGS;
 
+        std::string namespaceByFileName = fileName->substr(0, fileName->find("."));
+
+        parsed << boost::format(TCS_NAMESPACE_BEGIN) % namespaceByFileName;
+
         std::list<Node*>::iterator i = commands->begin();
         std::list<Node*>::iterator end = commands->end();
         for (; i != end; ++i)
         {
             parsed << *((*i)->getParsed());
         }
+
+        parsed << TCS_NAMESPACE_END;
 
         parsed << "\n\n";
 

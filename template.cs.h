@@ -14,6 +14,10 @@
 								"using Krystal;\n" \
 								"\n"
 
+#define TCS_NAMESPACE_BEGIN		"namespace %s\n" \
+								"{\n"
+
+#define TCS_NAMESPACE_END		"}\n"
 
 
 #endif // TEMPLATE_CS_H
