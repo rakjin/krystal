@@ -28,8 +28,6 @@ int main(int argc, char * argv[]) {
 		return 255;
 	}
 
-	std::cout << boost::format(TCS_HEADER) % argv[1];
-
 	std::cout << *(kstFile->getParsed());
 
     delete kstFile;

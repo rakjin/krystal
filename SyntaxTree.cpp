@@ -24,11 +24,13 @@
 
 // class NodeKst : public Node
 // {
-    // std::list<Node*>* NodeKst::commands;
+    // std::list<Node*>* commands;
+    // std::string* fileName;
     // public:
-    NodeKst::NodeKst(std::list<Node*>* _commands) : Node()
+    NodeKst::NodeKst(std::list<Node*>* _commands, std::string* _fileName) : Node()
     {
         commands = _commands;
+        fileName = _fileName;
     }
 
     std::string NodeKst::getType()
@@ -40,6 +42,7 @@
     {
         std::stringstream parsed;
 
+        parsed << boost::format(TCS_HEADER) % *fileName;
         parsed << TCS_USINGS;
 
         std::list<Node*>::iterator i = commands->begin();

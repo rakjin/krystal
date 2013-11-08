@@ -36,7 +36,7 @@ namespace Rakjin {
 		
 		Krystal::Scanner scanner(&inFile);
 		root = NULL;
-		Krystal::Parser parser(scanner, root);
+		Krystal::Parser parser(scanner, root, new std::string(fileName));
 		parser.parse();
 	}
 
@@ -46,7 +46,7 @@ namespace Rakjin {
 	KstFile::KstFile(std::istream &kstStream) throw(std::string) {
 		Krystal::Scanner scanner(&kstStream);
 		root = NULL;
-		Krystal::Parser parser(scanner, root);
+		Krystal::Parser parser(scanner, root, new std::string("stream"));
 		parser.parse();
 	}
 	

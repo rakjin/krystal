@@ -27,8 +27,9 @@ class Node
 class NodeKst : public Node
 {
     std::list<Node*>* commands;
+    std::string* fileName;
     public:
-    explicit NodeKst(std::list<Node*>* _commands);
+    explicit NodeKst(std::list<Node*>* _commands, std::string* fileName);
     virtual std::string getType();
     virtual std::string* getParsed();
 };

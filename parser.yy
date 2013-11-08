@@ -5,7 +5,8 @@
 %define namespace "Rakjin::Krystal"
 %define parser_class_name "Parser"
 %parse-param { Rakjin::Krystal::Scanner &scanner }
-%parse-param { Node* &root}
+%parse-param { Node* &root }
+%parse-param { std::string* fileName }
 %lex-param   { Rakjin::Krystal::Scanner &scanner }
 
 %code requires {
@@ -73,13 +74,13 @@ kst :
 	/* null */
 	{
 		std::list<Node*>* emptyCommands = new std::list<Node*>;
-		root = new NodeKst(emptyCommands);
+		root = new NodeKst(emptyCommands, fileName);
 		$$ = root;
 	}
 	|
 	commands
 	{
-		root = new NodeKst($1);
+		root = new NodeKst($1, fileName);
 		$$ = root;
 	}
 
