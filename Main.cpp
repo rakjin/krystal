@@ -3,6 +3,10 @@
 #include <iostream>
 #include <cstring>
 
+#include <boost/format.hpp>
+
+#include "template.cs.h"
+
 int main(int argc, char * argv[]) {
 	// make sure we received a filename
 	if (argc != 2) {
@@ -23,6 +27,8 @@ int main(int argc, char * argv[]) {
 		std::cerr << "ERROR: " << error << std::endl;
 		return 255;
 	}
+
+	std::cout << boost::format(TCS_HEADER) % argv[1];
 
 	std::cout << *(kstFile->getParsed());
 
