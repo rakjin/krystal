@@ -6,8 +6,19 @@
 #include <stdexcept>
 
 #include <boost/format.hpp>
+#include <boost/algorithm/string/replace.hpp>
 
 #include "template.cs.h"
+
+
+std::string* indent(std::string* src)
+{
+    boost::algorithm::replace_all(*src, "\n", "\n\t");
+    std::string result("\t");
+    result = result + *src;
+    delete src;
+    return new std::string(result);
+}
 
 
 // class Node
@@ -51,9 +62,15 @@
 
         std::list<Node*>::iterator i = commands->begin();
         std::list<Node*>::iterator end = commands->end();
+
+        std::string* temp;
+
         for (; i != end; ++i)
         {
-            parsed << *((*i)->getParsed());
+            temp = (*i)->getParsed();
+            temp = indent(temp);
+            parsed << *temp;
+            parsed << "\n";
         }
 
         parsed << TCS_NAMESPACE_END;
@@ -84,7 +101,7 @@
 
         parsed << "#include \"";
         parsed << *(value);
-        parsed << "\"\n";
+        parsed << "\"";
 
         return new std::string(parsed.str());
     }
@@ -122,7 +139,7 @@
             parsed << "\t" << *((*i)->getParsed());
         }
 
-        parsed << "}\n";
+        parsed << "}";
 
         return new std::string(parsed.str());
     }
