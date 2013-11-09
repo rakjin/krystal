@@ -129,7 +129,6 @@ std::string* indent(std::string* src)
 
         parsed << boost::format(TCS_PACKET_BEGIN) % *packetName;
 
-        //parsed << "\t[packets_members]\n";
         std::list<Node*>::iterator i = packetMembers->begin();
         std::list<Node*>::iterator end = packetMembers->end();
         for (; i != end; ++i)
