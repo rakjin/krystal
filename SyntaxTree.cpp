@@ -147,10 +147,10 @@ std::string* indent(std::string* src)
 //     Node* memberType;
 //     Node* memberName;
 //     public:
-    NodePacketMember::NodePacketMember(Node* _packetName, Node* _packetMembers) : Node()
+    NodePacketMember::NodePacketMember(Node* _memberType, Node* _memberName) : Node()
     {
-        memberType = _packetName;
-        memberName = _packetMembers;
+        memberType = _memberType;
+        memberName = _memberName;
     }
 
     std::string NodePacketMember::getType()

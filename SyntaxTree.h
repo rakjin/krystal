@@ -58,7 +58,7 @@ class NodePacketMember : public Node
     Node* memberType;
     Node* memberName;
     public:
-    explicit NodePacketMember(Node* _packetName, Node* _packetMembers);
+    explicit NodePacketMember(Node* _memberType, Node* _memberName);
     virtual std::string getType();
     virtual std::string* getParsed();
 };
