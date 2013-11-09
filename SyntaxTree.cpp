@@ -8,17 +8,8 @@
 #include <boost/format.hpp>
 #include <boost/algorithm/string/replace.hpp>
 
+#include "template.common.h"
 #include "template.cs.h"
-
-
-std::string* indent(std::string* src)
-{
-    boost::algorithm::replace_all(*src, "\n", "\n\t");
-    std::string result("\t");
-    result = result + *src;
-    delete src;
-    return new std::string(result);
-}
 
 
 // class Node
