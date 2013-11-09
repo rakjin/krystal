@@ -2,7 +2,7 @@
 #ifndef TEMPLATE_CS_H
 #define TEMPLATE_CS_H
 
-#define TCS_HEADER				"//generated from %s by Krystal\n\n"
+#define TCS_HEADER				"//generated from %1% by Krystal\n\n"
 
 #define TCS_USINGS				"using System;\n" \
 								"using System.Collections;\n" \
@@ -14,12 +14,12 @@
 								"using Krystal;\n" \
 								"\n"
 
-#define TCS_NAMESPACE_BEGIN		"namespace %s\n" \
+#define TCS_NAMESPACE_BEGIN		"namespace %1%\n" \
 								"{\n"
 
 #define TCS_NAMESPACE_END		"}\n"
 
-#define TCS_PACKET_BEGIN		"public class %s : Krystal.IMessageStream\n" \
+#define TCS_PACKET_BEGIN		"public class %1% : Krystal.IMessageStream\n" \
 								"{\n"
 
 #define TCS_PACKET_END			"}"
