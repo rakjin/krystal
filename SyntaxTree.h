@@ -45,10 +45,10 @@ class NodeInclude : public Node
 
 class NodePacket : public Node
 {
-    Node* packetName;
+    std::string* packetName;
     std::list<Node*>* packetMembers;
     public:
-    explicit NodePacket(Node* _packetName, std::list<Node*>* _packetMembers);
+    explicit NodePacket(std::string* _packetName, std::list<Node*>* _packetMembers);
     virtual std::string getType();
     virtual std::string* getParsed();
 };

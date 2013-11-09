@@ -109,10 +109,10 @@ std::string* indent(std::string* src)
 
 // class NodePacket : public Node
 // {
-//     Node* packetName;
+//     std::string* packetName;
 //     std::list<Node*>* packetMembers;
 //     public:
-    NodePacket::NodePacket(Node* _packetName, std::list<Node*>* _packetMembers) : Node()
+    NodePacket::NodePacket(std::string* _packetName, std::list<Node*>* _packetMembers) : Node()
     {
         packetName = _packetName;
         packetMembers = _packetMembers;
@@ -127,9 +127,7 @@ std::string* indent(std::string* src)
     {
         std::stringstream parsed;
 
-        parsed << "packet ";
-        parsed << *(packetName->getParsed());
-        parsed << " {\n";
+        parsed << boost::format(TCS_PACKET_BEGIN) % *packetName;
 
         //parsed << "\t[packets_members]\n";
         std::list<Node*>::iterator i = packetMembers->begin();

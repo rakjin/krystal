@@ -19,5 +19,10 @@
 
 #define TCS_NAMESPACE_END		"}\n"
 
+#define TCS_PACKET_BEGIN		"public class %s : Krystal.IMessageStream\n" \
+								"{\n"
+
+#define TCS_PACKET_END			"}"
+
 
 #endif // TEMPLATE_CS_H
