@@ -158,10 +158,18 @@
     {
         std::stringstream parsed;
 
-        parsed << *(memberType->getParsed(CsParseAs::Default));
-        parsed << " ";
-        parsed << *(memberName->getParsed(CsParseAs::Default));
-        parsed << ";\n";
+        switch (as)
+        {
+            case CsParseAs::Default:
+            {
+                parsed << "public ";
+                parsed << *(memberType->getParsed(CsParseAs::Default));
+                parsed << " ";
+                parsed << *(memberName->getParsed(CsParseAs::Default));
+                parsed << ";\n";
+            }
+            break;
+        }
 
         return new std::string(parsed.str());
     }
