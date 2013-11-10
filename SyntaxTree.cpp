@@ -118,16 +118,21 @@
     {
         std::stringstream parsed;
 
-        parsed << boost::format(TCS_PACKET_BEGIN) % *packetName;
-
-        std::list<Node*>::iterator i = packetMembers->begin();
-        std::list<Node*>::iterator end = packetMembers->end();
-        for (; i != end; ++i)
+        switch (as)
         {
-            parsed << "\t" << *((*i)->getParsed(CsParseAs::Default));
+            case CsParseAs::Default:
+            {
+                parsed << boost::format(TCS_PACKET_BEGIN) % *packetName;
+                std::list<Node*>::iterator i = packetMembers->begin();
+                std::list<Node*>::iterator end = packetMembers->end();
+                for (; i != end; ++i)
+                {
+                    parsed << "\t" << *((*i)->getParsed(CsParseAs::Default));
+                }
+                parsed << TCS_PACKET_END;
+            }
+            break;
         }
-
-        parsed << "}";
 
         return new std::string(parsed.str());
     }
