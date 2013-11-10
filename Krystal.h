@@ -55,7 +55,7 @@ namespace Rakjin {
 	 * Retrieve a value
 	 */
 	std::string* KstFile::getParsed() {
-		return root->getParsed();
+		return root->getParsed(0);
 	}
 }
 

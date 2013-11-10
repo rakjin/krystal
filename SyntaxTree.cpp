@@ -20,7 +20,7 @@
     }
 
     std::string     Node::getType() { return 0; }; //TODO: remove getType() if unnecessary
-    std::string*	Node::getParsed() { return 0; };
+    std::string*	Node::getParsed(int as) { return 0; };
 
 // };
 
@@ -40,7 +40,7 @@
        return "KST";
     }
 
-    std::string* NodeKst::getParsed()
+    std::string* NodeKst::getParsed(int as)
     {
         std::stringstream parsed;
 
@@ -58,7 +58,7 @@
 
         for (; i != end; ++i)
         {
-            temp = (*i)->getParsed();
+            temp = (*i)->getParsed(CsParseAs::Default);
             temp = indent(temp);
             parsed << *temp;
             parsed << "\n";
@@ -86,7 +86,7 @@
        return "INCLUDE";
     }
 
-    std::string* NodeInclude::getParsed()
+    std::string* NodeInclude::getParsed(int as)
     {
         std::stringstream parsed;
 
@@ -114,7 +114,7 @@
        return "Packet";
     }
 
-    std::string* NodePacket::getParsed()
+    std::string* NodePacket::getParsed(int as)
     {
         std::stringstream parsed;
 
@@ -124,7 +124,7 @@
         std::list<Node*>::iterator end = packetMembers->end();
         for (; i != end; ++i)
         {
-            parsed << "\t" << *((*i)->getParsed());
+            parsed << "\t" << *((*i)->getParsed(CsParseAs::Default));
         }
 
         parsed << "}";
@@ -149,13 +149,13 @@
        return "PacketMember";
     }
 
-    std::string* NodePacketMember::getParsed()
+    std::string* NodePacketMember::getParsed(int as)
     {
         std::stringstream parsed;
 
-        parsed << *(memberType->getParsed());
+        parsed << *(memberType->getParsed(CsParseAs::Default));
         parsed << " ";
-        parsed << *(memberName->getParsed());
+        parsed << *(memberName->getParsed(CsParseAs::Default));
         parsed << ";\n";
 
         return new std::string(parsed.str());
@@ -211,7 +211,7 @@
        return "PacketMemberType";
     }
 
-    std::string* NodePacketMemberType::getParsed()
+    std::string* NodePacketMemberType::getParsed(int as)
     {
         std::stringstream parsed;
 
@@ -227,12 +227,12 @@
 
             case Rakjin::Krystal::Parser::token::MAP:
             parsed << "Dictionary";
-            parsed << "<" << *(generic1->getParsed()) << ", " << *(generic2->getParsed()) << ">";
+            parsed << "<" << *(generic1->getParsed(CsParseAs::Default)) << ", " << *(generic2->getParsed(CsParseAs::Default)) << ">";
             break;
 
             case Rakjin::Krystal::Parser::token::LIST:
             parsed << "List";
-            parsed << "<" << *(generic1->getParsed()) << ">";
+            parsed << "<" << *(generic1->getParsed(CsParseAs::Default)) << ">";
             break;
 
             default:
@@ -258,7 +258,7 @@
        return "PacketMemberName";
     }
 
-    std::string* NodePacketMemberName::getParsed()
+    std::string* NodePacketMemberName::getParsed(int as)
     {
        return value;
     }

@@ -2,6 +2,19 @@
 #ifndef TEMPLATE_CS_H
 #define TEMPLATE_CS_H
 
+
+namespace CsParseAs
+{
+	enum Enum
+	{
+		Default = 0,
+		GetLength,
+		Write,
+		Read
+	};
+}
+
+
 #define TCS_HEADER				"//generated from %1% by Krystal\n\n"
 
 #define TCS_USINGS				"using System;\n" \
