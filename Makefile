@@ -1,17 +1,17 @@
 CC     = g++
-CFLAGS = -Wall
+CFLAGS = -Wall -static-libgcc -static-libstdc++ -I ./lib/
 BIN    = krystal
 
 $(BIN) : parser.o scanner.o Main.cpp Krystal.h
-	$(CC) $(CFLAGS) Main.cpp scanner.o parser.o -o $(BIN) -I ./lib/
+	$(CC) $(CFLAGS) Main.cpp scanner.o parser.o -o $(BIN)
 
 parser.o : parser.yy
 	bison parser.yy
-	$(CC) $(CFLAGS) -c -o parser.o parser.tab.cc -I ./lib/
+	$(CC) $(CFLAGS) -c -o parser.o parser.tab.cc
 
 scanner.o : parser.yy scanner.l Scanner.h
 	flex scanner.l
-	$(CC) $(CFLAGS) -c -o scanner.o lex.yy.cc -I ./lib/
+	$(CC) $(CFLAGS) -c -o scanner.o lex.yy.cc
 
 
 .PHONY : all clean test
