@@ -162,11 +162,9 @@
         {
             case CsParseAs::Default:
             {
-                parsed << "public ";
-                parsed << *(memberType->getParsed(CsParseAs::Default));
-                parsed << " ";
-                parsed << *(memberName->getParsed(CsParseAs::Default));
-                parsed << ";\n";
+                parsed << boost::format(TCS_PACKET_MEMBER_AS_DEFAULT)
+                    % *(memberType->getParsed(CsParseAs::Default))
+                    % *(memberName->getParsed(CsParseAs::Default));
             }
             break;
         }

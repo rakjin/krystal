@@ -37,5 +37,6 @@ namespace CsParseAs
 
 #define TCS_PACKET_END			"}"
 
+#define TCS_PACKET_MEMBER_AS_DEFAULT	"public %1% %2%;\n"
 
 #endif // TEMPLATE_CS_H
