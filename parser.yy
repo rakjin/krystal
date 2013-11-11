@@ -10,7 +10,9 @@
 %lex-param   { Rakjin::Krystal::Scanner &scanner }
 
 %code requires {
+	#ifdef _WIN32
 	#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
+	#endif
 
 	#include <string>
 	#include <sstream>
