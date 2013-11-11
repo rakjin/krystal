@@ -6,7 +6,6 @@
 #include <stdexcept>
 
 #include <boost/format.hpp>
-#include <boost/algorithm/string/replace.hpp>
 
 #include "template.common.h"
 #include "template.cs.h"

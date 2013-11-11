@@ -2,6 +2,7 @@
 #define TEMPLATE_COMMON_H
 
 #include <boost/functional/hash.hpp>
+#include <boost/algorithm/string/replace.hpp>
 
 std::string* indent(std::string* src)
 {
