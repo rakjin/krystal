@@ -1,6 +1,7 @@
 #pragma once
 
 #include <fstream>
+#include <set>
 #include "Scanner.h"
 #include "SyntaxTree.h"
 
@@ -57,5 +58,33 @@ namespace Rakjin {
 	std::string* KstFile::getParsed() {
 		return root->getParsed(0);
 	}
+
+
+	class Domain {
+		public:
+			Domain();
+			bool InsertIncludedFile(std::string* fileName);
+			bool InsertDeclaration(std::string* declarationName);
+		private:
+			std::set<std::string>* includedFiles; //table for included files' names during parsing
+			std::set<std::string>* declarations; //table for declarations(enums, packets) names during parsing
+	};
+
+	Domain::Domain() {
+		includedFiles = new std::set<std::string>();
+		declarations = new std::set<std::string>();
+	}
+
+	// 
+	bool Domain::InsertIncludedFile(std::string* fileName)
+	{
+		return true;
+	}
+
+	bool Domain::InsertDeclaration(std::string* declarationName)
+	{
+		return true;
+	}
+
 }
 
