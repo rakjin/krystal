@@ -13,9 +13,10 @@ std::string* indent(std::string* src)
     return new std::string(result);
 }
 
+boost::hash<std::string> str_hash;
+
 int getHashCode(std::string* str)
-{
-	boost::hash<std::string> str_hash;
+{	
 	return str_hash(*str);
 }
 
