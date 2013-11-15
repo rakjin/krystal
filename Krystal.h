@@ -4,53 +4,17 @@
 #include <set>
 #include "Scanner.h"
 #include "SyntaxTree.h"
+#include "Context.h"
 
 using namespace std;
 
 namespace Rakjin {
 
-	class Domain {
-		public:
-			Domain();
-			bool insertIncludedFile(string* fileName);
-			bool insertDeclaration(string* declarationName);
-		private:
-			bool insertStringIntoSet(set<string> &targetSet, string* str);
-			set<string>* includedFiles; //table for included files' names during parsing
-			set<string>* declarations; //table for declarations(enums, packets) names during parsing
-	};
-
-	Domain::Domain() {
-		includedFiles = new set<string>();
-		declarations = new set<string>();
-	}
-
-	bool Domain::insertStringIntoSet(set<string> &targetSet, string* str)
-	{
-		// http://msdn.microsoft.com/ko-kr/library/547ckb56.aspx
-		pair< set<string>::iterator, bool > pr;
-		pr = targetSet.insert(*str);
-		return pr.second;
-	}
-
-	bool Domain::insertIncludedFile(string* fileName)
-	{
-		bool success = Domain::insertStringIntoSet(*includedFiles, fileName);
-		return success;
-	}
-
-	bool Domain::insertDeclaration(string* declarationName)
-	{
-		bool success = Domain::insertStringIntoSet(*declarations, declarationName);
-		return success;
-	}
-
-
 	class KstFile {
 		public:
 			// can instantiate with either a file name or an already open stream
-			inline explicit KstFile(const char * const fileName, Domain &_domain) throw(string);
-			inline explicit KstFile(istream &kstStream, Domain &_domain) throw(string);
+			inline explicit KstFile(const char * const fileName, Context &_context) throw(string);
+			inline explicit KstFile(istream &kstStream, Context &_context) throw(string);
 
 			// Get a value from section and key
 			string* getParsed();
@@ -65,19 +29,19 @@ namespace Rakjin {
 			// the kst data
 			Node* root;
 
-			Domain* domain;
+			Context* context;
 	};
 	
 	/**
 	 * Open and parse a file
 	 */
-	KstFile::KstFile(const char * const fileName, Domain &_domain) throw(string) {
+	KstFile::KstFile(const char * const fileName, Context &_context) throw(string) {
 		ifstream inFile(fileName);
 		if (!inFile.good()) {
 			throw string("Unable to open file");
 		}
 		
-		domain = &_domain;
+		context = &_context;
 
 		Krystal::Scanner scanner(&inFile);
 		root = NULL;
@@ -88,9 +52,9 @@ namespace Rakjin {
 	/**
 	 * Parse an already open stream
 	 */
-	KstFile::KstFile(istream &kstStream, Domain &_domain) throw(string) {
+	KstFile::KstFile(istream &kstStream, Context &_context) throw(string) {
 
-		domain = &_domain;
+		context = &_context;
 
 		Krystal::Scanner scanner(&kstStream);
 		root = NULL;
