@@ -18,7 +18,7 @@ namespace CsNodeType
 {
 	enum Enum
 	{
-		Kst = 0,
+		kst = 0,
 			include,
 			packet,
 				packetName,

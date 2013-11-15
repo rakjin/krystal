@@ -20,8 +20,8 @@ class Node
 {
     public:
     virtual ~Node();
-    virtual std::string     getType(); //TODO: remove getType() if unnecessary
-    virtual std::string*	getParsed(int as);
+    virtual int getType(); //TODO: remove getType() if unnecessary
+    virtual std::string* getParsed(int as);
 };
 
 class NodeKst : public Node
@@ -30,7 +30,7 @@ class NodeKst : public Node
     std::string* fileName;
     public:
     explicit NodeKst(std::list<Node*>* _commands, std::string* fileName);
-    virtual std::string getType();
+    virtual int getType();
     virtual std::string* getParsed(int as);
 };
 
@@ -39,7 +39,7 @@ class NodeInclude : public Node
     std::string* value;
     public:
     explicit NodeInclude(std::string* _value);
-    virtual std::string getType();
+    virtual int getType();
     virtual std::string* getParsed(int as);
 };
 
@@ -49,7 +49,7 @@ class NodePacket : public Node
     std::list<Node*>* packetMembers;
     public:
     explicit NodePacket(std::string* _packetName, std::list<Node*>* _packetMembers);
-    virtual std::string getType();
+    virtual int getType();
     virtual std::string* getParsed(int as);
 };
 
@@ -59,7 +59,7 @@ class NodePacketMember : public Node
     Node* memberName;
     public:
     explicit NodePacketMember(Node* _memberType, Node* _memberName);
-    virtual std::string getType();
+    virtual int getType();
     virtual std::string* getParsed(int as);
 };
 
@@ -75,7 +75,7 @@ class NodePacketMemberType : public Node
     explicit NodePacketMemberType(int _type, Node* _generic1);
     explicit NodePacketMemberType(int _type, Node* _generic1, Node* _generic2);
     explicit NodePacketMemberType(int _type, Node* _generic1, Node* _generic2, Node* _generic3);
-    virtual std::string getType();
+    virtual int getType();
     virtual std::string* getParsed(int as);
 };
 
@@ -84,7 +84,7 @@ class NodePacketMemberName : public Node
     std::string* value;
     public:
     explicit NodePacketMemberName(std::string* _value);
-    virtual std::string getType();
+    virtual int getType();
     virtual std::string* getParsed(int as);
 };
 
