@@ -14,14 +14,16 @@ int main(int argc, char * argv[]) {
 		return 255;
 	}
 
+	Rakjin::Domain domain = Rakjin::Domain();
+
 	// try and open the KST file
 	Rakjin::KstFile* kstFile = NULL;
 	try {
 		// - means stdin, not a file named '-'
 		if (strcmp(argv[1], "-") == 0) {
-			kstFile = new Rakjin::KstFile(std::cin);
+			kstFile = new Rakjin::KstFile(std::cin, domain);
 		} else {
-			kstFile = new Rakjin::KstFile(argv[1]);
+			kstFile = new Rakjin::KstFile(argv[1], domain);
 		}
 	} catch (std::string error) {
 		std::cerr << "ERROR: " << error << std::endl;
