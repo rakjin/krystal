@@ -18,8 +18,9 @@
     {
     }
 
-    int Node::getType() { return 0; }; //TODO: remove getType() if unnecessary
-    std::string* Node::getParsed(int as) { return 0; };
+    int Node::getType() { return 0; } //TODO: remove getType() if unnecessary
+    int Node::getHash() { return 0; }
+    std::string* Node::getParsed(int as) { return 0; }
 
 // };
 
@@ -37,6 +38,11 @@
     int NodeKst::getType()
     {
        return CsNodeType::kst;
+    }
+
+    int NodeKst::getHash()
+    {
+        return 0;
     }
 
     std::string* NodeKst::getParsed(int as)
@@ -85,6 +91,11 @@
        return CsNodeType::include;
     }
 
+    int NodeInclude::getHash()
+    {
+        return 0;
+    }
+
     std::string* NodeInclude::getParsed(int as)
     {
         std::stringstream parsed;
@@ -111,6 +122,11 @@
     int NodePacket::getType()
     {
        return CsNodeType::packet;
+    }
+
+    int NodePacket::getHash()
+    {
+        return 0;
     }
 
     std::string* NodePacket::getParsed(int as)
@@ -151,6 +167,11 @@
     int NodePacketMember::getType()
     {
        return CsNodeType::packetMember;
+    }
+
+    int NodePacketMember::getHash()
+    {
+        return 0;
     }
 
     std::string* NodePacketMember::getParsed(int as)
@@ -221,6 +242,11 @@
        return CsNodeType::packetMemberType;
     }
 
+    int NodePacketMemberType::getHash()
+    {
+        return 0;
+    }
+
     std::string* NodePacketMemberType::getParsed(int as)
     {
         std::stringstream parsed;
@@ -266,6 +292,11 @@
     int NodePacketMemberName::getType()
     {
        return CsNodeType::packetMemberName;
+    }
+
+    int NodePacketMemberName::getHash()
+    {
+        return 0;
     }
 
     std::string* NodePacketMemberName::getParsed(int as)
