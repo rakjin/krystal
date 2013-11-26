@@ -143,6 +143,15 @@ packet :
 
 		$$ = new NodePacket($2, $4);
 		//std::cout << *($$->getParsed()) << "\n";
+		bool success = context->insertDeclaration($2);
+		if (success == true)
+		{
+			std::cout << "INSERTION(packet) SUCCESS\n";
+		}
+		else
+		{
+			std::cout << "INSERTION(packet) FAILED - DUPLICATED\n";
+		}
 	}
 
 packet_members :
@@ -206,6 +215,15 @@ include :
 		//std::cout << "include directive: " << *$2 << "\n";
 		$$ = new NodeInclude($2);
 		//std::cout << *($$->getParsed()) << "\n";
+		bool success = context->insertIncludedFile($2);
+		if (success == true)
+		{
+			std::cout << "INSERTION(#include) SUCCESS\n";
+		}
+		else
+		{
+			std::cout << "INSERTION(#include) FAILED - DUPLICATED\n";
+		}
 	}
 
 unknown_command :
