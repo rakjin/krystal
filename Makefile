@@ -3,7 +3,7 @@ CFLAGS = -Wall -static-libgcc -static-libstdc++ -I ./lib/
 BIN    = krystal
 
 $(BIN) : parser.o scanner.o Main.cpp Krystal.h
-	$(CC) $(CFLAGS) Main.cpp scanner.o parser.o -o $(BIN)
+	$(CC) $(CFLAGS) Main.cpp Context.cpp scanner.o parser.o -o $(BIN)
 
 parser.o : parser.yy
 	bison parser.yy
