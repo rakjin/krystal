@@ -40,7 +40,7 @@
 }
 
 %union {
-	int inteverValue;
+	int integerValue;
 	std::string* string;
 	Node* node;
 	std::list<Node*>* nodes;
