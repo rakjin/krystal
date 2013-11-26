@@ -7,6 +7,7 @@
 %parse-param { Rakjin::Krystal::Scanner &scanner }
 %parse-param { Node* &root }
 %parse-param { std::string* fileName }
+%parse-param { Rakjin::Context* &context }
 %lex-param   { Rakjin::Krystal::Scanner &scanner }
 
 %code requires {
@@ -19,6 +20,7 @@
 	#include <map>
 
 	#include "SyntaxTree.h"
+	#include "Context.h"
 
 	// We want to return a string
 	// #define YYSTYPE std::string
