@@ -24,17 +24,26 @@ int main(int argc, char * argv[]) {
 
 	// try and open the KST file
 	Rakjin::KstFile* kstFile = NULL;
-	try
+	string* fileName = NULL; //context.getAnUnprocessedFromIncludedFilesMap();
+
+	for(fileName = context.getUnprocessedFileName();
+		fileName != NULL;
+		fileName = context.getUnprocessedFileName())
 	{
-		kstFile = new Rakjin::KstFile(argv[1], context);
-	}
-	catch (string error)
-	{
-		cerr << "ERROR: " << error << endl;
-		return 255;
+		try
+		{
+			kstFile = new Rakjin::KstFile(fileName->c_str(), context);
+		}
+		catch (string error)
+		{
+			cerr << "ERROR: " << error << endl;
+			return 255;
+		}
+
+		context.markIncludedFileAsProcessed(fileName);
 	}
 
-	cout << *(kstFile->getParsed());
+	cout << *(kstFile->getParsed()); // the last parsed
 
     delete kstFile;
 	return 0;
