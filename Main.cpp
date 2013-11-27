@@ -22,9 +22,8 @@ int main(int argc, char * argv[]) {
 	string* fileNameFromArg = new string(argv[1]);
 	context.insertIncludedFile(fileNameFromArg);
 
-	// try and open the KST file
 	Rakjin::KstFile* kstFile = NULL;
-	string* fileName = NULL; //context.getAnUnprocessedFromIncludedFilesMap();
+	string* fileName = NULL;
 
 	for(fileName = context.getUnprocessedFileName();
 		fileName != NULL;
@@ -32,6 +31,7 @@ int main(int argc, char * argv[]) {
 	{
 		try
 		{
+			// parse file and fill context
 			kstFile = new Rakjin::KstFile(fileName->c_str(), context);
 		}
 		catch (string error)
