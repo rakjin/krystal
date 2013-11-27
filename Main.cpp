@@ -9,10 +9,12 @@
 
 #include "template.cs.h"
 
+using namespace std;
+
 int main(int argc, char * argv[]) {
 	// make sure we received a filename
 	if (argc != 2) {
-		std::cerr << "Usage: ./krystal [FILENAME]" << std::endl;
+		cerr << "Usage: ./krystal [FILENAME]" << endl;
 		return 255;
 	}
 
@@ -24,13 +26,13 @@ int main(int argc, char * argv[]) {
 	{
 		kstFile = new Rakjin::KstFile(argv[1], context);
 	}
-	catch (std::string error)
+	catch (string error)
 	{
-		std::cerr << "ERROR: " << error << std::endl;
+		cerr << "ERROR: " << error << endl;
 		return 255;
 	}
 
-	std::cout << *(kstFile->getParsed());
+	cout << *(kstFile->getParsed());
 
     delete kstFile;
 	return 0;
