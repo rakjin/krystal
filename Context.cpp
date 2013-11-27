@@ -7,7 +7,7 @@ using namespace std;
 namespace Rakjin {
 
 	Context::Context() {
-		includedFiles = new set<string>();
+		includedFiles = new map<string, bool>();
 		declarations = new set<string>();
 	}
 
@@ -21,8 +21,9 @@ namespace Rakjin {
 
 	bool Context::insertIncludedFile(string* fileName)
 	{
-		bool success = Context::insertStringIntoSet(*includedFiles, fileName);
-		return success;
+		pair< map<string, bool>::iterator, bool > pr;
+		pr = includedFiles->insert( map<string, bool>::value_type(*fileName, false) );
+		return pr.second;
 	}
 
 	bool Context::insertDeclaration(string* declarationName)

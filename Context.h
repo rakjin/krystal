@@ -2,6 +2,7 @@
 #define CONTEXT_H
 
 #include <set>
+#include <map>
 #include <string>
 
 using namespace std;
@@ -15,7 +16,7 @@ namespace Rakjin {
 			bool insertDeclaration(string* declarationName);
 		private:
 			bool insertStringIntoSet(set<string> &targetSet, string* str);
-			set<string>* includedFiles; //table for included files' names during parsing
+			map<string, bool>* includedFiles; //table for INCLUDED_FILE_NAME as key and PROCESSED as value
 			set<string>* declarations; //table for declarations(enums, packets) names during parsing
 	};
 
