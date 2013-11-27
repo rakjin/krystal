@@ -19,6 +19,8 @@ int main(int argc, char * argv[]) {
 	}
 
 	Rakjin::Context context = Rakjin::Context();
+	string* fileNameFromArg = new string(argv[1]);
+	context.insertIncludedFile(fileNameFromArg);
 
 	// try and open the KST file
 	Rakjin::KstFile* kstFile = NULL;
