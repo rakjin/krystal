@@ -50,20 +50,6 @@ namespace Rakjin {
 	}
 
 	/**
-	 * Parse an already open stream
-	 */
-	KstFile::KstFile(istream &kstStream, Context &_context) throw(string) {
-
-		context = &_context;
-
-		Krystal::Scanner scanner(&kstStream);
-		root = NULL;
-		Krystal::Parser parser(scanner, root, new string("stream"), context);
-		parser.parse();
-	}
-	
-
-	/**
 	 * Retrieve a value
 	 */
 	string* KstFile::getParsed() {
