@@ -146,13 +146,9 @@ packet :
 		$$ = new NodePacket($2, $4);
 		//std::cout << *($$->getParsed()) << "\n";
 		bool success = context->insertDeclaration($2);
-		if (success == true)
+		if (success == false)
 		{
-			std::cout << "INSERTION(packet) SUCCESS\n";
-		}
-		else
-		{
-			std::cout << "INSERTION(packet) FAILED - DUPLICATED\n";
+			error(yyloc, std::string("DUPLICATED packet ") + *$2);
 		}
 	}
 
