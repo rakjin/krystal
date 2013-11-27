@@ -14,6 +14,7 @@ namespace Rakjin {
 			Context();
 			bool insertIncludedFile(string* fileName);
 			bool markIncludedFileAsProcessed(string* fileName);
+			string* getUnprocessedFileName();
 			bool insertDeclaration(string* declarationName);
 		private:
 			bool insertStringIntoSet(set<string> &targetSet, string* str);

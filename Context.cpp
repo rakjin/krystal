@@ -39,6 +39,24 @@ namespace Rakjin {
 		return false; // no such fileName
 	}
 
+	string* Context::getUnprocessedFileName()
+	{
+		string* fileName = NULL; // if unprocessed file not found, return null
+
+		map<string, bool>::iterator i;
+		for(i = includedFiles->begin(); i != includedFiles->end(); i++)
+		{
+			bool processed = i->second;
+			if (processed == false)
+			{
+				fileName = new string(i->first);
+				break;
+			}
+		}
+
+		return fileName;
+	}
+
 	bool Context::insertDeclaration(string* declarationName)
 	{
 		bool success = Context::insertStringIntoSet(*declarations, declarationName);
