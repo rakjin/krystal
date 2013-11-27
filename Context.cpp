@@ -8,15 +8,7 @@ namespace Rakjin {
 
 	Context::Context() {
 		includedFiles = new map<string, bool>();
-		declarations = new set<string>();
-	}
-
-	bool Context::insertStringIntoSet(set<string> &targetSet, string* str)
-	{
-		// http://msdn.microsoft.com/ko-kr/library/547ckb56.aspx
-		pair< set<string>::iterator, bool > pr;
-		pr = targetSet.insert(*str);
-		return pr.second;
+		declarations = new map<string, int>();
 	}
 
 	bool Context::insertIncludedFile(string* fileName)
@@ -59,8 +51,9 @@ namespace Rakjin {
 
 	bool Context::insertDeclaration(string* declarationName)
 	{
-		bool success = Context::insertStringIntoSet(*declarations, declarationName);
-		return success;
+		pair< map<string, int>::iterator, int > pr;
+		pr = declarations->insert( map<string, int>::value_type(*declarationName, 0) );
+		return pr.second;
 	}
 	
 }
