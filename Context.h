@@ -13,6 +13,7 @@ namespace Rakjin {
 		public:
 			Context();
 			bool insertIncludedFile(string* fileName);
+			bool markIncludedFileAsProcessed(string* fileName);
 			bool insertDeclaration(string* declarationName);
 		private:
 			bool insertStringIntoSet(set<string> &targetSet, string* str);

@@ -26,6 +26,19 @@ namespace Rakjin {
 		return pr.second;
 	}
 
+	bool Context::markIncludedFileAsProcessed(string* fileName)
+	{
+		map<string, bool>::iterator findIterator = includedFiles->find(*fileName);
+
+		if (findIterator != includedFiles->end())
+		{
+			findIterator->second = true;
+			return true; // success
+		}
+
+		return false; // no such fileName
+	}
+
 	bool Context::insertDeclaration(string* declarationName)
 	{
 		bool success = Context::insertStringIntoSet(*declarations, declarationName);
