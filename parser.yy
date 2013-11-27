@@ -25,6 +25,8 @@
 	// We want to return a string
 	// #define YYSTYPE std::string
 
+	#define ALLOW_DUPLICATED_INCLUDE		true
+
 	namespace Rakjin {
 		namespace Krystal {
 			// Forward-declare the Scanner class; the Parser needs to be assigned a 
@@ -216,13 +218,9 @@ include :
 		$$ = new NodeInclude($2);
 		//std::cout << *($$->getParsed()) << "\n";
 		bool success = context->insertIncludedFile($2);
-		if (success == true)
+		if (success == false && ALLOW_DUPLICATED_INCLUDE == false)
 		{
-			std::cout << "INSERTION(#include) SUCCESS\n";
-		}
-		else
-		{
-			std::cout << "INSERTION(#include) FAILED - DUPLICATED\n";
+			error(yyloc, std::string("DUPLICATED #include ") + *$2 + "\"");
 		}
 	}
 
