@@ -1,10 +1,11 @@
-#include "Krystal.h"
-#include "Context.h"
 #include <string>
 #include <iostream>
 #include <cstring>
 
 #include <boost/format.hpp>
+
+#include "Krystal.h"
+#include "Context.h"
 
 #include "template.cs.h"
 
