@@ -19,14 +19,12 @@ int main(int argc, char * argv[]) {
 
 	// try and open the KST file
 	Rakjin::KstFile* kstFile = NULL;
-	try {
-		// - means stdin, not a file named '-'
-		if (strcmp(argv[1], "-") == 0) {
-			kstFile = new Rakjin::KstFile(std::cin, context);
-		} else {
-			kstFile = new Rakjin::KstFile(argv[1], context);
-		}
-	} catch (std::string error) {
+	try
+	{
+		kstFile = new Rakjin::KstFile(argv[1], context);
+	}
+	catch (std::string error)
+	{
 		std::cerr << "ERROR: " << error << std::endl;
 		return 255;
 	}
