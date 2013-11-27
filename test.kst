@@ -21,26 +21,7 @@ packet test_P_A_C_K_E_T_02
 	map < map<QQQQ, QQQQ> , map<XXXX, list<bool>> > PACKET_MEMBER_7;
 }
 
-#include  	"world"     // aaa
 
-#include /* aaa
-            bbb */ "apart"
-
-#include "BBB" /* xxxxxx */ 
-
-//UNKNOWN_COMMAND_2
-
-    /* nested
-
-    /*
-    COMMENT_ */
-
-#include "Hello // World" //aaa
-
-//UNKNOWN_COMMAND_3
-
-// = * $
-
-#include "Hello // World"
+#include "test2.kst"
 
 

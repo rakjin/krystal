@@ -7,6 +7,7 @@
 %parse-param { Rakjin::Krystal::Scanner &scanner }
 %parse-param { Node* &root }
 %parse-param { std::string* fileName }
+%parse-param { Rakjin::Context* &context }
 %lex-param   { Rakjin::Krystal::Scanner &scanner }
 
 %code requires {
@@ -19,9 +20,12 @@
 	#include <map>
 
 	#include "SyntaxTree.h"
+	#include "Context.h"
 
 	// We want to return a string
 	// #define YYSTYPE std::string
+
+	#define ALLOW_DUPLICATED_INCLUDE		true
 
 	namespace Rakjin {
 		namespace Krystal {
@@ -40,7 +44,7 @@
 }
 
 %union {
-	int inteverValue;
+	int integerValue;
 	std::string* string;
 	Node* node;
 	std::list<Node*>* nodes;
@@ -141,6 +145,11 @@ packet :
 
 		$$ = new NodePacket($2, $4);
 		//std::cout << *($$->getParsed()) << "\n";
+		bool success = context->insertDeclaration($2);
+		if (success == false)
+		{
+			error(yyloc, std::string("DUPLICATED packet ") + *$2);
+		}
 	}
 
 packet_members :
@@ -204,6 +213,11 @@ include :
 		//std::cout << "include directive: " << *$2 << "\n";
 		$$ = new NodeInclude($2);
 		//std::cout << *($$->getParsed()) << "\n";
+		bool success = context->insertIncludedFile($2);
+		if (success == false && ALLOW_DUPLICATED_INCLUDE == false)
+		{
+			error(yyloc, std::string("DUPLICATED #include \"") + *$2 + "\"");
+		}
 	}
 
 unknown_command :
@@ -227,7 +241,7 @@ unknown_command :
 void Rakjin::Krystal::Parser::error(const Rakjin::Krystal::Parser::location_type &loc,
                                           const std::string &msg) {
 	std::ostringstream ret;
-	ret << "Parser Error at " << loc << ": " << msg;
+	ret << "Parser Error at " << *fileName << " " << loc << ": " << msg;
 	throw ret.str();
 }
 

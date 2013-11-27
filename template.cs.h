@@ -14,6 +14,27 @@ namespace CsParseAs
 	};
 }
 
+namespace CsNodeType
+{
+	enum Enum
+	{
+		kst = 0,
+			include,
+			packet,
+				packetName,
+				packetMembers,
+					packetMember,
+						packetMemberType,
+						packetMemberName,
+			enumeration,
+				enumerationName,
+				enumerators,
+					enumerator,
+						enumeratorName,
+						enumeratorValue
+	};
+}
+
 
 #define TCS_HEADER				"//generated from %1% by Krystal\n\n"
 
@@ -35,8 +56,19 @@ namespace CsParseAs
 #define TCS_PACKET_BEGIN		"public class %1% : Krystal.IMessageStream\n" \
 								"{\n"
 
-#define TCS_PACKET_END			"}"
+#define TCS_PACKET_END			"}\n"
 
 #define TCS_PACKET_MEMBER_AS_DEFAULT	"public %1% %2%;\n"
+
+#define TCS_PACKET_MEMBER_AS_GET_LENGTH_PRIMITIVE	"length += Krystal.Serializer.%1%.GetLength(%2%);\n"
+
+#define TCS_PACKET_MEMBER_AS_GET_LENGTH_REFERENCE	"length += Krystal.Serializer.Custom.GetLength(%1%, true);\n"
+
+#define TCS_PACKET_MEMBER_AS_GET_LENGTH_MAP_BEGIN	"length += 4;\n" \
+													"foreach ( KeyValuePair<%1%, %2%> %3%Temp in %3% )\n" \
+													"{\n" \
+													"\t%4%\t%5%}\n"
+
+#define TCS_PACKET_MEMBER_AS_GET_LENGTH_LIST_BEGIN	""
 
 #endif // TEMPLATE_CS_H

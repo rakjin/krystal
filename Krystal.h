@@ -1,18 +1,23 @@
 #pragma once
 
 #include <fstream>
+#include <set>
 #include "Scanner.h"
 #include "SyntaxTree.h"
+#include "Context.h"
+
+using namespace std;
 
 namespace Rakjin {
+
 	class KstFile {
 		public:
 			// can instantiate with either a file name or an already open stream
-			inline explicit KstFile(const char * const fileName) throw(std::string);
-			inline explicit KstFile(std::istream &kstStream) throw(std::string);
+			inline explicit KstFile(const char * const fileName, Context &_context) throw(string);
+			inline explicit KstFile(istream &kstStream, Context &_context) throw(string);
 
 			// Get a value from section and key
-			std::string* getParsed();
+			string* getParsed();
 		private:
 			// supress default constructor
 			KstFile();
@@ -23,30 +28,37 @@ namespace Rakjin {
 			
 			// the kst data
 			Node* root;
+
+			Context* context;
 	};
 	
 	/**
 	 * Open and parse a file
 	 */
-	KstFile::KstFile(const char * const fileName) throw(std::string) {
-		std::ifstream inFile(fileName);
+	KstFile::KstFile(const char * const fileName, Context &_context) throw(string) {
+		ifstream inFile(fileName);
 		if (!inFile.good()) {
-			throw std::string("Unable to open file");
+			throw string("Unable to open file");
 		}
 		
+		context = &_context;
+
 		Krystal::Scanner scanner(&inFile);
 		root = NULL;
-		Krystal::Parser parser(scanner, root, new std::string(fileName));
+		Krystal::Parser parser(scanner, root, new string(fileName), context);
 		parser.parse();
 	}
 
 	/**
 	 * Parse an already open stream
 	 */
-	KstFile::KstFile(std::istream &kstStream) throw(std::string) {
+	KstFile::KstFile(istream &kstStream, Context &_context) throw(string) {
+
+		context = &_context;
+
 		Krystal::Scanner scanner(&kstStream);
 		root = NULL;
-		Krystal::Parser parser(scanner, root, new std::string("stream"));
+		Krystal::Parser parser(scanner, root, new string("stream"), context);
 		parser.parse();
 	}
 	
@@ -54,7 +66,7 @@ namespace Rakjin {
 	/**
 	 * Retrieve a value
 	 */
-	std::string* KstFile::getParsed() {
+	string* KstFile::getParsed() {
 		return root->getParsed(0);
 	}
 }

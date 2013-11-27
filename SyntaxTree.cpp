@@ -18,8 +18,9 @@
     {
     }
 
-    std::string     Node::getType() { return 0; }; //TODO: remove getType() if unnecessary
-    std::string*	Node::getParsed(int as) { return 0; };
+    int Node::getType() { return 0; } //TODO: remove getType() if unnecessary
+    int Node::getHash() { return 0; }
+    std::string* Node::getParsed(int as) { return 0; }
 
 // };
 
@@ -34,9 +35,14 @@
         fileName = _fileName;
     }
 
-    std::string NodeKst::getType()
+    int NodeKst::getType()
     {
-       return "KST";
+       return CsNodeType::kst;
+    }
+
+    int NodeKst::getHash()
+    {
+        return 0;
     }
 
     std::string* NodeKst::getParsed(int as)
@@ -80,9 +86,14 @@
         value = _value;
     }
 
-    std::string NodeInclude::getType()
+    int NodeInclude::getType()
     {
-       return "INCLUDE";
+       return CsNodeType::include;
+    }
+
+    int NodeInclude::getHash()
+    {
+        return 0;
     }
 
     std::string* NodeInclude::getParsed(int as)
@@ -108,9 +119,14 @@
         packetMembers = _packetMembers;
     }
 
-    std::string NodePacket::getType()
+    int NodePacket::getType()
     {
-       return "Packet";
+       return CsNodeType::packet;
+    }
+
+    int NodePacket::getHash()
+    {
+        return 0;
     }
 
     std::string* NodePacket::getParsed(int as)
@@ -148,9 +164,14 @@
         memberName = _memberName;
     }
 
-    std::string NodePacketMember::getType()
+    int NodePacketMember::getType()
     {
-       return "PacketMember";
+       return CsNodeType::packetMember;
+    }
+
+    int NodePacketMember::getHash()
+    {
+        return 0;
     }
 
     std::string* NodePacketMember::getParsed(int as)
@@ -216,9 +237,14 @@
         generic3 = _generic3;
     }
 
-    std::string NodePacketMemberType::getType()
+    int NodePacketMemberType::getType()
     {
-       return "PacketMemberType";
+       return CsNodeType::packetMemberType;
+    }
+
+    int NodePacketMemberType::getHash()
+    {
+        return 0;
     }
 
     std::string* NodePacketMemberType::getParsed(int as)
@@ -263,9 +289,14 @@
         value = _value;
     }
 
-    std::string NodePacketMemberName::getType()
+    int NodePacketMemberName::getType()
     {
-       return "PacketMemberName";
+       return CsNodeType::packetMemberName;
+    }
+
+    int NodePacketMemberName::getHash()
+    {
+        return 0;
     }
 
     std::string* NodePacketMemberName::getParsed(int as)
