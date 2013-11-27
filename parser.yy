@@ -220,7 +220,7 @@ include :
 		bool success = context->insertIncludedFile($2);
 		if (success == false && ALLOW_DUPLICATED_INCLUDE == false)
 		{
-			error(yyloc, std::string("DUPLICATED #include ") + *$2 + "\"");
+			error(yyloc, std::string("DUPLICATED #include \"") + *$2 + "\"");
 		}
 	}
 
