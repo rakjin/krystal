@@ -241,7 +241,7 @@ unknown_command :
 void Rakjin::Krystal::Parser::error(const Rakjin::Krystal::Parser::location_type &loc,
                                           const std::string &msg) {
 	std::ostringstream ret;
-	ret << "Parser Error at " << loc << ": " << msg;
+	ret << "Parser Error at " << *fileName << " " << loc << ": " << msg;
 	throw ret.str();
 }
 
