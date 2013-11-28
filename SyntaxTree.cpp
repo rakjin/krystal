@@ -321,7 +321,8 @@ using namespace std;
 
     int NodePacketMemberName::getHash(vector<Node*>* referencingStack)
     {
-        return 0;
+        size_t packetMemberNameHash = getHashCode(value);
+        return (int) packetMemberNameHash;
     }
 
     string* NodePacketMemberName::getParsed(int as)
