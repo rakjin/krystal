@@ -316,10 +316,19 @@ using namespace Rakjin::Krystal;
             case Parser::token::MAP:
             {
                 // must be specified this is map type
-                // in case of other generic<t1, t2> would be added.
+                // in case of other generic<t1, t2> added.
                 packetMemberTypeHash = getHashCode(new string("map")); // <temp> new string should be const something
                 combineHashCode(packetMemberTypeHash, generic1->getHash(referencingStack));
                 combineHashCode(packetMemberTypeHash, generic2->getHash(referencingStack));
+            }
+            break;
+
+            case Parser::token::LIST:
+            {
+                // must be specified this is list type
+                // in case of other generic<t> added.
+                packetMemberTypeHash = getHashCode(new string("list")); // <temp> new string should be const something
+                combineHashCode(packetMemberTypeHash, generic1->getHash(referencingStack));
             }
             break;
         }

@@ -19,7 +19,7 @@ packet test_P_A_C_K_E_T_02
 	list <int> PACKET_MEMBER_4;
 	map <int, bool> PACKET_MEMBER_5;
 	list < map < int, A> > PACKET_MEMBER_6;
-	map < map<A, A> , map<A, list<bool>> > PACKET_MEMBER_7;
+	map < map<A, A> , map<A, list<B>> > PACKET_MEMBER_7;
 }
 
 packet A
