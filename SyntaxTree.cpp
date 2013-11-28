@@ -9,6 +9,8 @@
 
 #include <boost/format.hpp>
 
+#include "parser.tab.hh"
+
 #include "template.common.h"
 #include "template.cs.h"
 
@@ -269,7 +271,17 @@ using namespace std;
 
     int NodePacketMemberType::getHash(vector<Node*>* referencingStack)
     {
-        return 0;
+        assert(referencingStack != NULL);
+
+        size_t packetMemberTypeHash = 0;
+        switch(typeType)
+        {
+            case Rakjin::Krystal::Parser::token::PRIMITIVE_DATA_TYPE:
+            packetMemberTypeHash = getHashCode(value);
+            break;
+        }
+
+        return (int) packetMemberTypeHash;
     }
 
     string* NodePacketMemberType::getParsed(int as)
