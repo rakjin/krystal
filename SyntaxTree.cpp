@@ -5,6 +5,7 @@
 #include <sstream>
 #include <iostream>
 #include <stdexcept>
+#include <assert.h>
 
 #include <boost/format.hpp>
 
@@ -190,6 +191,8 @@ using namespace std;
 
     int NodePacketMember::getHash(vector<Node*>* referencingStack)
     {
+        assert(referencingStack != NULL);
+
         return 0;
     }
 
