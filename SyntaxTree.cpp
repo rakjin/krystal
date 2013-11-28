@@ -140,7 +140,7 @@ using namespace std;
         // TODO: iterate packet members and get each hash
         // TODO: combine all the hashes
 
-        return 0;
+        return packetHash;
     }
 
     string* NodePacket::getParsed(int as)
@@ -152,6 +152,7 @@ using namespace std;
             case CsParseAs::Default:
             {
                 parsed << boost::format(TCS_PACKET_BEGIN) % *packetName;
+                parsed << "\t<temp> packet hash: " << getHash(NULL) << "\n";
                 list<Node*>::iterator i = packetMembers->begin();
                 list<Node*>::iterator end = packetMembers->end();
                 for (; i != end; ++i)
