@@ -24,7 +24,9 @@ class NodeKst;
 
 class Node
 {
+    protected:
     Rakjin::Context* context;
+    
     public:
     Node(Rakjin::Context* _context);
     virtual ~Node();
