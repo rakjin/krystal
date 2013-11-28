@@ -20,6 +20,11 @@ using namespace Rakjin::Krystal;
 // class Node
 // {
 // public:
+    Node::Node(Rakjin::Context* _context)
+    {
+        context = _context;
+    }
+
     Node::~Node()
     {
     }
@@ -35,7 +40,7 @@ using namespace Rakjin::Krystal;
     // list<Node*>* commands;
     // string* fileName;
     // public:
-    NodeKst::NodeKst(list<Node*>* _commands, string* _fileName) : Node()
+    NodeKst::NodeKst(Rakjin::Context* _context, list<Node*>* _commands, string* _fileName) : Node(_context)
     {
         commands = _commands;
         fileName = _fileName;
@@ -87,7 +92,7 @@ using namespace Rakjin::Krystal;
 // {
 //     string* value;
 //     public:
-    NodeInclude::NodeInclude(string* _value) : Node()
+    NodeInclude::NodeInclude(Rakjin::Context* _context, string* _value) : Node(_context)
     {
         value = _value;
     }
@@ -119,7 +124,7 @@ using namespace Rakjin::Krystal;
 //     string* packetName;
 //     list<Node*>* packetMembers;
 //     public:
-    NodePacket::NodePacket(string* _packetName, list<Node*>* _packetMembers) : Node()
+    NodePacket::NodePacket(Rakjin::Context* _context, string* _packetName, list<Node*>* _packetMembers) : Node(_context)
     {
         packetName = _packetName;
         packetMembers = _packetMembers;
@@ -181,7 +186,7 @@ using namespace Rakjin::Krystal;
 //     Node* memberType;
 //     Node* memberName;
 //     public:
-    NodePacketMember::NodePacketMember(Node* _memberType, Node* _memberName) : Node()
+    NodePacketMember::NodePacketMember(Rakjin::Context* _context, Node* _memberType, Node* _memberName) : Node(_context)
     {
         memberType = _memberType;
         memberName = _memberName;
@@ -229,7 +234,7 @@ using namespace Rakjin::Krystal;
 //     Node* generic2; // MAP <generic1, generic2>
 //     Node* generic3; // reserved
 //     public:
-    NodePacketMemberType::NodePacketMemberType(int _type, string* _value) : Node()
+    NodePacketMemberType::NodePacketMemberType(Rakjin::Context* _context, int _type, string* _value) : Node(_context)
     {
         typeType = _type;
         value = _value;
@@ -238,7 +243,7 @@ using namespace Rakjin::Krystal;
         generic3 = NULL;
     }
 
-    NodePacketMemberType::NodePacketMemberType(int _type, Node* _generic1) : Node()
+    NodePacketMemberType::NodePacketMemberType(Rakjin::Context* _context, int _type, Node* _generic1) : Node(_context)
     {
         typeType = _type;
         value = NULL;
@@ -247,7 +252,7 @@ using namespace Rakjin::Krystal;
         generic3 = NULL;
     }
 
-    NodePacketMemberType::NodePacketMemberType(int _type, Node* _generic1, Node* _generic2) : Node()
+    NodePacketMemberType::NodePacketMemberType(Rakjin::Context* _context, int _type, Node* _generic1, Node* _generic2) : Node(_context)
     {
         typeType = _type;
         value = NULL;
@@ -256,7 +261,7 @@ using namespace Rakjin::Krystal;
         generic3 = NULL;
     }
 
-    NodePacketMemberType::NodePacketMemberType(int _type, Node* _generic1, Node* _generic2, Node* _generic3) : Node()
+    NodePacketMemberType::NodePacketMemberType(Rakjin::Context* _context, int _type, Node* _generic1, Node* _generic2, Node* _generic3) : Node(_context)
     {
         typeType = _type;
         value = NULL;
@@ -322,7 +327,7 @@ using namespace Rakjin::Krystal;
 // {
 //     string* value;
 //     public:
-    NodePacketMemberName::NodePacketMemberName(string* _value) : Node()
+    NodePacketMemberName::NodePacketMemberName(Rakjin::Context* _context, string* _value) : Node(_context)
     {
         value = _value;
     }
