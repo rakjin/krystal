@@ -51,7 +51,7 @@ namespace Rakjin {
 
 	bool Context::insertDeclaration(string* declarationName)
 	{
-		pair< map<string, int>::iterator, int > pr;
+		pair< map<string, int>::iterator, bool > pr;
 		pr = declarations->insert( map<string, int>::value_type(*declarationName, 0) );
 		return pr.second;
 	}
