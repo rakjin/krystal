@@ -21,6 +21,21 @@ packet test_P_A_C_K_E_T_02
 	map < map<QQQQ, QQQQ> , map<XXXX, list<bool>> > PACKET_MEMBER_7;
 }
 
+packet A
+{
+	B b;
+}
+
+packet B
+{
+	C c;
+}
+
+packet C
+{
+	int i;
+	//A a; //uncomment this to throw circular reference error
+}
 
 #include "test2.kst"
 

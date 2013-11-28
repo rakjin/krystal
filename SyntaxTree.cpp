@@ -141,6 +141,17 @@ using namespace Rakjin::Krystal;
         {
             referencingStack = new vector<Node*>();
         }
+        else // check circular reference
+        {
+            vector<Node*>::iterator end = referencingStack->end();
+            for (vector<Node*>::iterator i = referencingStack->begin(); i != end; i++)
+            {
+                if (*i == this)
+                {
+                    throw(runtime_error("Circular reference between packets"));
+                }
+            }
+        }
 
         referencingStack->push_back(this);
 
