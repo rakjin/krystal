@@ -4,6 +4,8 @@
 #include <map>
 #include <string>
 
+#include "SyntaxTree.h"
+
 using namespace std;
 
 namespace Rakjin {
@@ -25,18 +27,18 @@ namespace Rakjin {
 
 /* * * * * * * * * * * * * * * * * * * * 
  * Aaa.kst:
- *  #include Bbb.kst
- *  packet A { B b; };
+ *   #include Bbb.kst
+ *   packet A { B b; };
  * 
  * Bbb.kst:
- *  #include Ccc.kst
- *  packet B { C c; };
+ *   #include Ccc.kst
+ *   packet B { C c; };
  * 
  * Ccc.kst:
- *  packet C { int i; };
+ *   packet C { int i; };
  * 
  * this should work:
- * $krystal -cs Aaa.kst > Aaa.cs
+ *   $krystal -cs Aaa.kst > Aaa.cs
  * and hash change of packet C
  * should influence all the others' hash
  * even when processing Aaa.kst solely
