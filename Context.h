@@ -5,6 +5,7 @@
 #include <string>
 
 #include "SyntaxTree.h"
+	class Node;
 
 using namespace std;
 
@@ -18,7 +19,9 @@ namespace Rakjin
 			bool insertIncludedFile(string* fileName);
 			bool markIncludedFileAsProcessed(string* fileName);
 			string* getUnprocessedFileName();
+
 			bool insertDeclaration(string* declarationName, Node* node);
+			Node* getDeclarationNode(string* declarationName); // retreive Node* by declaration name from the table
 		private:
 			map<string, bool>* includedFiles; //table for INCLUDED_FILE_NAME as key and PROCESSED as value
 			map<string, Node*>* declarations; //table for DECLARATION_NAME(enums, packets) as key and Node* as value

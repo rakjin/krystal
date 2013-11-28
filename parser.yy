@@ -82,13 +82,13 @@ kst :
 	/* null */
 	{
 		std::list<Node*>* emptyCommands = new std::list<Node*>;
-		root = new NodeKst(emptyCommands, fileName);
+		root = new NodeKst(context, emptyCommands, fileName);
 		$$ = root;
 	}
 	|
 	commands
 	{
-		root = new NodeKst($1, fileName);
+		root = new NodeKst(context, $1, fileName);
 		$$ = root;
 	}
 
@@ -143,7 +143,7 @@ packet :
 		//	std::cout << "packet - member:" << *((*i)->getParsed()) << "\n";
 		//}
 
-		$$ = new NodePacket($2, $4);
+		$$ = new NodePacket(context, $2, $4);
 		//std::cout << *($$->getParsed()) << "\n";
 		bool success = context->insertDeclaration($2, $$);
 		if (success == false)
@@ -174,7 +174,7 @@ packet_members :
 packet_member :
 	packet_member_type packet_member_name SEMICOLON
 	{
-		$$ = new NodePacketMember($1, $2);
+		$$ = new NodePacketMember(context, $1, $2);
 		//std::cout << "packet_member: " << *($$->getParsed()) << "\n";
 	}
 
@@ -182,36 +182,36 @@ packet_member_type :
 	PRIMITIVE_DATA_TYPE
 	{
 		//std::cout << "packet_member_type: " << *$1 << "\n";
-		$$ = new NodePacketMemberType(token::PRIMITIVE_DATA_TYPE, $1);
+		$$ = new NodePacketMemberType(context, token::PRIMITIVE_DATA_TYPE, $1);
 	}
 	|
 	ID
 	{
-		$$ = new NodePacketMemberType(token::REFERENCE_DATA_TYPE, $1);
+		$$ = new NodePacketMemberType(context, token::REFERENCE_DATA_TYPE, $1);
 	}
 	|
 	LIST LT packet_member_type GT
 	{
-		$$ = new NodePacketMemberType(token::LIST, $3);
+		$$ = new NodePacketMemberType(context, token::LIST, $3);
 	}
 	|
 	MAP LT packet_member_type COMMA packet_member_type GT
 	{
-		$$ = new NodePacketMemberType(token::MAP, $3, $5);
+		$$ = new NodePacketMemberType(context, token::MAP, $3, $5);
 	}
 
 packet_member_name :
 	ID
 	{
 		//std::cout << "packet_member_name: " << *$1 << "\n";
-		$$ = new NodePacketMemberName($1);
+		$$ = new NodePacketMemberName(context, $1);
 	}
 
 include :
 	INCLUDE STRING_LITERAL
 	{
 		//std::cout << "include directive: " << *$2 << "\n";
-		$$ = new NodeInclude($2);
+		$$ = new NodeInclude(context, $2);
 		//std::cout << *($$->getParsed()) << "\n";
 		bool success = context->insertIncludedFile($2);
 		if (success == false && ALLOW_DUPLICATED_INCLUDE == false)

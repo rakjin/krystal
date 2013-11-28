@@ -1,35 +1,46 @@
 #include "SyntaxTree.h"
 
 #include <list>
+#include <vector>
 #include <sstream>
 #include <iostream>
 #include <stdexcept>
+#include <assert.h>
 
 #include <boost/format.hpp>
+
+#include "parser.tab.hh"
 
 #include "template.common.h"
 #include "template.cs.h"
 
+using namespace std;
+using namespace Rakjin::Krystal;
 
 // class Node
 // {
 // public:
+    Node::Node(Rakjin::Context* _context)
+    {
+        context = _context;
+    }
+
     Node::~Node()
     {
     }
 
     int Node::getType() { return 0; } //TODO: remove getType() if unnecessary
-    int Node::getHash() { return 0; }
-    std::string* Node::getParsed(int as) { return 0; }
+    size_t Node::getHash(vector<Node*>* referencingStack) { return 0; }
+    string* Node::getParsed(int as) { return 0; }
 
 // };
 
 // class NodeKst : public Node
 // {
-    // std::list<Node*>* commands;
-    // std::string* fileName;
+    // list<Node*>* commands;
+    // string* fileName;
     // public:
-    NodeKst::NodeKst(std::list<Node*>* _commands, std::string* _fileName) : Node()
+    NodeKst::NodeKst(Rakjin::Context* _context, list<Node*>* _commands, string* _fileName) : Node(_context)
     {
         commands = _commands;
         fileName = _fileName;
@@ -40,26 +51,26 @@
        return CsNodeType::kst;
     }
 
-    int NodeKst::getHash()
+    size_t NodeKst::getHash(vector<Node*>* referencingStack)
     {
         return 0;
     }
 
-    std::string* NodeKst::getParsed(int as)
+    string* NodeKst::getParsed(int as)
     {
-        std::stringstream parsed;
+        stringstream parsed;
 
         parsed << boost::format(TCS_HEADER) % *fileName;
         parsed << TCS_USINGS;
 
-        std::string namespaceByFileName = fileName->substr(0, fileName->find("."));
+        string namespaceByFileName = fileName->substr(0, fileName->find("."));
 
         parsed << boost::format(TCS_NAMESPACE_BEGIN) % namespaceByFileName;
 
-        std::list<Node*>::iterator i = commands->begin();
-        std::list<Node*>::iterator end = commands->end();
+        list<Node*>::iterator i = commands->begin();
+        list<Node*>::iterator end = commands->end();
 
-        std::string* temp;
+        string* temp;
 
         for (; i != end; ++i)
         {
@@ -73,15 +84,15 @@
 
         parsed << "\n\n";
 
-        return new std::string(parsed.str());
+        return new string(parsed.str());
     }
 // };
 
 // class NodeInclude : public Node
 // {
-//     std::string* value;
+//     string* value;
 //     public:
-    NodeInclude::NodeInclude(std::string* _value) : Node()
+    NodeInclude::NodeInclude(Rakjin::Context* _context, string* _value) : Node(_context)
     {
         value = _value;
     }
@@ -91,29 +102,29 @@
        return CsNodeType::include;
     }
 
-    int NodeInclude::getHash()
+    size_t NodeInclude::getHash(vector<Node*>* referencingStack)
     {
         return 0;
     }
 
-    std::string* NodeInclude::getParsed(int as)
+    string* NodeInclude::getParsed(int as)
     {
-        std::stringstream parsed;
+        stringstream parsed;
 
         parsed << "#include \"";
         parsed << *(value);
         parsed << "\"";
 
-        return new std::string(parsed.str());
+        return new string(parsed.str());
     }
 // };
 
 // class NodePacket : public Node
 // {
-//     std::string* packetName;
-//     std::list<Node*>* packetMembers;
+//     string* packetName;
+//     list<Node*>* packetMembers;
 //     public:
-    NodePacket::NodePacket(std::string* _packetName, std::list<Node*>* _packetMembers) : Node()
+    NodePacket::NodePacket(Rakjin::Context* _context, string* _packetName, list<Node*>* _packetMembers) : Node(_context)
     {
         packetName = _packetName;
         packetMembers = _packetMembers;
@@ -124,22 +135,52 @@
        return CsNodeType::packet;
     }
 
-    int NodePacket::getHash()
+    size_t NodePacket::getHash(vector<Node*>* referencingStack)
     {
-        return 0;
+        if (referencingStack == NULL)
+        {
+            referencingStack = new vector<Node*>();
+        }
+        else // check circular reference
+        {
+            vector<Node*>::iterator end = referencingStack->end();
+            for (vector<Node*>::iterator i = referencingStack->begin(); i != end; i++)
+            {
+                if (*i == this)
+                {
+                    throw(runtime_error("Circular reference between packets"));
+                }
+            }
+        }
+
+        referencingStack->push_back(this);
+
+        size_t packetHash = getHashCode(packetName);
+
+        list<Node*>::iterator i = packetMembers->begin();
+        list<Node*>::iterator end = packetMembers->end();
+        for (; i != end; ++i)
+        {
+            combineHashCode(packetHash, (*i)->getHash(referencingStack));
+        }
+
+        referencingStack->pop_back();
+
+        return packetHash;
     }
 
-    std::string* NodePacket::getParsed(int as)
+    string* NodePacket::getParsed(int as)
     {
-        std::stringstream parsed;
+        stringstream parsed;
 
         switch (as)
         {
             case CsParseAs::Default:
             {
                 parsed << boost::format(TCS_PACKET_BEGIN) % *packetName;
-                std::list<Node*>::iterator i = packetMembers->begin();
-                std::list<Node*>::iterator end = packetMembers->end();
+                parsed << "\t<temp> packet hash: " << getHash(NULL) << "\n";
+                list<Node*>::iterator i = packetMembers->begin();
+                list<Node*>::iterator end = packetMembers->end();
                 for (; i != end; ++i)
                 {
                     parsed << "\t" << *((*i)->getParsed(CsParseAs::Default));
@@ -149,7 +190,7 @@
             break;
         }
 
-        return new std::string(parsed.str());
+        return new string(parsed.str());
     }
 // };
 
@@ -158,7 +199,7 @@
 //     Node* memberType;
 //     Node* memberName;
 //     public:
-    NodePacketMember::NodePacketMember(Node* _memberType, Node* _memberName) : Node()
+    NodePacketMember::NodePacketMember(Rakjin::Context* _context, Node* _memberType, Node* _memberName) : Node(_context)
     {
         memberType = _memberType;
         memberName = _memberName;
@@ -169,14 +210,19 @@
        return CsNodeType::packetMember;
     }
 
-    int NodePacketMember::getHash()
+    size_t NodePacketMember::getHash(vector<Node*>* referencingStack)
     {
-        return 0;
+        assert(referencingStack != NULL);
+
+        size_t packetMemberHash = memberType->getHash(referencingStack);
+        combineHashCode(packetMemberHash, memberName->getHash(referencingStack));
+
+        return packetMemberHash;
     }
 
-    std::string* NodePacketMember::getParsed(int as)
+    string* NodePacketMember::getParsed(int as)
     {
-        std::stringstream parsed;
+        stringstream parsed;
 
         switch (as)
         {
@@ -189,19 +235,19 @@
             break;
         }
 
-        return new std::string(parsed.str());
+        return new string(parsed.str());
     }
 // };
 
 // class NodePacketMemberType : public Node
 // {
 //     int typeType; // one of PRIMITIVE_DATA_TYPE, REFERENCE_DATA_TYPE, MAP, LIST
-//     std::string* value; // "int", "bool", ..., "MyPacket", "Skill" or NULL when type is MAP or LIST
+//     string* value; // "int", "bool", ..., "MyPacket", "Skill" or NULL when type is MAP or LIST
 //     Node* generic1; // LIST<generic1>
 //     Node* generic2; // MAP <generic1, generic2>
 //     Node* generic3; // reserved
 //     public:
-    NodePacketMemberType::NodePacketMemberType(int _type, std::string* _value) : Node()
+    NodePacketMemberType::NodePacketMemberType(Rakjin::Context* _context, int _type, string* _value) : Node(_context)
     {
         typeType = _type;
         value = _value;
@@ -210,7 +256,7 @@
         generic3 = NULL;
     }
 
-    NodePacketMemberType::NodePacketMemberType(int _type, Node* _generic1) : Node()
+    NodePacketMemberType::NodePacketMemberType(Rakjin::Context* _context, int _type, Node* _generic1) : Node(_context)
     {
         typeType = _type;
         value = NULL;
@@ -219,7 +265,7 @@
         generic3 = NULL;
     }
 
-    NodePacketMemberType::NodePacketMemberType(int _type, Node* _generic1, Node* _generic2) : Node()
+    NodePacketMemberType::NodePacketMemberType(Rakjin::Context* _context, int _type, Node* _generic1, Node* _generic2) : Node(_context)
     {
         typeType = _type;
         value = NULL;
@@ -228,7 +274,7 @@
         generic3 = NULL;
     }
 
-    NodePacketMemberType::NodePacketMemberType(int _type, Node* _generic1, Node* _generic2, Node* _generic3) : Node()
+    NodePacketMemberType::NodePacketMemberType(Rakjin::Context* _context, int _type, Node* _generic1, Node* _generic2, Node* _generic3) : Node(_context)
     {
         typeType = _type;
         value = NULL;
@@ -242,49 +288,92 @@
        return CsNodeType::packetMemberType;
     }
 
-    int NodePacketMemberType::getHash()
+    size_t NodePacketMemberType::getHash(vector<Node*>* referencingStack)
     {
-        return 0;
+        assert(referencingStack != NULL);
+
+        size_t packetMemberTypeHash = 0;
+        switch(typeType)
+        {
+            case Parser::token::PRIMITIVE_DATA_TYPE:
+            {
+                packetMemberTypeHash = getHashCode(value);
+            }
+            break;
+
+            case Parser::token::REFERENCE_DATA_TYPE:
+            {
+                // lookup Context::declarations table
+                Node* typePacketNode = context->getDeclarationNode(value);
+                if (typePacketNode == NULL)
+                {
+                    throw(runtime_error("No such packet type."));
+                }
+                packetMemberTypeHash = typePacketNode->getHash(referencingStack);
+            }
+            break;
+
+            case Parser::token::MAP:
+            {
+                // must be specified this is map type
+                // in case of other generic<t1, t2> added.
+                packetMemberTypeHash = getHashCode((int)Parser::token::MAP);
+                combineHashCode(packetMemberTypeHash, generic1->getHash(referencingStack));
+                combineHashCode(packetMemberTypeHash, generic2->getHash(referencingStack));
+            }
+            break;
+
+            case Parser::token::LIST:
+            {
+                // must be specified this is list type
+                // in case of other generic<t> added.
+                packetMemberTypeHash = getHashCode((int)Parser::token::LIST);
+                combineHashCode(packetMemberTypeHash, generic1->getHash(referencingStack));
+            }
+            break;
+        }
+
+        return packetMemberTypeHash;
     }
 
-    std::string* NodePacketMemberType::getParsed(int as)
+    string* NodePacketMemberType::getParsed(int as)
     {
-        std::stringstream parsed;
+        stringstream parsed;
 
         switch (typeType) {
 
-            case Rakjin::Krystal::Parser::token::PRIMITIVE_DATA_TYPE:
+            case Parser::token::PRIMITIVE_DATA_TYPE:
             parsed << *value;
             break;
 
-            case Rakjin::Krystal::Parser::token::REFERENCE_DATA_TYPE:
+            case Parser::token::REFERENCE_DATA_TYPE:
             parsed << *value;
             break;
 
-            case Rakjin::Krystal::Parser::token::MAP:
+            case Parser::token::MAP:
             parsed << "Dictionary";
             parsed << "<" << *(generic1->getParsed(CsParseAs::Default)) << ", " << *(generic2->getParsed(CsParseAs::Default)) << ">";
             break;
 
-            case Rakjin::Krystal::Parser::token::LIST:
+            case Parser::token::LIST:
             parsed << "List";
             parsed << "<" << *(generic1->getParsed(CsParseAs::Default)) << ">";
             break;
 
             default:
-            throw(std::runtime_error("Unknown NodePacketMemberType type."));
+            throw(runtime_error("Unknown NodePacketMemberType type."));
             break;
         }
 
-        return new std::string(parsed.str());
+        return new string(parsed.str());
     }
 // };
 
 // class NodePacketMemberName : public Node
 // {
-//     std::string* value;
+//     string* value;
 //     public:
-    NodePacketMemberName::NodePacketMemberName(std::string* _value) : Node()
+    NodePacketMemberName::NodePacketMemberName(Rakjin::Context* _context, string* _value) : Node(_context)
     {
         value = _value;
     }
@@ -294,12 +383,13 @@
        return CsNodeType::packetMemberName;
     }
 
-    int NodePacketMemberName::getHash()
+    size_t NodePacketMemberName::getHash(vector<Node*>* referencingStack)
     {
-        return 0;
+        size_t packetMemberNameHash = getHashCode(value);
+        return packetMemberNameHash;
     }
 
-    std::string* NodePacketMemberName::getParsed(int as)
+    string* NodePacketMemberName::getParsed(int as)
     {
        return value;
     }

@@ -2,9 +2,15 @@
 #define SYNTAXTREE_H
 
 #include <list>
+#include <vector>
 #include <sstream>
 #include <iostream>
 #include <stdexcept>
+
+#include "Context.h"
+    namespace Rakjin { class Context; }
+
+using namespace std;
 
 class Node;
 
@@ -18,43 +24,47 @@ class NodeKst;
 
 class Node
 {
+    protected:
+    Rakjin::Context* context;
+    
     public:
+    Node(Rakjin::Context* _context);
     virtual ~Node();
     virtual int getType(); //TODO: remove getType() if unnecessary
-    virtual int getHash();
-    virtual std::string* getParsed(int as);
+    virtual size_t getHash(vector<Node*>* referencingStack);
+    virtual string* getParsed(int as);
 };
 
 class NodeKst : public Node
 {
-    std::list<Node*>* commands;
-    std::string* fileName;
+    list<Node*>* commands;
+    string* fileName;
     public:
-    explicit NodeKst(std::list<Node*>* _commands, std::string* fileName);
+    explicit NodeKst(Rakjin::Context* _context, list<Node*>* _commands, string* fileName);
     virtual int getType();
-    virtual int getHash();
-    virtual std::string* getParsed(int as);
+    virtual size_t getHash(vector<Node*>* referencingStack);
+    virtual string* getParsed(int as);
 };
 
 class NodeInclude : public Node
 {
-    std::string* value;
+    string* value;
     public:
-    explicit NodeInclude(std::string* _value);
+    explicit NodeInclude(Rakjin::Context* _context, string* _value);
     virtual int getType();
-    virtual int getHash();
-    virtual std::string* getParsed(int as);
+    virtual size_t getHash(vector<Node*>* referencingStack);
+    virtual string* getParsed(int as);
 };
 
 class NodePacket : public Node
 {
-    std::string* packetName;
-    std::list<Node*>* packetMembers;
+    string* packetName;
+    list<Node*>* packetMembers;
     public:
-    explicit NodePacket(std::string* _packetName, std::list<Node*>* _packetMembers);
+    explicit NodePacket(Rakjin::Context* _context, string* _packetName, list<Node*>* _packetMembers);
     virtual int getType();
-    virtual int getHash();
-    virtual std::string* getParsed(int as);
+    virtual size_t getHash(vector<Node*>* referencingStack);
+    virtual string* getParsed(int as);
 };
 
 class NodePacketMember : public Node
@@ -62,37 +72,37 @@ class NodePacketMember : public Node
     Node* memberType;
     Node* memberName;
     public:
-    explicit NodePacketMember(Node* _memberType, Node* _memberName);
+    explicit NodePacketMember(Rakjin::Context* _context, Node* _memberType, Node* _memberName);
     virtual int getType();
-    virtual int getHash();
-    virtual std::string* getParsed(int as);
+    virtual size_t getHash(vector<Node*>* referencingStack);
+    virtual string* getParsed(int as);
 };
 
 class NodePacketMemberType : public Node
 {
     int typeType; // one of PRIMITIVE_DATA_TYPE, REFERENCE_DATA_TYPE, MAP, LIST
-    std::string* value; // "int", "bool", ..., "MyPacket", "Skill" or NULL when type is MAP or LIST
+    string* value; // "int", "bool", ..., "MyPacket", "Skill" or NULL when type is MAP or LIST
     Node* generic1; // LIST<generic1>
     Node* generic2; // MAP <generic1, generic2>
     Node* generic3; // reserved
     public:
-    explicit NodePacketMemberType(int _type, std::string* _value);
-    explicit NodePacketMemberType(int _type, Node* _generic1);
-    explicit NodePacketMemberType(int _type, Node* _generic1, Node* _generic2);
-    explicit NodePacketMemberType(int _type, Node* _generic1, Node* _generic2, Node* _generic3);
+    explicit NodePacketMemberType(Rakjin::Context* _context, int _type, string* _value);
+    explicit NodePacketMemberType(Rakjin::Context* _context, int _type, Node* _generic1);
+    explicit NodePacketMemberType(Rakjin::Context* _context, int _type, Node* _generic1, Node* _generic2);
+    explicit NodePacketMemberType(Rakjin::Context* _context, int _type, Node* _generic1, Node* _generic2, Node* _generic3);
     virtual int getType();
-    virtual int getHash();
-    virtual std::string* getParsed(int as);
+    virtual size_t getHash(vector<Node*>* referencingStack);
+    virtual string* getParsed(int as);
 };
 
 class NodePacketMemberName : public Node
 {
-    std::string* value;
+    string* value;
     public:
-    explicit NodePacketMemberName(std::string* _value);
+    explicit NodePacketMemberName(Rakjin::Context* _context, string* _value);
     virtual int getType();
-    virtual int getHash();
-    virtual std::string* getParsed(int as);
+    virtual size_t getHash(vector<Node*>* referencingStack);
+    virtual string* getParsed(int as);
 };
 
 
