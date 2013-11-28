@@ -5,6 +5,7 @@
 #include <string>
 
 #include "SyntaxTree.h"
+	class Node;
 
 using namespace std;
 

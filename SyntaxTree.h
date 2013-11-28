@@ -7,6 +7,9 @@
 #include <iostream>
 #include <stdexcept>
 
+#include "Context.h"
+    namespace Rakjin { class Context; }
+
 using namespace std;
 
 class Node;
