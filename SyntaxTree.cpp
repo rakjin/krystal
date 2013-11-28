@@ -136,9 +136,13 @@ using namespace std;
         referencingStack->push_back(this);
 
         size_t packetHash = getHashCode(packetName);
-        cout << "packetHash: " << packetHash << "\n";
-        // TODO: iterate packet members and get each hash
-        // TODO: combine all the hashes
+
+        list<Node*>::iterator i = packetMembers->begin();
+        list<Node*>::iterator end = packetMembers->end();
+        for (; i != end; ++i)
+        {
+            combineHashCode(packetHash, (*i)->getHash(referencingStack));
+        }
 
         return (int)packetHash;
     }

@@ -20,4 +20,9 @@ std::size_t getHashCode(std::string* str)
 	return str_hash(*str);
 }
 
+void combineHashCode(std::size_t &targetHash, int additionalIntHash)
+{
+	boost::hash_combine(targetHash, additionalIntHash);
+}
+
 #endif //TEMPLATE_COMMON_H
