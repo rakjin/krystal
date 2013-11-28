@@ -14,10 +14,15 @@ std::string* indent(std::string* src)
 }
 
 boost::hash<std::string> str_hash;
-
 std::size_t getHashCode(std::string* str)
 {	
 	return str_hash(*str);
+}
+
+boost::hash<int> int_hash;
+std::size_t getHashCode(int intValue)
+{	
+	return int_hash(intValue);
 }
 
 void combineHashCode(std::size_t &targetHash, std::size_t additionalHash)

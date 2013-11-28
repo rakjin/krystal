@@ -317,7 +317,7 @@ using namespace Rakjin::Krystal;
             {
                 // must be specified this is map type
                 // in case of other generic<t1, t2> added.
-                packetMemberTypeHash = getHashCode(new string("map")); // <temp> new string should be const something
+                packetMemberTypeHash = getHashCode((int)Parser::token::MAP);
                 combineHashCode(packetMemberTypeHash, generic1->getHash(referencingStack));
                 combineHashCode(packetMemberTypeHash, generic2->getHash(referencingStack));
             }
@@ -327,7 +327,7 @@ using namespace Rakjin::Krystal;
             {
                 // must be specified this is list type
                 // in case of other generic<t> added.
-                packetMemberTypeHash = getHashCode(new string("list")); // <temp> new string should be const something
+                packetMemberTypeHash = getHashCode((int)Parser::token::LIST);
                 combineHashCode(packetMemberTypeHash, generic1->getHash(referencingStack));
             }
             break;
