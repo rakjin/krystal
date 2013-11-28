@@ -13,8 +13,7 @@ namespace Rakjin {
 	class KstFile {
 		public:
 			// can instantiate with either a file name or an already open stream
-			inline explicit KstFile(const char * const fileName, Context &_context) throw(string);
-			inline explicit KstFile(istream &kstStream, Context &_context) throw(string);
+			inline explicit KstFile(string* fileName, Context &_context) throw(string);
 
 			// Get a value from section and key
 			string* getParsed();
@@ -35,8 +34,8 @@ namespace Rakjin {
 	/**
 	 * Open and parse a file
 	 */
-	KstFile::KstFile(const char * const fileName, Context &_context) throw(string) {
-		ifstream inFile(fileName);
+	KstFile::KstFile(string* fileName, Context &_context) throw(string) {
+		ifstream inFile(fileName->c_str());
 		if (!inFile.good()) {
 			throw string("Unable to open file");
 		}
@@ -45,7 +44,7 @@ namespace Rakjin {
 
 		Krystal::Scanner scanner(&inFile);
 		root = NULL;
-		Krystal::Parser parser(scanner, root, new string(fileName), context);
+		Krystal::Parser parser(scanner, root, fileName, context);
 		parser.parse();
 	}
 

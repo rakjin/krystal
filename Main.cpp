@@ -30,7 +30,7 @@ int main(int argc, char * argv[]) {
 		try
 		{
 			// parse file and fill context
-			kstFile = new Rakjin::KstFile(fileNameToProcess->c_str(), context);
+			kstFile = new Rakjin::KstFile(fileNameToProcess, context);
 		}
 		catch (string error)
 		{
