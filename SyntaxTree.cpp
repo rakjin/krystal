@@ -20,7 +20,7 @@ using namespace std;
     }
 
     int Node::getType() { return 0; } //TODO: remove getType() if unnecessary
-    int Node::getHash(list<Node*> referencingStack) { return 0; }
+    int Node::getHash(list<Node*>* referencingStack) { return 0; }
     string* Node::getParsed(int as) { return 0; }
 
 // };
@@ -41,7 +41,7 @@ using namespace std;
        return CsNodeType::kst;
     }
 
-    int NodeKst::getHash(list<Node*> referencingStack)
+    int NodeKst::getHash(list<Node*>* referencingStack)
     {
         return 0;
     }
@@ -92,7 +92,7 @@ using namespace std;
        return CsNodeType::include;
     }
 
-    int NodeInclude::getHash(list<Node*> referencingStack)
+    int NodeInclude::getHash(list<Node*>* referencingStack)
     {
         return 0;
     }
@@ -125,7 +125,7 @@ using namespace std;
        return CsNodeType::packet;
     }
 
-    int NodePacket::getHash(list<Node*> referencingStack)
+    int NodePacket::getHash(list<Node*>* referencingStack)
     {
         return 0;
     }
@@ -170,7 +170,7 @@ using namespace std;
        return CsNodeType::packetMember;
     }
 
-    int NodePacketMember::getHash(list<Node*> referencingStack)
+    int NodePacketMember::getHash(list<Node*>* referencingStack)
     {
         return 0;
     }
@@ -243,7 +243,7 @@ using namespace std;
        return CsNodeType::packetMemberType;
     }
 
-    int NodePacketMemberType::getHash(list<Node*> referencingStack)
+    int NodePacketMemberType::getHash(list<Node*>* referencingStack)
     {
         return 0;
     }
@@ -295,7 +295,7 @@ using namespace std;
        return CsNodeType::packetMemberName;
     }
 
-    int NodePacketMemberName::getHash(list<Node*> referencingStack)
+    int NodePacketMemberName::getHash(list<Node*>* referencingStack)
     {
         return 0;
     }

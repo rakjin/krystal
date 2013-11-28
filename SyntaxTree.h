@@ -23,7 +23,7 @@ class Node
     public:
     virtual ~Node();
     virtual int getType(); //TODO: remove getType() if unnecessary
-    virtual int getHash(list<Node*> referencingStack);
+    virtual int getHash(list<Node*>* referencingStack);
     virtual string* getParsed(int as);
 };
 
@@ -34,7 +34,7 @@ class NodeKst : public Node
     public:
     explicit NodeKst(list<Node*>* _commands, string* fileName);
     virtual int getType();
-    virtual int getHash(list<Node*> referencingStack);
+    virtual int getHash(list<Node*>* referencingStack);
     virtual string* getParsed(int as);
 };
 
@@ -44,7 +44,7 @@ class NodeInclude : public Node
     public:
     explicit NodeInclude(string* _value);
     virtual int getType();
-    virtual int getHash(list<Node*> referencingStack);
+    virtual int getHash(list<Node*>* referencingStack);
     virtual string* getParsed(int as);
 };
 
@@ -55,7 +55,7 @@ class NodePacket : public Node
     public:
     explicit NodePacket(string* _packetName, list<Node*>* _packetMembers);
     virtual int getType();
-    virtual int getHash(list<Node*> referencingStack);
+    virtual int getHash(list<Node*>* referencingStack);
     virtual string* getParsed(int as);
 };
 
@@ -66,7 +66,7 @@ class NodePacketMember : public Node
     public:
     explicit NodePacketMember(Node* _memberType, Node* _memberName);
     virtual int getType();
-    virtual int getHash(list<Node*> referencingStack);
+    virtual int getHash(list<Node*>* referencingStack);
     virtual string* getParsed(int as);
 };
 
@@ -83,7 +83,7 @@ class NodePacketMemberType : public Node
     explicit NodePacketMemberType(int _type, Node* _generic1, Node* _generic2);
     explicit NodePacketMemberType(int _type, Node* _generic1, Node* _generic2, Node* _generic3);
     virtual int getType();
-    virtual int getHash(list<Node*> referencingStack);
+    virtual int getHash(list<Node*>* referencingStack);
     virtual string* getParsed(int as);
 };
 
@@ -93,7 +93,7 @@ class NodePacketMemberName : public Node
     public:
     explicit NodePacketMemberName(string* _value);
     virtual int getType();
-    virtual int getHash(list<Node*> referencingStack);
+    virtual int getHash(list<Node*>* referencingStack);
     virtual string* getParsed(int as);
 };
 
