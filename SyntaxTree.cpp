@@ -135,7 +135,10 @@ using namespace std;
 
         referencingStack->push_back(this);
 
-        //int hashFromPacketName = 
+        int packetNameHash = getHashCode(packetName);
+        cout << "packetNameHash: " << packetNameHash << "\n";
+        // TODO: iterate packet members and get each hash
+        // TODO: combine all the hashes
 
         return 0;
     }
