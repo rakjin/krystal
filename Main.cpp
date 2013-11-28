@@ -23,27 +23,30 @@ int main(int argc, char * argv[]) {
 	context.insertIncludedFile(fileNameFromArg);
 
 	Rakjin::KstFile* kstFile = NULL;
-	string* fileNameToProcess = context.getUnprocessedFileName();
+	string* fileNameToProcess = NULL;
 
-	do
+	try
 	{
-		try
-		{
-			// parse file and fill context
-			kstFile = new Rakjin::KstFile(fileNameToProcess, context);
-		}
-		catch (string error)
-		{
-			cerr << "ERROR: " << error << endl;
-			return 255;
-		}
+		// process file from argument
+		kstFile = new Rakjin::KstFile(fileNameFromArg, context);
+		context.markIncludedFileAsProcessed(fileNameFromArg);
 
-		context.markIncludedFileAsProcessed(fileNameToProcess);
-		fileNameToProcess = context.getUnprocessedFileName();
+		// process including files if any
+		for(fileNameToProcess = context.getUnprocessedFileName();
+			fileNameToProcess != NULL;
+			fileNameToProcess = context.getUnprocessedFileName())
+		{
+			new Rakjin::KstFile(fileNameToProcess, context);
+			context.markIncludedFileAsProcessed(fileNameToProcess);
+		}
 	}
-	while(fileNameToProcess != NULL);
+	catch (string error)
+	{
+		cerr << "ERROR: " << error << endl;
+		return 255;
+	}
 
-	cout << *(kstFile->getParsed()); // the last parsed
+	cout << *(kstFile->getParsed()); // the first parsed
 
     delete kstFile;
 	return 0;
