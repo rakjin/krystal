@@ -285,6 +285,16 @@ using namespace Rakjin::Krystal;
             case Parser::token::PRIMITIVE_DATA_TYPE:
             packetMemberTypeHash = getHashCode(value);
             break;
+
+            case Parser::token::REFERENCE_DATA_TYPE:
+            // lookup Context::declarations table
+            Node* typePacketNode = context->getDeclarationNode(value);
+            if (typePacketNode == NULL)
+            {
+                throw(runtime_error("No such packet type."));
+            }
+            packetMemberTypeHash = typePacketNode->getHash(referencingStack);
+            break;            
         }
 
         return packetMemberTypeHash;
