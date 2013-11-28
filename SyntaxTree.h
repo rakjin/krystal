@@ -6,6 +6,8 @@
 #include <iostream>
 #include <stdexcept>
 
+using namespace std;
+
 class Node;
 
 class NodeKst;
@@ -21,40 +23,40 @@ class Node
     public:
     virtual ~Node();
     virtual int getType(); //TODO: remove getType() if unnecessary
-    virtual int getHash();
-    virtual std::string* getParsed(int as);
+    virtual int getHash(list<Node*> referencingStack);
+    virtual string* getParsed(int as);
 };
 
 class NodeKst : public Node
 {
-    std::list<Node*>* commands;
-    std::string* fileName;
+    list<Node*>* commands;
+    string* fileName;
     public:
-    explicit NodeKst(std::list<Node*>* _commands, std::string* fileName);
+    explicit NodeKst(list<Node*>* _commands, string* fileName);
     virtual int getType();
-    virtual int getHash();
-    virtual std::string* getParsed(int as);
+    virtual int getHash(list<Node*> referencingStack);
+    virtual string* getParsed(int as);
 };
 
 class NodeInclude : public Node
 {
-    std::string* value;
+    string* value;
     public:
-    explicit NodeInclude(std::string* _value);
+    explicit NodeInclude(string* _value);
     virtual int getType();
-    virtual int getHash();
-    virtual std::string* getParsed(int as);
+    virtual int getHash(list<Node*> referencingStack);
+    virtual string* getParsed(int as);
 };
 
 class NodePacket : public Node
 {
-    std::string* packetName;
-    std::list<Node*>* packetMembers;
+    string* packetName;
+    list<Node*>* packetMembers;
     public:
-    explicit NodePacket(std::string* _packetName, std::list<Node*>* _packetMembers);
+    explicit NodePacket(string* _packetName, list<Node*>* _packetMembers);
     virtual int getType();
-    virtual int getHash();
-    virtual std::string* getParsed(int as);
+    virtual int getHash(list<Node*> referencingStack);
+    virtual string* getParsed(int as);
 };
 
 class NodePacketMember : public Node
@@ -64,35 +66,35 @@ class NodePacketMember : public Node
     public:
     explicit NodePacketMember(Node* _memberType, Node* _memberName);
     virtual int getType();
-    virtual int getHash();
-    virtual std::string* getParsed(int as);
+    virtual int getHash(list<Node*> referencingStack);
+    virtual string* getParsed(int as);
 };
 
 class NodePacketMemberType : public Node
 {
     int typeType; // one of PRIMITIVE_DATA_TYPE, REFERENCE_DATA_TYPE, MAP, LIST
-    std::string* value; // "int", "bool", ..., "MyPacket", "Skill" or NULL when type is MAP or LIST
+    string* value; // "int", "bool", ..., "MyPacket", "Skill" or NULL when type is MAP or LIST
     Node* generic1; // LIST<generic1>
     Node* generic2; // MAP <generic1, generic2>
     Node* generic3; // reserved
     public:
-    explicit NodePacketMemberType(int _type, std::string* _value);
+    explicit NodePacketMemberType(int _type, string* _value);
     explicit NodePacketMemberType(int _type, Node* _generic1);
     explicit NodePacketMemberType(int _type, Node* _generic1, Node* _generic2);
     explicit NodePacketMemberType(int _type, Node* _generic1, Node* _generic2, Node* _generic3);
     virtual int getType();
-    virtual int getHash();
-    virtual std::string* getParsed(int as);
+    virtual int getHash(list<Node*> referencingStack);
+    virtual string* getParsed(int as);
 };
 
 class NodePacketMemberName : public Node
 {
-    std::string* value;
+    string* value;
     public:
-    explicit NodePacketMemberName(std::string* _value);
+    explicit NodePacketMemberName(string* _value);
     virtual int getType();
-    virtual int getHash();
-    virtual std::string* getParsed(int as);
+    virtual int getHash(list<Node*> referencingStack);
+    virtual string* getParsed(int as);
 };
 
 

@@ -10,6 +10,7 @@
 #include "template.common.h"
 #include "template.cs.h"
 
+using namespace std;
 
 // class Node
 // {
@@ -19,17 +20,17 @@
     }
 
     int Node::getType() { return 0; } //TODO: remove getType() if unnecessary
-    int Node::getHash() { return 0; }
-    std::string* Node::getParsed(int as) { return 0; }
+    int Node::getHash(list<Node*> referencingStack) { return 0; }
+    string* Node::getParsed(int as) { return 0; }
 
 // };
 
 // class NodeKst : public Node
 // {
-    // std::list<Node*>* commands;
-    // std::string* fileName;
+    // list<Node*>* commands;
+    // string* fileName;
     // public:
-    NodeKst::NodeKst(std::list<Node*>* _commands, std::string* _fileName) : Node()
+    NodeKst::NodeKst(list<Node*>* _commands, string* _fileName) : Node()
     {
         commands = _commands;
         fileName = _fileName;
@@ -40,26 +41,26 @@
        return CsNodeType::kst;
     }
 
-    int NodeKst::getHash()
+    int NodeKst::getHash(list<Node*> referencingStack)
     {
         return 0;
     }
 
-    std::string* NodeKst::getParsed(int as)
+    string* NodeKst::getParsed(int as)
     {
-        std::stringstream parsed;
+        stringstream parsed;
 
         parsed << boost::format(TCS_HEADER) % *fileName;
         parsed << TCS_USINGS;
 
-        std::string namespaceByFileName = fileName->substr(0, fileName->find("."));
+        string namespaceByFileName = fileName->substr(0, fileName->find("."));
 
         parsed << boost::format(TCS_NAMESPACE_BEGIN) % namespaceByFileName;
 
-        std::list<Node*>::iterator i = commands->begin();
-        std::list<Node*>::iterator end = commands->end();
+        list<Node*>::iterator i = commands->begin();
+        list<Node*>::iterator end = commands->end();
 
-        std::string* temp;
+        string* temp;
 
         for (; i != end; ++i)
         {
@@ -73,15 +74,15 @@
 
         parsed << "\n\n";
 
-        return new std::string(parsed.str());
+        return new string(parsed.str());
     }
 // };
 
 // class NodeInclude : public Node
 // {
-//     std::string* value;
+//     string* value;
 //     public:
-    NodeInclude::NodeInclude(std::string* _value) : Node()
+    NodeInclude::NodeInclude(string* _value) : Node()
     {
         value = _value;
     }
@@ -91,29 +92,29 @@
        return CsNodeType::include;
     }
 
-    int NodeInclude::getHash()
+    int NodeInclude::getHash(list<Node*> referencingStack)
     {
         return 0;
     }
 
-    std::string* NodeInclude::getParsed(int as)
+    string* NodeInclude::getParsed(int as)
     {
-        std::stringstream parsed;
+        stringstream parsed;
 
         parsed << "#include \"";
         parsed << *(value);
         parsed << "\"";
 
-        return new std::string(parsed.str());
+        return new string(parsed.str());
     }
 // };
 
 // class NodePacket : public Node
 // {
-//     std::string* packetName;
-//     std::list<Node*>* packetMembers;
+//     string* packetName;
+//     list<Node*>* packetMembers;
 //     public:
-    NodePacket::NodePacket(std::string* _packetName, std::list<Node*>* _packetMembers) : Node()
+    NodePacket::NodePacket(string* _packetName, list<Node*>* _packetMembers) : Node()
     {
         packetName = _packetName;
         packetMembers = _packetMembers;
@@ -124,22 +125,22 @@
        return CsNodeType::packet;
     }
 
-    int NodePacket::getHash()
+    int NodePacket::getHash(list<Node*> referencingStack)
     {
         return 0;
     }
 
-    std::string* NodePacket::getParsed(int as)
+    string* NodePacket::getParsed(int as)
     {
-        std::stringstream parsed;
+        stringstream parsed;
 
         switch (as)
         {
             case CsParseAs::Default:
             {
                 parsed << boost::format(TCS_PACKET_BEGIN) % *packetName;
-                std::list<Node*>::iterator i = packetMembers->begin();
-                std::list<Node*>::iterator end = packetMembers->end();
+                list<Node*>::iterator i = packetMembers->begin();
+                list<Node*>::iterator end = packetMembers->end();
                 for (; i != end; ++i)
                 {
                     parsed << "\t" << *((*i)->getParsed(CsParseAs::Default));
@@ -149,7 +150,7 @@
             break;
         }
 
-        return new std::string(parsed.str());
+        return new string(parsed.str());
     }
 // };
 
@@ -169,14 +170,14 @@
        return CsNodeType::packetMember;
     }
 
-    int NodePacketMember::getHash()
+    int NodePacketMember::getHash(list<Node*> referencingStack)
     {
         return 0;
     }
 
-    std::string* NodePacketMember::getParsed(int as)
+    string* NodePacketMember::getParsed(int as)
     {
-        std::stringstream parsed;
+        stringstream parsed;
 
         switch (as)
         {
@@ -189,19 +190,19 @@
             break;
         }
 
-        return new std::string(parsed.str());
+        return new string(parsed.str());
     }
 // };
 
 // class NodePacketMemberType : public Node
 // {
 //     int typeType; // one of PRIMITIVE_DATA_TYPE, REFERENCE_DATA_TYPE, MAP, LIST
-//     std::string* value; // "int", "bool", ..., "MyPacket", "Skill" or NULL when type is MAP or LIST
+//     string* value; // "int", "bool", ..., "MyPacket", "Skill" or NULL when type is MAP or LIST
 //     Node* generic1; // LIST<generic1>
 //     Node* generic2; // MAP <generic1, generic2>
 //     Node* generic3; // reserved
 //     public:
-    NodePacketMemberType::NodePacketMemberType(int _type, std::string* _value) : Node()
+    NodePacketMemberType::NodePacketMemberType(int _type, string* _value) : Node()
     {
         typeType = _type;
         value = _value;
@@ -242,14 +243,14 @@
        return CsNodeType::packetMemberType;
     }
 
-    int NodePacketMemberType::getHash()
+    int NodePacketMemberType::getHash(list<Node*> referencingStack)
     {
         return 0;
     }
 
-    std::string* NodePacketMemberType::getParsed(int as)
+    string* NodePacketMemberType::getParsed(int as)
     {
-        std::stringstream parsed;
+        stringstream parsed;
 
         switch (typeType) {
 
@@ -272,19 +273,19 @@
             break;
 
             default:
-            throw(std::runtime_error("Unknown NodePacketMemberType type."));
+            throw(runtime_error("Unknown NodePacketMemberType type."));
             break;
         }
 
-        return new std::string(parsed.str());
+        return new string(parsed.str());
     }
 // };
 
 // class NodePacketMemberName : public Node
 // {
-//     std::string* value;
+//     string* value;
 //     public:
-    NodePacketMemberName::NodePacketMemberName(std::string* _value) : Node()
+    NodePacketMemberName::NodePacketMemberName(string* _value) : Node()
     {
         value = _value;
     }
@@ -294,12 +295,12 @@
        return CsNodeType::packetMemberName;
     }
 
-    int NodePacketMemberName::getHash()
+    int NodePacketMemberName::getHash(list<Node*> referencingStack)
     {
         return 0;
     }
 
-    std::string* NodePacketMemberName::getParsed(int as)
+    string* NodePacketMemberName::getParsed(int as)
     {
        return value;
     }
