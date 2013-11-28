@@ -59,5 +59,16 @@ namespace Rakjin
 		return pr.second;
 	}
 	
+	Node* Context::getDeclarationNode(string* declarationName)
+	{
+		map<string, Node*>::iterator findIterator = declarations->find(*declarationName);
+
+		if (findIterator != declarations->end())
+		{
+			return findIterator->second;
+		}
+
+		return NULL;
+	}
 }
 
