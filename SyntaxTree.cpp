@@ -128,6 +128,15 @@ using namespace std;
 
     int NodePacket::getHash(vector<Node*>* referencingStack)
     {
+        if (referencingStack == NULL)
+        {
+            referencingStack = new vector<Node*>();
+        }
+
+        referencingStack->push_back(this);
+
+        //int hashFromPacketName = 
+
         return 0;
     }
 
