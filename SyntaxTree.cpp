@@ -15,6 +15,7 @@
 #include "template.cs.h"
 
 using namespace std;
+using namespace Rakjin::Krystal;
 
 // class Node
 // {
@@ -276,7 +277,7 @@ using namespace std;
         size_t packetMemberTypeHash = 0;
         switch(typeType)
         {
-            case Rakjin::Krystal::Parser::token::PRIMITIVE_DATA_TYPE:
+            case Parser::token::PRIMITIVE_DATA_TYPE:
             packetMemberTypeHash = getHashCode(value);
             break;
         }
@@ -290,20 +291,20 @@ using namespace std;
 
         switch (typeType) {
 
-            case Rakjin::Krystal::Parser::token::PRIMITIVE_DATA_TYPE:
+            case Parser::token::PRIMITIVE_DATA_TYPE:
             parsed << *value;
             break;
 
-            case Rakjin::Krystal::Parser::token::REFERENCE_DATA_TYPE:
+            case Parser::token::REFERENCE_DATA_TYPE:
             parsed << *value;
             break;
 
-            case Rakjin::Krystal::Parser::token::MAP:
+            case Parser::token::MAP:
             parsed << "Dictionary";
             parsed << "<" << *(generic1->getParsed(CsParseAs::Default)) << ", " << *(generic2->getParsed(CsParseAs::Default)) << ">";
             break;
 
-            case Rakjin::Krystal::Parser::token::LIST:
+            case Parser::token::LIST:
             parsed << "List";
             parsed << "<" << *(generic1->getParsed(CsParseAs::Default)) << ">";
             break;
