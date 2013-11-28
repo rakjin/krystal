@@ -145,7 +145,7 @@ using namespace std;
             combineHashCode(packetHash, (*i)->getHash(referencingStack));
         }
 
-        return (int)packetHash;
+        return (int) packetHash;
     }
 
     string* NodePacket::getParsed(int as)
@@ -193,7 +193,10 @@ using namespace std;
     {
         assert(referencingStack != NULL);
 
-        return 0;
+        size_t packetMemberHash = memberType->getHash(referencingStack);
+        combineHashCode(packetMemberHash, memberName->getHash(referencingStack));
+
+        return (int) packetMemberHash;
     }
 
     string* NodePacketMember::getParsed(int as)
