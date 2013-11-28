@@ -7,7 +7,7 @@ packet TestPacket01 {
 	bool PACKET_MEMBER_2;
 	uint PACKET_MEMBER_3;
 	Test2 packetAcrossTheFile;
-	//Test2 wrongDetectionOfCircularReference; //uncomment this to throw wrong detection of circular reference
+	Test2 wrongDetectionOfCircularReference; //uncomment this to throw wrong detection of circular reference
 }
 
 packet test_P_A_C_K_E_T_02

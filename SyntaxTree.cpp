@@ -164,6 +164,8 @@ using namespace Rakjin::Krystal;
             combineHashCode(packetHash, (*i)->getHash(referencingStack));
         }
 
+        referencingStack->pop_back();
+
         return packetHash;
     }
 
