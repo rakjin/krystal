@@ -135,12 +135,12 @@ using namespace std;
 
         referencingStack->push_back(this);
 
-        int packetHash = getHashCode(packetName);
+        size_t packetHash = getHashCode(packetName);
         cout << "packetHash: " << packetHash << "\n";
         // TODO: iterate packet members and get each hash
         // TODO: combine all the hashes
 
-        return packetHash;
+        return (int)packetHash;
     }
 
     string* NodePacket::getParsed(int as)
