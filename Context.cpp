@@ -2,13 +2,16 @@
 
 #include "Context.h"
 
+#include "SyntaxTree.h"
+
 using namespace std;
 
-namespace Rakjin {
+namespace Rakjin
+{
 
 	Context::Context() {
 		includedFiles = new map<string, bool>();
-		declarations = new map<string, int>();
+		declarations = new map<string, Node*>();
 	}
 
 	bool Context::insertIncludedFile(string* fileName)
@@ -49,10 +52,10 @@ namespace Rakjin {
 		return fileName;
 	}
 
-	bool Context::insertDeclaration(string* declarationName)
+	bool Context::insertDeclaration(string* declarationName, Node* node)
 	{
-		pair< map<string, int>::iterator, bool > pr;
-		pr = declarations->insert( map<string, int>::value_type(*declarationName, 0) );
+		pair< map<string, Node*>::iterator, bool > pr;
+		pr = declarations->insert( map<string, Node*>::value_type(*declarationName, node) );
 		return pr.second;
 	}
 	
