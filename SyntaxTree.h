@@ -31,7 +31,7 @@ class Node
     Node(Rakjin::Context* _context);
     virtual ~Node();
     virtual int getType(); //TODO: remove getType() if unnecessary
-    virtual int getHash(vector<Node*>* referencingStack);
+    virtual size_t getHash(vector<Node*>* referencingStack);
     virtual string* getParsed(int as);
 };
 
@@ -42,7 +42,7 @@ class NodeKst : public Node
     public:
     explicit NodeKst(Rakjin::Context* _context, list<Node*>* _commands, string* fileName);
     virtual int getType();
-    virtual int getHash(vector<Node*>* referencingStack);
+    virtual size_t getHash(vector<Node*>* referencingStack);
     virtual string* getParsed(int as);
 };
 
@@ -52,7 +52,7 @@ class NodeInclude : public Node
     public:
     explicit NodeInclude(Rakjin::Context* _context, string* _value);
     virtual int getType();
-    virtual int getHash(vector<Node*>* referencingStack);
+    virtual size_t getHash(vector<Node*>* referencingStack);
     virtual string* getParsed(int as);
 };
 
@@ -63,7 +63,7 @@ class NodePacket : public Node
     public:
     explicit NodePacket(Rakjin::Context* _context, string* _packetName, list<Node*>* _packetMembers);
     virtual int getType();
-    virtual int getHash(vector<Node*>* referencingStack);
+    virtual size_t getHash(vector<Node*>* referencingStack);
     virtual string* getParsed(int as);
 };
 
@@ -74,7 +74,7 @@ class NodePacketMember : public Node
     public:
     explicit NodePacketMember(Rakjin::Context* _context, Node* _memberType, Node* _memberName);
     virtual int getType();
-    virtual int getHash(vector<Node*>* referencingStack);
+    virtual size_t getHash(vector<Node*>* referencingStack);
     virtual string* getParsed(int as);
 };
 
@@ -91,7 +91,7 @@ class NodePacketMemberType : public Node
     explicit NodePacketMemberType(Rakjin::Context* _context, int _type, Node* _generic1, Node* _generic2);
     explicit NodePacketMemberType(Rakjin::Context* _context, int _type, Node* _generic1, Node* _generic2, Node* _generic3);
     virtual int getType();
-    virtual int getHash(vector<Node*>* referencingStack);
+    virtual size_t getHash(vector<Node*>* referencingStack);
     virtual string* getParsed(int as);
 };
 
@@ -101,7 +101,7 @@ class NodePacketMemberName : public Node
     public:
     explicit NodePacketMemberName(Rakjin::Context* _context, string* _value);
     virtual int getType();
-    virtual int getHash(vector<Node*>* referencingStack);
+    virtual size_t getHash(vector<Node*>* referencingStack);
     virtual string* getParsed(int as);
 };
 

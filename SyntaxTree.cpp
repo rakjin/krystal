@@ -30,7 +30,7 @@ using namespace Rakjin::Krystal;
     }
 
     int Node::getType() { return 0; } //TODO: remove getType() if unnecessary
-    int Node::getHash(vector<Node*>* referencingStack) { return 0; }
+    size_t Node::getHash(vector<Node*>* referencingStack) { return 0; }
     string* Node::getParsed(int as) { return 0; }
 
 // };
@@ -51,7 +51,7 @@ using namespace Rakjin::Krystal;
        return CsNodeType::kst;
     }
 
-    int NodeKst::getHash(vector<Node*>* referencingStack)
+    size_t NodeKst::getHash(vector<Node*>* referencingStack)
     {
         return 0;
     }
@@ -102,7 +102,7 @@ using namespace Rakjin::Krystal;
        return CsNodeType::include;
     }
 
-    int NodeInclude::getHash(vector<Node*>* referencingStack)
+    size_t NodeInclude::getHash(vector<Node*>* referencingStack)
     {
         return 0;
     }
@@ -135,7 +135,7 @@ using namespace Rakjin::Krystal;
        return CsNodeType::packet;
     }
 
-    int NodePacket::getHash(vector<Node*>* referencingStack)
+    size_t NodePacket::getHash(vector<Node*>* referencingStack)
     {
         if (referencingStack == NULL)
         {
@@ -153,7 +153,7 @@ using namespace Rakjin::Krystal;
             combineHashCode(packetHash, (*i)->getHash(referencingStack));
         }
 
-        return (int) packetHash;
+        return packetHash;
     }
 
     string* NodePacket::getParsed(int as)
@@ -197,14 +197,14 @@ using namespace Rakjin::Krystal;
        return CsNodeType::packetMember;
     }
 
-    int NodePacketMember::getHash(vector<Node*>* referencingStack)
+    size_t NodePacketMember::getHash(vector<Node*>* referencingStack)
     {
         assert(referencingStack != NULL);
 
         size_t packetMemberHash = memberType->getHash(referencingStack);
         combineHashCode(packetMemberHash, memberName->getHash(referencingStack));
 
-        return (int) packetMemberHash;
+        return packetMemberHash;
     }
 
     string* NodePacketMember::getParsed(int as)
@@ -275,7 +275,7 @@ using namespace Rakjin::Krystal;
        return CsNodeType::packetMemberType;
     }
 
-    int NodePacketMemberType::getHash(vector<Node*>* referencingStack)
+    size_t NodePacketMemberType::getHash(vector<Node*>* referencingStack)
     {
         assert(referencingStack != NULL);
 
@@ -287,7 +287,7 @@ using namespace Rakjin::Krystal;
             break;
         }
 
-        return (int) packetMemberTypeHash;
+        return packetMemberTypeHash;
     }
 
     string* NodePacketMemberType::getParsed(int as)
@@ -337,10 +337,10 @@ using namespace Rakjin::Krystal;
        return CsNodeType::packetMemberName;
     }
 
-    int NodePacketMemberName::getHash(vector<Node*>* referencingStack)
+    size_t NodePacketMemberName::getHash(vector<Node*>* referencingStack)
     {
         size_t packetMemberNameHash = getHashCode(value);
-        return (int) packetMemberNameHash;
+        return packetMemberNameHash;
     }
 
     string* NodePacketMemberName::getParsed(int as)
