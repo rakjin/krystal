@@ -18,17 +18,17 @@ int main(int argc, char * argv[]) {
 		return 255;
 	}
 
-	Rakjin::Context context = Rakjin::Context();
+	Krystal::Context context = Krystal::Context();
 	string* fileNameFromArg = new string(argv[1]);
 	context.insertIncludedFile(fileNameFromArg);
 
-	Rakjin::KstFile* kstFile = NULL;
+	Krystal::KstFile* kstFile = NULL;
 	string* fileNameToProcess = NULL;
 
 	try
 	{
 		// process file from argument
-		kstFile = new Rakjin::KstFile(fileNameFromArg, context);
+		kstFile = new Krystal::KstFile(fileNameFromArg, context);
 		context.markIncludedFileAsProcessed(fileNameFromArg);
 
 		// process including files if any
@@ -36,7 +36,7 @@ int main(int argc, char * argv[]) {
 			fileNameToProcess != NULL;
 			fileNameToProcess = context.getUnprocessedFileName())
 		{
-			new Rakjin::KstFile(fileNameToProcess, context);
+			new Krystal::KstFile(fileNameToProcess, context);
 			context.markIncludedFileAsProcessed(fileNameToProcess);
 		}
 	}

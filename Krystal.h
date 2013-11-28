@@ -8,7 +8,7 @@
 
 using namespace std;
 
-namespace Rakjin {
+namespace Krystal {
 
 	class KstFile {
 		public:

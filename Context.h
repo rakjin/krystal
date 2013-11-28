@@ -5,29 +5,33 @@
 #include <string>
 
 #include "SyntaxTree.h"
-	class Node;
+	namespace Krystal { class Node; }
 
 using namespace std;
 
-namespace Rakjin
+namespace Krystal
 {
-
-	class Context
-	{
-		public:
-			Context();
-			bool insertIncludedFile(string* fileName);
-			bool markIncludedFileAsProcessed(string* fileName);
-			string* getUnprocessedFileName();
-
-			bool insertDeclaration(string* declarationName, Node* node);
-			Node* getDeclarationNode(string* declarationName); // retreive Node* by declaration name from the table
-		private:
-			map<string, bool>* includedFiles; //table for INCLUDED_FILE_NAME as key and PROCESSED as value
-			map<string, Node*>* declarations; //table for DECLARATION_NAME(enums, packets) as key and Node* as value
-	};
-
+	class Context;
 }
+
+using namespace Krystal;
+
+class Krystal::Context
+{
+	public:
+		Context();
+		bool insertIncludedFile(string* fileName);
+		bool markIncludedFileAsProcessed(string* fileName);
+		string* getUnprocessedFileName();
+
+		bool insertDeclaration(string* declarationName, Node* node);
+		Node* getDeclarationNode(string* declarationName); // retreive Node* by declaration name from the table
+	private:
+		map<string, bool>* includedFiles; //table for INCLUDED_FILE_NAME as key and PROCESSED as value
+		map<string, Node*>* declarations; //table for DECLARATION_NAME(enums, packets) as key and Node* as value
+};
+
+
 
 
 /* * * * * * * * * * * * * * * * * * * * 

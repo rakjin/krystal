@@ -2,13 +2,13 @@
 %skeleton "lalr1.cc"
 %defines
 %locations
-%define namespace "Rakjin::Krystal"
+%define namespace "Krystal"
 %define parser_class_name "Parser"
-%parse-param { Rakjin::Krystal::Scanner &scanner }
+%parse-param { Krystal::Scanner &scanner }
 %parse-param { Node* &root }
 %parse-param { std::string* fileName }
-%parse-param { Rakjin::Context* &context }
-%lex-param   { Rakjin::Krystal::Scanner &scanner }
+%parse-param { Krystal::Context* &context }
+%lex-param   { Krystal::Scanner &scanner }
 
 %code requires {
 	#ifdef _WIN32
@@ -26,21 +26,18 @@
 	// #define YYSTYPE std::string
 
 	#define ALLOW_DUPLICATED_INCLUDE		true
-
-	namespace Rakjin {
-		namespace Krystal {
-			// Forward-declare the Scanner class; the Parser needs to be assigned a 
-			// Scanner, but the Scanner can't be declared without the Parser
-			class Scanner;
-		}
+	namespace Krystal {
+		// Forward-declare the Scanner class; the Parser needs to be assigned a 
+		// Scanner, but the Scanner can't be declared without the Parser
+		class Scanner;
 	}
 }
 
 %code {
 	// Prototype for the yylex function
-	static int yylex(Rakjin::Krystal::Parser::semantic_type * yylval,
-	                 Rakjin::Krystal::Parser::location_type * yylloc,
-	                 Rakjin::Krystal::Scanner &scanner);
+	static int yylex(Krystal::Parser::semantic_type * yylval,
+	                 Krystal::Parser::location_type * yylloc,
+	                 Krystal::Scanner &scanner);
 }
 
 %union {
@@ -238,7 +235,7 @@ unknown_command :
 %%
 
 // Error function throws an exception (std::string) with the location and error message
-void Rakjin::Krystal::Parser::error(const Rakjin::Krystal::Parser::location_type &loc,
+void Krystal::Parser::error(const Krystal::Parser::location_type &loc,
                                           const std::string &msg) {
 	std::ostringstream ret;
 	ret << "Parser Error at " << *fileName << " " << loc << ": " << msg;
@@ -248,9 +245,9 @@ void Rakjin::Krystal::Parser::error(const Rakjin::Krystal::Parser::location_type
 // Now that we have the Parser declared, we can declare the Scanner and implement
 // the yylex function
 #include "Scanner.h"
-static int yylex(Rakjin::Krystal::Parser::semantic_type * yylval,
-                 Rakjin::Krystal::Parser::location_type * yylloc,
-                 Rakjin::Krystal::Scanner &scanner) {
+static int yylex(Krystal::Parser::semantic_type * yylval,
+                 Krystal::Parser::location_type * yylloc,
+                 Krystal::Scanner &scanner) {
 	return scanner.yylex(yylval, yylloc);
 }
 

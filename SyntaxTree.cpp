@@ -15,23 +15,23 @@
 #include "template.cs.h"
 
 using namespace std;
-using namespace Rakjin::Krystal;
+using namespace Krystal;
 
 // class Node
 // {
 // public:
-    Node::Node(Rakjin::Context* _context)
+    Krystal::Node::Node(Context* _context)
     {
         context = _context;
     }
 
-    Node::~Node()
+    Krystal::Node::~Node()
     {
     }
 
-    int Node::getType() { return 0; } //TODO: remove getType() if unnecessary
-    size_t Node::getHash(vector<Node*>* referencingStack) { return 0; }
-    string* Node::getParsed(int as) { return 0; }
+    int Krystal::Node::getType() { return 0; } //TODO: remove getType() if unnecessary
+    size_t Krystal::Node::getHash(vector<Node*>* referencingStack) { return 0; }
+    string* Krystal::Node::getParsed(int as) { return 0; }
 
 // };
 
@@ -40,23 +40,23 @@ using namespace Rakjin::Krystal;
     // list<Node*>* commands;
     // string* fileName;
     // public:
-    NodeKst::NodeKst(Rakjin::Context* _context, list<Node*>* _commands, string* _fileName) : Node(_context)
+    Krystal::NodeKst::NodeKst(Context* _context, list<Node*>* _commands, string* _fileName) : Node(_context)
     {
         commands = _commands;
         fileName = _fileName;
     }
 
-    int NodeKst::getType()
+    int Krystal::NodeKst::getType()
     {
        return CsNodeType::kst;
     }
 
-    size_t NodeKst::getHash(vector<Node*>* referencingStack)
+    size_t Krystal::NodeKst::getHash(vector<Node*>* referencingStack)
     {
         return 0;
     }
 
-    string* NodeKst::getParsed(int as)
+    string* Krystal::NodeKst::getParsed(int as)
     {
         stringstream parsed;
 
@@ -92,22 +92,22 @@ using namespace Rakjin::Krystal;
 // {
 //     string* value;
 //     public:
-    NodeInclude::NodeInclude(Rakjin::Context* _context, string* _value) : Node(_context)
+    Krystal::NodeInclude::NodeInclude(Context* _context, string* _value) : Node(_context)
     {
         value = _value;
     }
 
-    int NodeInclude::getType()
+    int Krystal::NodeInclude::getType()
     {
        return CsNodeType::include;
     }
 
-    size_t NodeInclude::getHash(vector<Node*>* referencingStack)
+    size_t Krystal::NodeInclude::getHash(vector<Node*>* referencingStack)
     {
         return 0;
     }
 
-    string* NodeInclude::getParsed(int as)
+    string* Krystal::NodeInclude::getParsed(int as)
     {
         stringstream parsed;
 
@@ -124,18 +124,18 @@ using namespace Rakjin::Krystal;
 //     string* packetName;
 //     list<Node*>* packetMembers;
 //     public:
-    NodePacket::NodePacket(Rakjin::Context* _context, string* _packetName, list<Node*>* _packetMembers) : Node(_context)
+    Krystal::NodePacket::NodePacket(Context* _context, string* _packetName, list<Node*>* _packetMembers) : Node(_context)
     {
         packetName = _packetName;
         packetMembers = _packetMembers;
     }
 
-    int NodePacket::getType()
+    int Krystal::NodePacket::getType()
     {
        return CsNodeType::packet;
     }
 
-    size_t NodePacket::getHash(vector<Node*>* referencingStack)
+    size_t Krystal::NodePacket::getHash(vector<Node*>* referencingStack)
     {
         if (referencingStack == NULL)
         {
@@ -169,7 +169,7 @@ using namespace Rakjin::Krystal;
         return packetHash;
     }
 
-    string* NodePacket::getParsed(int as)
+    string* Krystal::NodePacket::getParsed(int as)
     {
         stringstream parsed;
 
@@ -199,18 +199,18 @@ using namespace Rakjin::Krystal;
 //     Node* memberType;
 //     Node* memberName;
 //     public:
-    NodePacketMember::NodePacketMember(Rakjin::Context* _context, Node* _memberType, Node* _memberName) : Node(_context)
+    Krystal::NodePacketMember::NodePacketMember(Context* _context, Node* _memberType, Node* _memberName) : Node(_context)
     {
         memberType = _memberType;
         memberName = _memberName;
     }
 
-    int NodePacketMember::getType()
+    int Krystal::NodePacketMember::getType()
     {
        return CsNodeType::packetMember;
     }
 
-    size_t NodePacketMember::getHash(vector<Node*>* referencingStack)
+    size_t Krystal::NodePacketMember::getHash(vector<Node*>* referencingStack)
     {
         assert(referencingStack != NULL);
 
@@ -220,7 +220,7 @@ using namespace Rakjin::Krystal;
         return packetMemberHash;
     }
 
-    string* NodePacketMember::getParsed(int as)
+    string* Krystal::NodePacketMember::getParsed(int as)
     {
         stringstream parsed;
 
@@ -247,7 +247,7 @@ using namespace Rakjin::Krystal;
 //     Node* generic2; // MAP <generic1, generic2>
 //     Node* generic3; // reserved
 //     public:
-    NodePacketMemberType::NodePacketMemberType(Rakjin::Context* _context, int _type, string* _value) : Node(_context)
+    Krystal::NodePacketMemberType::NodePacketMemberType(Context* _context, int _type, string* _value) : Node(_context)
     {
         typeType = _type;
         value = _value;
@@ -256,7 +256,7 @@ using namespace Rakjin::Krystal;
         generic3 = NULL;
     }
 
-    NodePacketMemberType::NodePacketMemberType(Rakjin::Context* _context, int _type, Node* _generic1) : Node(_context)
+    Krystal::NodePacketMemberType::NodePacketMemberType(Context* _context, int _type, Node* _generic1) : Node(_context)
     {
         typeType = _type;
         value = NULL;
@@ -265,7 +265,7 @@ using namespace Rakjin::Krystal;
         generic3 = NULL;
     }
 
-    NodePacketMemberType::NodePacketMemberType(Rakjin::Context* _context, int _type, Node* _generic1, Node* _generic2) : Node(_context)
+    Krystal::NodePacketMemberType::NodePacketMemberType(Context* _context, int _type, Node* _generic1, Node* _generic2) : Node(_context)
     {
         typeType = _type;
         value = NULL;
@@ -274,7 +274,7 @@ using namespace Rakjin::Krystal;
         generic3 = NULL;
     }
 
-    NodePacketMemberType::NodePacketMemberType(Rakjin::Context* _context, int _type, Node* _generic1, Node* _generic2, Node* _generic3) : Node(_context)
+    Krystal::NodePacketMemberType::NodePacketMemberType(Context* _context, int _type, Node* _generic1, Node* _generic2, Node* _generic3) : Node(_context)
     {
         typeType = _type;
         value = NULL;
@@ -283,12 +283,12 @@ using namespace Rakjin::Krystal;
         generic3 = _generic3;
     }
 
-    int NodePacketMemberType::getType()
+    int Krystal::NodePacketMemberType::getType()
     {
        return CsNodeType::packetMemberType;
     }
 
-    size_t NodePacketMemberType::getHash(vector<Node*>* referencingStack)
+    size_t Krystal::NodePacketMemberType::getHash(vector<Node*>* referencingStack)
     {
         assert(referencingStack != NULL);
 
@@ -336,7 +336,7 @@ using namespace Rakjin::Krystal;
         return packetMemberTypeHash;
     }
 
-    string* NodePacketMemberType::getParsed(int as)
+    string* Krystal::NodePacketMemberType::getParsed(int as)
     {
         stringstream parsed;
 
@@ -373,23 +373,23 @@ using namespace Rakjin::Krystal;
 // {
 //     string* value;
 //     public:
-    NodePacketMemberName::NodePacketMemberName(Rakjin::Context* _context, string* _value) : Node(_context)
+    Krystal::NodePacketMemberName::NodePacketMemberName(Context* _context, string* _value) : Node(_context)
     {
         value = _value;
     }
 
-    int NodePacketMemberName::getType()
+    int Krystal::NodePacketMemberName::getType()
     {
        return CsNodeType::packetMemberName;
     }
 
-    size_t NodePacketMemberName::getHash(vector<Node*>* referencingStack)
+    size_t Krystal::NodePacketMemberName::getHash(vector<Node*>* referencingStack)
     {
         size_t packetMemberNameHash = getHashCode(value);
         return packetMemberNameHash;
     }
 
-    string* NodePacketMemberName::getParsed(int as)
+    string* Krystal::NodePacketMemberName::getParsed(int as)
     {
        return value;
     }
