@@ -61,7 +61,7 @@ namespace CsNodeType
 
 #define TCS_PACKET_ID_TYPE		int // cast hash value to this type only in output
 
-#define TCS_PACKET_ID_FIELD		"public static readonly int ID = %1%\n"
+#define TCS_PACKET_ID_FIELD		"public static readonly int ID = %1%;\n"
 
 #define TCS_PACKET_MEMBER_AS_DEFAULT	"public %1% %2%%3%;\n" //type name initialization
 
