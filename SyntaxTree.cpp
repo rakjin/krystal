@@ -388,16 +388,10 @@ using namespace Krystal;
                     break;
 
                     case Parser::token::REFERENCE_DATA_TYPE:
-                    parsed << boost::format(TCS_PACKET_MEMBER_TYPE_REFERENCE_AS_INITIALIZATION)
-                        % *value;
-                    break;
-
                     case Parser::token::MAP:
-                    parsed << " = new Dictionary<...>()";
-                    break;
-
                     case Parser::token::LIST:
-                    parsed << " = new List<...>()";
+                    parsed << boost::format(TCS_PACKET_MEMBER_TYPE_NEW_AS_INITIALIZATION)
+                        % *(getParsed(CsParseAs::Default));
                     break;
 
                     default:

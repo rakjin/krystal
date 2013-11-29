@@ -65,7 +65,7 @@ namespace CsNodeType
 
 #define TCS_PACKET_MEMBER_AS_DEFAULT	"public %1% %2%%3%;\n" //type name initialization
 
-#define TCS_PACKET_MEMBER_TYPE_REFERENCE_AS_INITIALIZATION	" = new %1%()"
+#define TCS_PACKET_MEMBER_TYPE_NEW_AS_INITIALIZATION	" = new %1%()"
 
 #define TCS_PACKET_MEMBER_AS_GET_LENGTH_PRIMITIVE	"length += Krystal.Serializer.%1%.GetLength(%2%);\n"
 
