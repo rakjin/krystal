@@ -15,6 +15,7 @@
 #include "template.cs.h"
 
 using namespace std;
+using namespace boost;
 using namespace Krystal;
 
 // class Node
@@ -60,12 +61,12 @@ using namespace Krystal;
     {
         stringstream parsed;
 
-        parsed << boost::format(TCS_HEADER) % *fileName;
+        parsed << format(TCS_HEADER) % *fileName;
         parsed << TCS_USINGS;
 
         string namespaceByFileName = fileName->substr(0, fileName->find("."));
 
-        parsed << boost::format(TCS_NAMESPACE_BEGIN) % namespaceByFileName;
+        parsed << format(TCS_NAMESPACE_BEGIN) % namespaceByFileName;
 
         list<Node*>::iterator i = commands->begin();
         list<Node*>::iterator end = commands->end();
@@ -177,12 +178,12 @@ using namespace Krystal;
         {
             case CsParseAs::Default:
             {
-                parsed << boost::format(TCS_PACKET_BEGIN) % *packetName;
+                parsed << format(TCS_PACKET_BEGIN) % *packetName;
 
                 {
                     stringstream body;
 
-                    body << boost::format(TCS_PACKET_ID_FIELD) % ((TCS_PACKET_ID_TYPE)getHash(NULL));
+                    body << format(TCS_PACKET_ID_FIELD) % ((TCS_PACKET_ID_TYPE)getHash(NULL));
 
                     list<Node*>::iterator i = packetMembers->begin();
                     list<Node*>::iterator end = packetMembers->end();
@@ -237,7 +238,7 @@ using namespace Krystal;
         {
             case CsParseAs::Default:
             {
-                parsed << boost::format(TCS_PACKET_MEMBER_AS_DEFAULT)
+                parsed << format(TCS_PACKET_MEMBER_AS_DEFAULT)
                     % *(memberType->getParsed(CsParseAs::Default))
                     % *(memberName->getParsed(CsParseAs::Default))
                     % *(memberType->getParsed(CsParseAs::Initialization));
@@ -398,7 +399,7 @@ using namespace Krystal;
                     case Parser::token::MAP:
                     case Parser::token::LIST:
                     {
-                        parsed << boost::format(TCS_PACKET_MEMBER_TYPE_NEW_AS_INITIALIZATION)
+                        parsed << format(TCS_PACKET_MEMBER_TYPE_NEW_AS_INITIALIZATION)
                             % *(getParsed(CsParseAs::Default));
                     }
                     break;
