@@ -239,7 +239,8 @@ using namespace Krystal;
             {
                 parsed << boost::format(TCS_PACKET_MEMBER_AS_DEFAULT)
                     % *(memberType->getParsed(CsParseAs::Default))
-                    % *(memberName->getParsed(CsParseAs::Default));
+                    % *(memberName->getParsed(CsParseAs::Default))
+                    % *(memberType->getParsed(CsParseAs::Initialization));
             }
             break;
         }
@@ -349,28 +350,61 @@ using namespace Krystal;
     {
         stringstream parsed;
 
-        switch (typeType) {
+        switch (as)
+        {
+            case CsParseAs::Default:
+            {
+                switch (typeType) {
+                    case Parser::token::PRIMITIVE_DATA_TYPE:
+                    parsed << *value;
+                    break;
 
-            case Parser::token::PRIMITIVE_DATA_TYPE:
-            parsed << *value;
+                    case Parser::token::REFERENCE_DATA_TYPE:
+                    parsed << *value;
+                    break;
+
+                    case Parser::token::MAP:
+                    parsed << "Dictionary";
+                    parsed << "<" << *(generic1->getParsed(CsParseAs::Default)) << ", " << *(generic2->getParsed(CsParseAs::Default)) << ">";
+                    break;
+
+                    case Parser::token::LIST:
+                    parsed << "List";
+                    parsed << "<" << *(generic1->getParsed(CsParseAs::Default)) << ">";
+                    break;
+
+                    default:
+                    throw(runtime_error("Unknown NodePacketMemberType type."));
+                    break;
+                }
+            }
             break;
 
-            case Parser::token::REFERENCE_DATA_TYPE:
-            parsed << *value;
-            break;
+            case CsParseAs::Initialization:
+            {
+                switch (typeType) {
+                    case Parser::token::PRIMITIVE_DATA_TYPE:
+                    parsed << "";
+                    break;
 
-            case Parser::token::MAP:
-            parsed << "Dictionary";
-            parsed << "<" << *(generic1->getParsed(CsParseAs::Default)) << ", " << *(generic2->getParsed(CsParseAs::Default)) << ">";
-            break;
+                    case Parser::token::REFERENCE_DATA_TYPE:
+                    parsed << boost::format(TCS_PACKET_MEMBER_TYPE_REFERENCE_AS_INITIALIZATION)
+                        % *value;
+                    break;
 
-            case Parser::token::LIST:
-            parsed << "List";
-            parsed << "<" << *(generic1->getParsed(CsParseAs::Default)) << ">";
-            break;
+                    case Parser::token::MAP:
+                    parsed << " = new Dictionary<...>()";
+                    break;
 
-            default:
-            throw(runtime_error("Unknown NodePacketMemberType type."));
+                    case Parser::token::LIST:
+                    parsed << " = new List<...>()";
+                    break;
+
+                    default:
+                    throw(runtime_error("Unknown NodePacketMemberType type."));
+                    break;
+                }
+            }
             break;
         }
 
