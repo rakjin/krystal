@@ -282,7 +282,8 @@ using namespace Krystal;
 
                     case CsNodeType::packetMemberTypeReference:
                     {
-                        parsed << "<temp> length += ...Custom...GetLength(...);\n";
+                        parsed << format(TCS_PACKET_MEMBER_AS_GET_LENGTH_REFERENCE)
+                            % *(memberName->getParsed(CsParseAs::Default));
                     }
                     break;
 
