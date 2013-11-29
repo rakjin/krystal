@@ -289,7 +289,12 @@ using namespace Krystal;
 
                     case CsNodeType::packetMemberTypeMap:
                     {
-                        parsed << "<temp> length += 4;\nforeach(...map...)\n{\n}\n";
+                        parsed << format(TCS_PACKET_MEMBER_AS_GET_LENGTH_MAP)
+                            % *(memberType->getParsed(CsParseAs::GenericType1))
+                            % *(memberType->getParsed(CsParseAs::GenericType2))
+                            % *(memberName->getParsed(CsParseAs::Default))
+                            % *(memberType->getParsed(CsParseAs::GenericTypeSerializer1))
+                            % *(memberType->getParsed(CsParseAs::GenericTypeSerializer2));
                     }
                     break;
 
