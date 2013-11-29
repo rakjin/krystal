@@ -356,25 +356,30 @@ using namespace Krystal;
             {
                 switch (typeType) {
                     case Parser::token::PRIMITIVE_DATA_TYPE:
-                    parsed << *value;
-                    break;
-
                     case Parser::token::REFERENCE_DATA_TYPE:
-                    parsed << *value;
+                    {
+                        parsed << *value;
+                    }
                     break;
 
                     case Parser::token::MAP:
-                    parsed << "Dictionary";
-                    parsed << "<" << *(generic1->getParsed(CsParseAs::Default)) << ", " << *(generic2->getParsed(CsParseAs::Default)) << ">";
+                    {
+                        parsed << "Dictionary";
+                        parsed << "<" << *(generic1->getParsed(CsParseAs::Default)) << ", " << *(generic2->getParsed(CsParseAs::Default)) << ">";
+                    }
                     break;
 
                     case Parser::token::LIST:
-                    parsed << "List";
-                    parsed << "<" << *(generic1->getParsed(CsParseAs::Default)) << ">";
+                    {
+                        parsed << "List";
+                        parsed << "<" << *(generic1->getParsed(CsParseAs::Default)) << ">";
+                    }
                     break;
 
                     default:
-                    throw(runtime_error("Unknown NodePacketMemberType type."));
+                    {
+                        throw(runtime_error("Unknown NodePacketMemberType type."));
+                    }
                     break;
                 }
             }
@@ -384,18 +389,24 @@ using namespace Krystal;
             {
                 switch (typeType) {
                     case Parser::token::PRIMITIVE_DATA_TYPE:
-                    parsed << "";
+                    {
+                        parsed << "";
+                    }
                     break;
 
                     case Parser::token::REFERENCE_DATA_TYPE:
                     case Parser::token::MAP:
                     case Parser::token::LIST:
-                    parsed << boost::format(TCS_PACKET_MEMBER_TYPE_NEW_AS_INITIALIZATION)
-                        % *(getParsed(CsParseAs::Default));
+                    {
+                        parsed << boost::format(TCS_PACKET_MEMBER_TYPE_NEW_AS_INITIALIZATION)
+                            % *(getParsed(CsParseAs::Default));
+                    }
                     break;
 
                     default:
-                    throw(runtime_error("Unknown NodePacketMemberType type."));
+                    {
+                        throw(runtime_error("Unknown NodePacketMemberType type."));
+                    }
                     break;
                 }
             }
