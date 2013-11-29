@@ -273,12 +273,7 @@ using namespace Krystal;
                 {
                     case CsNodeType::packetMemberTypePrimitive:
                     {
-                        KstDataType::Enum kstDataType = lookupKstDataType(memberType->getParsed(CsParseAs::Default));
-                        if (((int)kstDataType) == -1)
-                        {
-                            throw(runtime_error("Data type not found"));
-                        }
-                        string* serializerName = &(CsSerializerName[kstDataType]);
+                        string* serializerName = lookupSerializerName(memberType->getParsed(CsParseAs::Default));
                         parsed << "<temp> length += ...primitive,...GetLnegth(...);\n";
                         parsed << "[[" << *(serializerName) << "]]\n";
                     }

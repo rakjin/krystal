@@ -21,7 +21,16 @@ string CsSerializerName[KstDataType::LENGTH_OF_KST_DATA_TYPES] =
 	"String"
 };
 
-
+string* lookupSerializerName(string* typeString)
+{
+	KstDataType::Enum kstDataType = lookupKstDataType(typeString);
+    if (((int)kstDataType) == -1)
+    {
+        throw(runtime_error("Data type not found"));
+    }
+    string* serializerName = &(CsSerializerName[kstDataType]);
+    return serializerName;
+}
 
 namespace CsParseAs
 {
