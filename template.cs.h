@@ -100,17 +100,21 @@ namespace CsNodeType
 										"\t\tlength += Krystal.Serializer.String.GetLength( COOKIE );\n" \
 										"\t}\n" \
 
-#define TCS_PACKET_GET_LENGTH_END		"}\n"
+#define TCS_PACKET_GET_LENGTH_END		"\treturn length;\n" \
+										"}\n"
 
 #define TCS_PACKET_MEMBER_AS_GET_LENGTH_PRIMITIVE	"length += Krystal.Serializer.%1%.GetLength(%2%);\n"
 
 #define TCS_PACKET_MEMBER_AS_GET_LENGTH_REFERENCE	"length += Krystal.Serializer.Custom.GetLength(%1%, true);\n"
 
-#define TCS_PACKET_MEMBER_AS_GET_LENGTH_MAP_BEGIN	"length += 4;\n" \
+#define TCS_PACKET_MEMBER_AS_GET_LENGTH_MAP			"length += 4;\n" \
 													"foreach ( KeyValuePair<%1%, %2%> %3%Temp in %3% )\n" \
 													"{\n" \
 													"\t%4%\t%5%}\n"
 
-#define TCS_PACKET_MEMBER_AS_GET_LENGTH_LIST_BEGIN	""
+#define TCS_PACKET_MEMBER_AS_GET_LENGTH_LIST		"length += 4;\n" \
+													"foreach ( KeyValuePair<%1%, %2%> %3%Temp in %3% )\n" \
+													"{\n" \
+													"\t%4%}\n"
 
 #endif // TEMPLATE_CS_H

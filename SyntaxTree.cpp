@@ -382,7 +382,8 @@ using namespace Krystal;
         {
             case CsParseAs::Default:
             {
-                switch (typeType) {
+                switch (typeType)
+                {
                     case Parser::token::PRIMITIVE_DATA_TYPE:
                     case Parser::token::REFERENCE_DATA_TYPE:
                     {
@@ -416,7 +417,8 @@ using namespace Krystal;
 
             case CsParseAs::Initialization:
             {
-                switch (typeType) {
+                switch (typeType)
+                {
                     case Parser::token::PRIMITIVE_DATA_TYPE:
                     {
                         parsed << "";
