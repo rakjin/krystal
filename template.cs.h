@@ -160,7 +160,7 @@ namespace CsNodeType
 #define TCS_PACKET_MEMBER_AS_GET_LENGTH_LIST		"length += 4;\n" \
 													"foreach ( %1% val in %2% )\n" \
 													"{\n" \
-													"\tlength += Krystal.Serializer.%4%.GetLength(val, true);\n" \
+													"\tlength += Krystal.Serializer.%3%.GetLength(val, true);\n" \
 													"}\n"
 
 #endif // TEMPLATE_CS_H
