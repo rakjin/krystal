@@ -49,6 +49,11 @@ COMMENT_CPP			"//"[^\n]*$
 "packet"			{ return Krystal::Parser::token::PACKET; }
 "#include"			{ return Krystal::Parser::token::INCLUDE; }
 
+
+  /* * * * * * * * * * * * * * * * * * * * * * */
+  /* if you change this primitive type rules,  */
+  /* you should also edit corresponding lists  */
+  /* inside of template.*.h                    */
 "bool"		|
 "byte"		|
 "sbyte"		|

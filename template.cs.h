@@ -2,6 +2,26 @@
 #ifndef TEMPLATE_CS_H
 #define TEMPLATE_CS_H
 
+#include "template.common.h"
+
+// must correspond with KstDataType enum in template.common.h
+string CsSerializerName[KstDataType::LENGTH_OF_KST_DATA_TYPES] =
+{
+	"Bool",
+	"Byte",
+	"SByte",
+	"Short",
+	"UShort",
+	"Int",
+	"UInt",
+	"Long",
+	"ULong",
+	"Float",
+	"Double",
+	"String"
+};
+
+
 
 namespace CsParseAs
 {
