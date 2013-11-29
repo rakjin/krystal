@@ -153,11 +153,14 @@ namespace CsNodeType
 #define TCS_PACKET_MEMBER_AS_GET_LENGTH_MAP			"length += 4;\n" \
 													"foreach ( KeyValuePair<%1%, %2%> %3%Temp in %3% )\n" \
 													"{\n" \
-													"\t%4%\t%5%}\n"
+													"\tlength += Krystal.Serializer.%4%.GetLength(%3%Temp.Key);\n" \
+													"\tlength += Krystal.Serializer.%5%.GetLength(%3%Temp.Value);\n" \
+													"}\n"
 
 #define TCS_PACKET_MEMBER_AS_GET_LENGTH_LIST		"length += 4;\n" \
-													"foreach ( KeyValuePair<%1%, %2%> %3%Temp in %3% )\n" \
+													"foreach ( %1% val in %2% )\n" \
 													"{\n" \
-													"\t%4%}\n"
+													"\tlength += Krystal.Serializer.%4%.GetLength(val, true);\n" \
+													"}\n"
 
 #endif // TEMPLATE_CS_H
