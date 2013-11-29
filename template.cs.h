@@ -40,7 +40,14 @@ namespace CsParseAs
 		GetLength,
 		Write,
 		Read,
-		Initialization
+		Initialization,
+		SerializerName,
+		GenericType1,
+		GenericType2,
+		GenericType3,
+		GenericTypeSerializer1,
+		GenericTypeSerializer2,
+		GenericTypeSerializer3
 	};
 }
 
