@@ -300,7 +300,10 @@ using namespace Krystal;
 
                     case CsNodeType::packetMemberTypeList:
                     {
-                        parsed << "<temp> length += 4;\nforeach(...list...)\n{\n}\n";
+                        parsed << format(TCS_PACKET_MEMBER_AS_GET_LENGTH_LIST)
+                            % *(memberType->getParsed(CsParseAs::GenericType1))
+                            % *(memberName->getParsed(CsParseAs::Default))
+                            % *(memberType->getParsed(CsParseAs::GenericTypeSerializer1));
                     }
                     break;
                 }
