@@ -178,15 +178,22 @@ using namespace Krystal;
             case CsParseAs::Default:
             {
                 parsed << boost::format(TCS_PACKET_BEGIN) % *packetName;
-                stringstream body;
-                body << boost::format(TCS_PACKET_ID_FIELD) % ((TCS_PACKET_ID_TYPE)getHash(NULL));
-                list<Node*>::iterator i = packetMembers->begin();
-                list<Node*>::iterator end = packetMembers->end();
-                for (; i != end; ++i)
+
                 {
-                    body << *((*i)->getParsed(CsParseAs::Default));
+                    stringstream body;
+
+                    body << boost::format(TCS_PACKET_ID_FIELD) % ((TCS_PACKET_ID_TYPE)getHash(NULL));
+
+                    list<Node*>::iterator i = packetMembers->begin();
+                    list<Node*>::iterator end = packetMembers->end();
+                    for (; i != end; ++i)
+                    {
+                        body << *((*i)->getParsed(CsParseAs::Default));
+                    }
+
+                    parsed << *(indent(new string(body.str())));
                 }
-                parsed << *(indent(new string(body.str())));
+
                 parsed << TCS_PACKET_END;
             }
             break;
