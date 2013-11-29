@@ -471,6 +471,68 @@ using namespace Krystal;
             }
             break;
 
+            case CsParseAs::GenericType1:
+            {
+                parsed << *(generic1->getParsed(CsParseAs::Default));
+            }
+            break;
+
+            case CsParseAs::GenericType2:
+            {
+                parsed << *(generic2->getParsed(CsParseAs::Default));
+            }
+            break;
+
+            case CsParseAs::GenericType3:
+            {
+                parsed << *(generic3->getParsed(CsParseAs::Default));
+            }
+            break;
+
+            case CsParseAs::GenericTypeSerializer1:
+            {
+                parsed << *(generic1->getParsed(CsParseAs::SerializerName));
+            }
+            break;
+
+            case CsParseAs::GenericTypeSerializer2:
+            {
+                parsed << *(generic2->getParsed(CsParseAs::SerializerName));
+            }
+            break;
+
+            case CsParseAs::GenericTypeSerializer3:
+            {
+                parsed << *(generic3->getParsed(CsParseAs::SerializerName));
+            }
+            break;
+
+            case CsParseAs::SerializerName:
+            {
+                switch (typeType)
+                {
+                    case Parser::token::PRIMITIVE_DATA_TYPE:
+                    {
+                        string* serializerName = lookupSerializerName(value);
+                        parsed << *serializerName;
+                    }
+                    break;
+
+                    case Parser::token::REFERENCE_DATA_TYPE:
+                    {
+                        parsed << TCS_PACKET_CUSTOM_SERIALIZER_NAME;
+                    }
+                    break;
+
+                    default:
+                    {
+                        throw(runtime_error("Serializer not supported for nested generic type"));
+                    }
+                    break;
+                }
+            }
+            break;
+
             case CsParseAs::Initialization:
             {
                 switch (typeType)
