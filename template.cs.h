@@ -71,6 +71,10 @@ namespace CsNodeType
 
 #define TCS_PACKET_MEMBER_TYPE_NEW_AS_INITIALIZATION	" = new %1%()"
 
+#define TCS_PACKET_CONSTRUCTOR		"public %1%()\n" \
+									"{\n" \
+									"}\n"
+
 #define TCS_PACKET_MEMBER_AS_GET_LENGTH_PRIMITIVE	"length += Krystal.Serializer.%1%.GetLength(%2%);\n"
 
 #define TCS_PACKET_MEMBER_AS_GET_LENGTH_REFERENCE	"length += Krystal.Serializer.Custom.GetLength(%1%, true);\n"

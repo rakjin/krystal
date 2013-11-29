@@ -192,6 +192,8 @@ using namespace Krystal;
                         body << *((*i)->getParsed(CsParseAs::Default));
                     }
 
+                    body << format(TCS_PACKET_CONSTRUCTOR) % *packetName;
+
                     parsed << *(indent(new string(body.str())));
                 }
 
