@@ -274,8 +274,9 @@ using namespace Krystal;
                     case CsNodeType::packetMemberTypePrimitive:
                     {
                         string* serializerName = lookupSerializerName(memberType->getParsed(CsParseAs::Default));
-                        parsed << "<temp> length += ...primitive,...GetLnegth(...);\n";
-                        parsed << "[[" << *(serializerName) << "]]\n";
+                        parsed << format(TCS_PACKET_MEMBER_AS_GET_LENGTH_PRIMITIVE)
+                            % *serializerName
+                            % *(memberName->getParsed(CsParseAs::Default));
                     }
                     break;
 
