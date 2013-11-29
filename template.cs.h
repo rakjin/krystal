@@ -58,6 +58,10 @@ namespace CsNodeType
 
 #define TCS_PACKET_END			"}\n"
 
+#define TCS_PACKET_ID_TYPE		int // cast hash value to this type only in output
+
+#define TCS_PACKET_ID_FIELD		"public static readonly int ID = %1%\n"
+
 #define TCS_PACKET_MEMBER_AS_DEFAULT	"public %1% %2%;\n"
 
 #define TCS_PACKET_MEMBER_AS_GET_LENGTH_PRIMITIVE	"length += Krystal.Serializer.%1%.GetLength(%2%);\n"
