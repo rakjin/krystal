@@ -185,6 +185,9 @@ using namespace Krystal;
 
                     body << format(TCS_PACKET_ID_FIELD) % ((TCS_PACKET_ID_TYPE)getHash(NULL));
 
+                    body << TCS_PACKET_COOKIE_FIELD;
+
+                    // Member Variables
                     list<Node*>::iterator i = packetMembers->begin();
                     list<Node*>::iterator end = packetMembers->end();
                     for (; i != end; ++i)
@@ -193,6 +196,15 @@ using namespace Krystal;
                     }
 
                     body << format(TCS_PACKET_CONSTRUCTOR) % *packetName;
+
+                    body << TCS_PACKET_GET_ID;
+
+                    body << TCS_PACKET_SET_COOKIE;
+                    body << TCS_PACKET_GET_COOKIE;
+
+                    body << TCS_PACKET_GET_LENGTH_BEGIN;
+
+                    body << TCS_PACKET_GET_LENGTH_END;
 
                     parsed << *(indent(new string(body.str())));
                 }

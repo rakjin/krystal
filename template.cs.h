@@ -63,6 +63,8 @@ namespace CsNodeType
 
 #define TCS_PACKET_ID_FIELD		"public static readonly int ID = %1%;\n"
 
+#define TCS_PACKET_COOKIE_FIELD	"public string COOKIE = \"\";\n"
+
 #define TCS_PACKET_MEMBER_AS_DEFAULT	"public %1% %2%%3%;\n" //type name initialization
 
 #define TCS_PACKET_MEMBER_TYPE_MAP_AS_DEFAULT	"Dictionary<%1%, %2%>"
@@ -74,6 +76,31 @@ namespace CsNodeType
 #define TCS_PACKET_CONSTRUCTOR		"public %1%()\n" \
 									"{\n" \
 									"}\n"
+
+#define TCS_PACKET_GET_ID			"public int GetID()\n" \
+									"{\n" \
+									"\treturn ID;\n" \
+									"}\n"
+
+#define TCS_PACKET_SET_COOKIE		"public void SetCookie(string cookie)\n" \
+									"{\n" \
+									"\tCOOKIE = cookie;\n" \
+									"}\n"
+
+#define TCS_PACKET_GET_COOKIE		"public string GetCookie()\n" \
+									"{\n" \
+									"\treturn COOKIE;\n" \
+									"}\n"
+
+#define TCS_PACKET_GET_LENGTH_BEGIN		"public int GetLength(bool isInner = false)\n" \
+										"{\n" \
+										"\tint length = 0;\n" \
+										"\tif ( false == isInner )\n" \
+										"\t{\n" \
+										"\t\tlength += Krystal.Serializer.String.GetLength( COOKIE );\n" \
+										"\t}\n" \
+
+#define TCS_PACKET_GET_LENGTH_END		"}\n"
 
 #define TCS_PACKET_MEMBER_AS_GET_LENGTH_PRIMITIVE	"length += Krystal.Serializer.%1%.GetLength(%2%);\n"
 
