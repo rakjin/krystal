@@ -2,11 +2,14 @@
 #define TEMPLATE_COMMON_H
 
 #include <boost/functional/hash.hpp>
+#include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/trim.hpp>
 
 std::string* indent(std::string* src)
 {
     boost::algorithm::replace_all(*src, "\n", "\n\t");
+    boost::algorithm::trim_right_if(*src, boost::algorithm::is_any_of("\t"));
     std::string result("\t");
     result = result + *src;
     delete src;
