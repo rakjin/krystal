@@ -73,7 +73,7 @@ using namespace Krystal;
 
         string* temp;
 
-        for (; i != end; ++i)
+        for (; i != end; i++)
         {
             temp = (*i)->getParsed(CsParseAs::Default);
             temp = indent(temp);
@@ -160,7 +160,7 @@ using namespace Krystal;
 
         list<Node*>::iterator i = packetMembers->begin();
         list<Node*>::iterator end = packetMembers->end();
-        for (; i != end; ++i)
+        for (; i != end; i++)
         {
             combineHashCode(packetHash, (*i)->getHash(referencingStack));
         }
@@ -190,7 +190,7 @@ using namespace Krystal;
                     // Member Variables
                     list<Node*>::iterator i = packetMembers->begin();
                     list<Node*>::iterator end = packetMembers->end();
-                    for (; i != end; ++i)
+                    for (; i != end; i++)
                     {
                         body << *((*i)->getParsed(CsParseAs::Default));
                     }
@@ -203,7 +203,15 @@ using namespace Krystal;
                     body << TCS_PACKET_GET_COOKIE;
 
                     body << TCS_PACKET_GET_LENGTH_BEGIN;
+                    {
+                        stringstream bodyGetLengthBlock;
+                        for (i = packetMembers->begin(); i != end; i++)
+                        {
+                            bodyGetLengthBlock << *((*i)->getParsed(CsParseAs::GetLength));
+                        }
 
+                        body << *(indent(new string(bodyGetLengthBlock.str())));
+                    }
                     body << TCS_PACKET_GET_LENGTH_END;
 
                     parsed << *(indent(new string(body.str())));
@@ -256,6 +264,11 @@ using namespace Krystal;
                     % *(memberType->getParsed(CsParseAs::Default))
                     % *(memberName->getParsed(CsParseAs::Default))
                     % *(memberType->getParsed(CsParseAs::Initialization));
+            }
+            break;
+            case CsParseAs::GetLength:
+            {
+                parsed << "<temp>length += ...();\n";
             }
             break;
         }
