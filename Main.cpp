@@ -4,7 +4,7 @@
 
 #include <boost/format.hpp>
 
-#include "Krystal.h"
+#include "KstFile.h"
 #include "Context.h"
 
 #include "template.cs.h"
