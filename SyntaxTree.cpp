@@ -268,7 +268,33 @@ using namespace Krystal;
             break;
             case CsParseAs::GetLength:
             {
-                parsed << "<temp>length += ...();\n";
+                int typeType = memberType->getType();
+                switch (typeType)
+                {
+                    case CsNodeType::packetMemberTypePrimitive:
+                    {
+                        parsed << "<temp> length += ...primitive,...GetLnegth(...);\n";
+                    }
+                    break;
+
+                    case CsNodeType::packetMemberTypeReference:
+                    {
+                        parsed << "<temp> length += ...Custom...GetLength(...);\n";
+                    }
+                    break;
+
+                    case CsNodeType::packetMemberTypeMap:
+                    {
+                        parsed << "<temp> length += 4;\nforeach(...map...)\n{\n}\n";
+                    }
+                    break;
+
+                    case CsNodeType::packetMemberTypeList:
+                    {
+                        parsed << "<temp> length += 4;\nforeach(...list...)\n{\n}\n";
+                    }
+                    break;
+                }
             }
             break;
         }
@@ -323,7 +349,33 @@ using namespace Krystal;
 
     int Krystal::NodePacketMemberType::getType()
     {
-       return CsNodeType::packetMemberType;
+        switch (typeType)
+        {
+            case Parser::token::PRIMITIVE_DATA_TYPE:
+            {
+                return CsNodeType::packetMemberTypePrimitive;
+            }
+            break;
+            
+            case Parser::token::REFERENCE_DATA_TYPE:
+            {
+                return CsNodeType::packetMemberTypeReference;
+            }
+            break;
+            
+            case Parser::token::MAP:
+            {
+                return CsNodeType::packetMemberTypeMap;
+            }
+            break;
+            
+            case Parser::token::LIST:
+            {
+                return CsNodeType::packetMemberTypeList;
+            }
+            break;
+        }
+        return CsNodeType::packetMemberType;
     }
 
     size_t Krystal::NodePacketMemberType::getHash(vector<Node*>* referencingStack)

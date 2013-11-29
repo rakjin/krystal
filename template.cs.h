@@ -26,6 +26,11 @@ namespace CsNodeType
 				packetMembers,
 					packetMember,
 						packetMemberType,
+							/* workaround */
+							packetMemberTypePrimitive,
+							packetMemberTypeReference,
+							packetMemberTypeMap,
+							packetMemberTypeList,
 						packetMemberName,
 			enumeration,
 				enumerationName,
