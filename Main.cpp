@@ -7,8 +7,6 @@
 #include "KstFile.h"
 #include "Context.h"
 
-#include "template.cs.h"
-
 using namespace std;
 
 int main(int argc, char * argv[]) {
