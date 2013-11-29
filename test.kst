@@ -30,6 +30,7 @@ packet A
 packet B
 {
 	C c;
+	short foo;
 }
 
 packet C

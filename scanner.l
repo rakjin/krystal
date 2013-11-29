@@ -49,9 +49,18 @@ COMMENT_CPP			"//"[^\n]*$
 "packet"			{ return Krystal::Parser::token::PACKET; }
 "#include"			{ return Krystal::Parser::token::INCLUDE; }
 
-"bool"	|
-"int"	|
-"uint"				{
+"bool"		|
+"byte"		|
+"sbyte"		|
+"short"		|
+"ushort"	|
+"int"		|
+"uint"		|
+"long"		|
+"ulong"		|
+"float"		|
+"double"	|
+"string"			{
 						yylval->string = new std::string(yytext, yyleng);
 						return Krystal::Parser::token::PRIMITIVE_DATA_TYPE;
 					}
