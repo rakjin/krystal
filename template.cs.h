@@ -144,6 +144,8 @@ namespace CsNodeType
 #define TCS_PACKET_GET_LENGTH_END		"\treturn length;\n" \
 										"}\n"
 
+#define TCS_PACKET_CUSTOM_SERIALIZER_NAME			"Custom"
+
 #define TCS_PACKET_MEMBER_AS_GET_LENGTH_PRIMITIVE	"length += Krystal.Serializer.%1%.GetLength(%2%);\n" // serializer member_name
 
 #define TCS_PACKET_MEMBER_AS_GET_LENGTH_REFERENCE	"length += Krystal.Serializer.Custom.GetLength(%1%, true);\n"
