@@ -365,15 +365,16 @@ using namespace Krystal;
 
                     case Parser::token::MAP:
                     {
-                        parsed << "Dictionary";
-                        parsed << "<" << *(generic1->getParsed(CsParseAs::Default)) << ", " << *(generic2->getParsed(CsParseAs::Default)) << ">";
+                        parsed << format(TCS_PACKET_MEMBER_TYPE_MAP_AS_DEFAULT)
+                            % *(generic1->getParsed(CsParseAs::Default))
+                            % *(generic2->getParsed(CsParseAs::Default));
                     }
                     break;
 
                     case Parser::token::LIST:
                     {
-                        parsed << "List";
-                        parsed << "<" << *(generic1->getParsed(CsParseAs::Default)) << ">";
+                        parsed << format(TCS_PACKET_MEMBER_TYPE_LIST_AS_DEFAULT)
+                            % *(generic1->getParsed(CsParseAs::Default));
                     }
                     break;
 
