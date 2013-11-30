@@ -351,6 +351,13 @@ using namespace Krystal;
         generic1 = _generic1;
         generic2 = _generic2;
         generic3 = NULL;
+
+        if (typeType == Parser::token::MAP
+            &&
+            generic1->getType() != CsNodeType::packetMemberTypePrimitive)
+        {
+            throw string("Key of map must be primitive type.");
+        }
     }
 
     Krystal::NodePacketMemberType::NodePacketMemberType(Context* _context, int _type, Node* _generic1, Node* _generic2, Node* _generic3) : Node(_context)

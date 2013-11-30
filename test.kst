@@ -19,9 +19,11 @@ packet test_P_A_C_K_E_T_02
 	list <int> PACKET_MEMBER_4;
 	list <C> OECD;
 	map <int, bool> PACKET_MEMBER_5;
-	map <A, short> aaaa;
+	//map <A, short> aaaa;
 	map <ushort, B> bbb;
-	map <A, B> cccccccc;
+	//map <A, B> cccccccc;
+	//map <TestPacket01, int> opqrstu;
+	list <TestPacket01> abcdefg;
 	//list < map < int, A> > PACKET_MEMBER_6;
 	//map < map<A, A> , map<A, list<B>> > PACKET_MEMBER_7;
 }
