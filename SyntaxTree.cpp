@@ -149,7 +149,7 @@ using namespace Krystal;
             {
                 if (*i == this)
                 {
-                    throw(runtime_error("Circular reference between packets"));
+                    throw string("Circular reference between packets");
                 }
             }
         }
@@ -412,7 +412,7 @@ using namespace Krystal;
                 Node* typePacketNode = context->getDeclarationNode(value);
                 if (typePacketNode == NULL)
                 {
-                    throw(runtime_error("No such packet type."));
+                    throw string("No such packet type.");
                 }
                 packetMemberTypeHash = typePacketNode->getHash(referencingStack);
             }
@@ -475,7 +475,7 @@ using namespace Krystal;
 
                     default:
                     {
-                        throw(runtime_error("Unknown NodePacketMemberType type."));
+                        throw string("Unknown NodePacketMemberType type.");
                     }
                     break;
                 }
@@ -537,7 +537,7 @@ using namespace Krystal;
 
                     default:
                     {
-                        throw(runtime_error("Serializer not supported for nested generic type"));
+                        throw string("Serializer not supported for nested generic type");
                     }
                     break;
                 }
@@ -565,7 +565,7 @@ using namespace Krystal;
 
                     default:
                     {
-                        throw(runtime_error("Unknown NodePacketMemberType type."));
+                        throw string("Unknown NodePacketMemberType type.");
                     }
                     break;
                 }
