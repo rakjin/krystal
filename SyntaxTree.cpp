@@ -369,6 +369,8 @@ using namespace Krystal;
                         }
 
                         parsed << *(indent(new string(parsedWriteBlock.str())));
+
+                        parsed << TCS_PACKET_MEMBER_AS_WRITE_MAP_END;
                     }
                     break;
 
@@ -393,6 +395,8 @@ using namespace Krystal;
                         }
 
                         parsed << *(indent(new string(parsedWriteBlock.str())));
+
+                        parsed << TCS_PACKET_MEMBER_AS_WRITE_LIST_END;
                     }
                     break;
                 }
