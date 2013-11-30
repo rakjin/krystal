@@ -205,5 +205,16 @@ namespace CsNodeType
 
 #define TCS_PACKET_MEMBER_AS_WRITE_LIST_REFERENCE_VALUE	"Krystal.Serializer.%1%.Write( stream, val, true );\n"
 
+#define TCS_PACKET_READ_BEGIN	"public void Read( BinaryReader stream, bool isInner = false )\n" \
+								"{\n" \
+								"\tif ( false == isInner)\n" \
+								"\t{\n" \
+								"\t\tCOOKIE = Krystal.Serializer.String.Read( stream );\n" \
+								"\t}\n"
+
+#define TCS_PACKET_READ_END		"}\n"
+
+
+
 
 #endif // TEMPLATE_CS_H
