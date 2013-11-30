@@ -168,4 +168,14 @@ namespace CsNodeType
 								"\treturn \"%1%\";\n" \
 								"}\n"
 
+#define TCS_PACKET_WRITE_BEGIN	"public void Write(BinaryWriter stream, bool isInner = false)\n" \
+								"{\n" \
+								"\tif ( false == isInner )\n" \
+								"\t{\n" \
+								"\t\tKrystal.Serializer.String.Write( stream, COOKIE );\n" \
+								"\t}\n"
+
+#define TCS_PACKET_WRITE_END	"}\n"
+
+
 #endif // TEMPLATE_CS_H

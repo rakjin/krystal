@@ -216,6 +216,16 @@ using namespace Krystal;
 
                     body << format(TCS_PACKET_GET_NAME) % *packetName;
 
+                    body << TCS_PACKET_WRITE_BEGIN;
+                    {
+                        stringstream bodyWriteBlock;
+
+                        bodyWriteBlock << "\n";
+
+                        body << *(indent(new string(bodyWriteBlock.str())));
+                    }
+                    body << TCS_PACKET_WRITE_END;
+
 
                     parsed << *(indent(new string(body.str())));
                 }
