@@ -163,4 +163,9 @@ namespace CsNodeType
 													"\tlength += Krystal.Serializer.%3%.GetLength(val, true);\n" \
 													"}\n"
 
+#define TCS_PACKET_GET_NAME		"public string GetName()\n" \
+								"{\n" \
+								"\treturn \"%1%\";\n" \
+								"}\n"
+
 #endif // TEMPLATE_CS_H

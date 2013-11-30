@@ -214,6 +214,9 @@ using namespace Krystal;
                     }
                     body << TCS_PACKET_GET_LENGTH_END;
 
+                    body << format(TCS_PACKET_GET_NAME) % *packetName;
+
+
                     parsed << *(indent(new string(body.str())));
                 }
 
