@@ -214,6 +214,47 @@ namespace CsNodeType
 
 #define TCS_PACKET_READ_END		"}\n"
 
+#define TCS_PACKET_MEMBER_AS_READ_PRIMITIVE		"%1% = Krystal.Serializer.%2%.Read( stream );\n"
+
+#define TCS_PACKET_MEMBER_AS_READ_REFERENCE		"Krystal.Serializer.Custom.Read( stream, %1%, true );\n"
+
+#define TCS_PACKET_MEMBER_AS_READ_MAP_BEGIN		"%1%.Clear();\n" \
+												"int %1%Count = Krystal.Serializer.Int.Read(stream);\n" \
+												"for ( int %1%Index = 0; %1%Index < %1%Count; ++%1%Index )\n" \
+												"{\n"
+
+#define TCS_PACKET_MEMBER_AS_READ_MAP_END		"}\n"
+
+#define TCS_PACKET_MEMBER_AS_READ_MAP_PRIMITIVE_VALUE	"%1% %2%Key = Krystal.Serializer.%3%.Read( stream );\n" \
+														"%4% %2%Value = Krystal.Serializer.%5%.Read( stream );\n" \
+														"%2%.Add( %2%Key, %2%Value );\n"
+														//generic1 name generic1serializer generic2 generic2serializer
+
+#define TCS_PACKET_MEMBER_AS_READ_MAP_REFERENCE_VALUE	"%1% %2%Key = Krystal.Serializer.%3%.Read( stream );\n" \
+														"%4% %2%Temp = new %4%();\n" \
+														"Krystal.Serializer.Custom.Read( stream, %2%Temp, true );\n" \
+														"%2%.Add( %2%Key, %2%Temp );\n"
+														//generic1 name generic1serializer generic2
+
+#define TCS_PACKET_MEMBER_AS_READ_LIST_BEGIN	"%1%.Clear();\n" \
+												"int %1%Count = Krystal.Serializer.Int.Read(stream);\n" \
+												"for ( int i = 0; i< %1%Count; ++i )\n" \
+												"{\n"
+
+#define TCS_PACKET_MEMBER_AS_READ_LIST_END		"}\n"
+
+
+#define TCS_PACKET_MEMBER_AS_READ_LIST_PRIMITIVE_VALUE	"%1% item = Krystal.Serializer.%2%.Read( stream );\n" \
+														"%3%.Add(item);\n"
+														//generic1 generic1serializer name
+
+#define TCS_PACKET_MEMBER_AS_READ_LIST_REFERENCE_VALUE	"%1% item = new %1%();\n" \
+														"Krystal.Serializer.Custom.Read(stream, item, true);\n" \
+														"%2%.Add(item);\n"
+														//generic1 name
+
+
+
 
 
 
