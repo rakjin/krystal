@@ -219,8 +219,10 @@ using namespace Krystal;
                     body << TCS_PACKET_WRITE_BEGIN;
                     {
                         stringstream bodyWriteBlock;
-
-                        bodyWriteBlock << "\n";
+                        for (i = packetMembers->begin(); i != end; i++)
+                        {
+                            bodyWriteBlock << *((*i)->getParsed(CsParseAs::Write));
+                        }
 
                         body << *(indent(new string(bodyWriteBlock.str())));
                     }
@@ -279,6 +281,7 @@ using namespace Krystal;
                     % *(memberType->getParsed(CsParseAs::Initialization));
             }
             break;
+
             case CsParseAs::GetLength:
             {
                 int typeType = memberType->getType();
@@ -317,6 +320,79 @@ using namespace Krystal;
                             % *(memberType->getParsed(CsParseAs::GenericType1))
                             % *(memberName->getParsed(CsParseAs::Default))
                             % *(memberType->getParsed(CsParseAs::GenericTypeSerializer1));
+                    }
+                    break;
+                }
+            }
+            break;
+
+            case CsParseAs::Write:
+            {
+                int typeType = memberType->getType();
+                switch (typeType)
+                {
+                    case CsNodeType::packetMemberTypePrimitive:
+                    {
+                        string* serializerName = lookupSerializerName(memberType->getParsed(CsParseAs::Default));
+                        parsed << format(TCS_PACKET_MEMBER_AS_WRITE_PRIMITIVE)
+                            % *serializerName
+                            % *(memberName->getParsed(CsParseAs::Default));
+                    }
+                    break;
+
+                    case CsNodeType::packetMemberTypeReference:
+                    {
+                        parsed << format(TCS_PACKET_MEMBER_AS_WRITE_REFERENCE)
+                            % *(memberName->getParsed(CsParseAs::Default));
+                    }
+                    break;
+
+                    case CsNodeType::packetMemberTypeMap:
+                    {
+                        parsed << format(TCS_PACKET_MEMBER_AS_WRITE_MAP_BEGIN)
+                            % *(memberName->getParsed(CsParseAs::Default))
+                            % *(memberType->getParsed(CsParseAs::GenericType1))
+                            % *(memberType->getParsed(CsParseAs::GenericType2));
+
+                        stringstream parsedWriteBlock;
+
+                        // if map<primitive, CUSTOM>
+                        if ( memberType->getParsed(CsParseAs::IsPrimitiveTypeValue) == NULL)
+                        {
+                            parsedWriteBlock << TCS_PACKET_MEMBER_AS_WRITE_MAP_REFERENCE_VALUE;
+                        }
+                        else // map<primitive, primitive>
+                        {
+                            parsedWriteBlock << format(TCS_PACKET_MEMBER_AS_WRITE_MAP_PRIMITIVE_VALUE)
+                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializer1))
+                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializer2));
+                        }
+
+                        parsed << *(indent(new string(parsedWriteBlock.str())));
+                    }
+                    break;
+
+                    case CsNodeType::packetMemberTypeList:
+                    {
+                        parsed << format(TCS_PACKET_MEMBER_AS_WRITE_LIST_BEGIN)
+                            % *(memberName->getParsed(CsParseAs::Default))
+                            % *(memberType->getParsed(CsParseAs::GenericType1));
+
+                        stringstream parsedWriteBlock;
+
+                        // if list<CUSTOM>
+                        if ( memberType->getParsed(CsParseAs::IsPrimitiveTypeValue) == NULL)
+                        {
+                            parsedWriteBlock << format(TCS_PACKET_MEMBER_AS_WRITE_LIST_REFERENCE_VALUE)
+                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializer1));
+                        }
+                        else // list<primitive>
+                        {
+                            parsedWriteBlock << format(TCS_PACKET_MEMBER_AS_WRITE_LIST_PRIMITIVE_VALUE)
+                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializer1));
+                        }
+
+                        parsed << *(indent(new string(parsedWriteBlock.str())));
                     }
                     break;
                 }
@@ -534,6 +610,36 @@ using namespace Krystal;
                 parsed << *(generic3->getParsed(CsParseAs::SerializerName));
             }
             break;
+
+            case CsParseAs::IsPrimitiveTypeValue:
+            {
+                if (typeType == Parser::token::MAP)
+                {
+                    if (generic2->getType() == Parser::token::PRIMITIVE_DATA_TYPE)
+                    {
+                        parsed << "Non-NULL";
+                    }
+                    else
+                    {
+                        return NULL;
+                    }
+                }
+                else if (typeType == Parser::token::LIST)
+                {
+                    if (generic1->getType() == Parser::token::PRIMITIVE_DATA_TYPE)
+                    {
+                        parsed << "Non-NULL";
+                    }
+                    else
+                    {
+                        return NULL;
+                    }
+                }
+                else
+                {
+                    throw string("CsParseAs::IsPrimitiveTypeValue passed to non-generic type.");
+                }
+            }
 
             case CsParseAs::SerializerName:
             {

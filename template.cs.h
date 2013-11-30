@@ -47,7 +47,8 @@ namespace CsParseAs
 		GenericType3,
 		GenericTypeSerializer1,
 		GenericTypeSerializer2,
-		GenericTypeSerializer3
+		GenericTypeSerializer3,
+		IsPrimitiveTypeValue // if primitive, return Non-NULL
 	};
 }
 
@@ -176,6 +177,33 @@ namespace CsNodeType
 								"\t}\n"
 
 #define TCS_PACKET_WRITE_END	"}\n"
+
+#define TCS_PACKET_MEMBER_AS_WRITE_PRIMITIVE	"Krystal.Serializer.%1%.Write( stream, %2% );\n" // serializer member_name
+
+#define TCS_PACKET_MEMBER_AS_WRITE_REFERENCE	"Krystal.Serializer.Custom.Write( stream, %1%, true );\n"
+
+#define TCS_PACKET_MEMBER_AS_WRITE_MAP_BEGIN	"Krystal.Serializer.Int.Write( stream, %1%.Count );\n" \
+												"foreach( KeyValuePair<%2%, %3%> keyValueTemp in %1% )\n" \
+												"{\n"
+
+#define TCS_PACKET_MEMBER_AS_WRITE_MAP_END		"}\n"
+
+#define TCS_PACKET_MEMBER_AS_WRITE_MAP_PRIMITIVE_VALUE	"Krystal.Serializer.%1%.Write( stream, keyValueTemp.Key );\n" \
+														"Krystal.Serializer.%2%.Write( stream, keyValueTemp.Value );\n"
+
+#define TCS_PACKET_MEMBER_AS_WRITE_MAP_REFERENCE_VALUE	"Krystal.Serializer.String.Write(stream, Convert.ToString(keyValueTemp.Key) );\n" \
+														"Krystal.Serializer.Custom.Write( stream, Convert.ToString(keyValueTemp.Key), keyValueTemp.Value, true );\n"
+
+
+#define TCS_PACKET_MEMBER_AS_WRITE_LIST_BEGIN	"Krystal.Serializer.Int.Write( stream, %1%.Count );\n" \
+												"foreach( %2% val in %1% )\n" \
+												"{\n"
+
+#define TCS_PACKET_MEMBER_AS_WRITE_LIST_END		"}\n"
+
+#define TCS_PACKET_MEMBER_AS_WRITE_LIST_PRIMITIVE_VALUE	"Krystal.Serializer.%1%.Write( stream, val );\n"
+
+#define TCS_PACKET_MEMBER_AS_WRITE_LIST_REFERENCE_VALUE	"Krystal.Serializer.%1%.Write( stream, val, true );\n"
 
 
 #endif // TEMPLATE_CS_H
