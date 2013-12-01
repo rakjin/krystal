@@ -1,50 +1,32 @@
 
-//UNKNOWN_COMMAND_1
-     
-packet TestPacket01 {
-	
-	int PACKET_MEMBER_1;
-	bool PACKET_MEMBER_2;
-	uint PACKET_MEMBER_3;
-	Test2 packetAcrossTheFile;
-	Test2 wrongDetectionOfCircularReference; //uncomment this to throw wrong detection of circular reference
-}
-
-packet test_P_A_C_K_E_T_02
-{
-	
-	int PACKET_MEMBER_1;
-	bool PACKET_MEMBER_2;
-	TestPacket01 PACKET_MEMBER_3;
-	list <int> PACKET_MEMBER_4;
-	list <C> OECD;
-	map <int, bool> PACKET_MEMBER_5;
-	//map <A, short> aaaa;
-	map <ushort, B> bbb;
-	//map <A, B> cccccccc;
-	//map <TestPacket01, int> opqrstu;
-	list <TestPacket01> abcdefg;
-	//list < map < int, A> > PACKET_MEMBER_6;
-	//map < map<A, A> , map<A, list<B>> > PACKET_MEMBER_7;
-}
-
-packet A
-{
-	B b;
-}
-
-packet B
-{
-	C c;
-	short foo;
-}
-
-packet C
-{
-	int i;
-	//A a; //uncomment this to throw circular reference error
-}
-
 #include "test2.kst"
 
+packet P1
+{
+	bool boolField;
+	byte byteField;
+	sbyte sbyteField;
+	short shortField;
+	ushort ushortField;
+	int intField;
+	uint uintField;
+	long longField;
+	ulong ulongField;
+	float floatField;
+	double doubleField;
+	string stringField;
+	map <ushort, P2> mapField1;
+	map <short, long> mapField2;
+	list <P2> listField1;
+	list <double> listField2;
+};
 
+/*
+packet P3 { int a; };
+packet P4 { map<ushort, P3> a; };
+packet P5 { map<ushort, P4> a; };
+packet P6 { map<ushort, P5> a; };
+packet P7 { map<ushort, P6> a; };
+packet P8 { map<ushort, P7> a; };
+packet P9 { map<ushort, P8> a; };
+*/
