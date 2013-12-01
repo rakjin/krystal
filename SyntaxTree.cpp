@@ -240,6 +240,7 @@ using namespace Krystal;
                     }
                     body << TCS_PACKET_READ_END;
 
+                    body << TCS_PACKET_FIXED_METHODS_AFTER_READ;
 
                     parsed << *(indent(new string(body.str())));
                 }

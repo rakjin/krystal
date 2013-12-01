@@ -254,6 +254,51 @@ namespace CsNodeType
 														//generic1 name
 
 
+#define TCS_PACKET_FIXED_METHODS_AFTER_READ		"public byte[] ToArray()\n" \
+												"{\n" \
+												"\tusing(MemoryStream ms = new MemoryStream())\n" \
+												"\t{\n" \
+												"\t\tusing(BinaryWriter bw = new BinaryWriter(ms))\n" \
+												"\t\t{\n" \
+												"\t\t\tWrite(bw);\n" \
+												"\t\t\treturn ms.ToArray();\n" \
+												"\t\t}\n" \
+												"\t}\n" \
+												"}\n" \
+												"public void FromArray(byte[] bytes)\n" \
+												"{\n" \
+												"\tusing(MemoryStream ms = new MemoryStream(bytes))\n" \
+												"\t{\n" \
+												"\t\tusing(BinaryReader br = new BinaryReader(ms))\n" \
+												"\t\t{\n" \
+												"\t\t\tRead(br);\n" \
+												"\t\t}\n" \
+												"\t}\n" \
+												"}\n" \
+												"public void FromMemoryStream(MemoryStream ms)\n" \
+												"{\n" \
+												"\tFromArray(ms.GetBuffer());\n" \
+												"}\n" \
+												"public bool FromJSon(string userData, bool isInner = false)\n" \
+												"{\n" \
+												"\tstring webDecodedString = Uri.UnescapeDataString(userData);\n" \
+												"\tDictionary<string, object> jsonList = (Dictionary<string, object>)fastJSON.JSON.Instance.Parse( webDecodedString );\n" \
+												"\tobject requestObject = null;\n" \
+												"\tif ( false == jsonList.TryGetValue(\"request\", out requestObject) )\n" \
+												"\t{\n" \
+												"\t\treturn false;\n" \
+												"\t}\n" \
+												"\tif (requestObject is Dictionary<string,object>)\n" \
+												"\t{\n" \
+												"\t\treturn ParseJsonObjectData(requestObject, isInner);\n" \
+												"\t}\n" \
+												"\telse if (requestObject is ArrayList)\n" \
+												"\t{\n" \
+												"\t\treturn ParseJsonArrayData(requestObject, isInner);\n" \
+												"\t}\n" \
+												"\treturn false;\n" \
+												"}\n"
+
 
 
 
