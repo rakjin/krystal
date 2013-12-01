@@ -47,7 +47,7 @@ string KstDataTypeLookup[KstDataType::LENGTH_OF_KST_DATA_TYPES] =
 
 KstDataType::Enum lookupKstDataType(string* typeString)
 {
-	for (int i = 0; i < KstDataType::LENGTH_OF_KST_DATA_TYPES - 1; i++)
+	for (int i = 0; i < KstDataType::LENGTH_OF_KST_DATA_TYPES; i++)
 	{
 		if (KstDataTypeLookup[i].compare(*typeString) == 0) //same
 		{
