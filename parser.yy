@@ -120,6 +120,11 @@ command :
 		$$ = $1;
 	}
 	|
+	SEMICOLON
+	{
+		$$ = NULL;
+	}
+	|
 	unknown_command
 	{
 		$$ = NULL;
