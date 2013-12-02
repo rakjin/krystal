@@ -85,13 +85,13 @@ string* indent(string* src, unsigned int depth)
 	return src;
 }
 
-hash<string> str_hash;
+boost::hash<string> str_hash;
 size_t getHashCode(string* str)
 {	
 	return str_hash(*str);
 }
 
-hash<int> int_hash;
+boost::hash<int> int_hash;
 size_t getHashCode(int intValue)
 {	
 	return int_hash(intValue);
