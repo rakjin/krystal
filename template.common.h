@@ -71,6 +71,20 @@ string* indent(string* src)
     return new string(result);
 }
 
+string* indent(string* src, unsigned int depth)
+{
+	if (depth < 1)
+	{
+		throw string("wrong indent depth");
+	}
+
+	for (unsigned int i = 0; i < depth; i++)
+	{
+		src = indent(src);
+	}
+	return src;
+}
+
 hash<string> str_hash;
 size_t getHashCode(string* str)
 {	

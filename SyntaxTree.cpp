@@ -570,7 +570,7 @@ using namespace Krystal;
                                 % *(memberType->getParsed(CsParseAs::GenericType2));
                         }
 
-                        parsed << *(indent(new string(parsedParseJsonObjectDataBlock.str())));
+                        parsed << *(indent(new string(parsedParseJsonObjectDataBlock.str()), 2));
 
                         parsed << TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_MAP_END;
                     }
