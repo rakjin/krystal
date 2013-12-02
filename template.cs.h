@@ -46,9 +46,9 @@ namespace CsParseAs
 		GenericType1,
 		GenericType2,
 		GenericType3,
-		GenericTypeSerializer1,
-		GenericTypeSerializer2,
-		GenericTypeSerializer3,
+		GenericTypeSerializerName1,
+		GenericTypeSerializerName2,
+		GenericTypeSerializerName3,
 		IsPrimitiveTypeValue // if primitive, return Non-NULL
 	};
 }

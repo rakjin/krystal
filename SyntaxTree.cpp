@@ -334,8 +334,8 @@ using namespace Krystal;
                             % *(memberType->getParsed(CsParseAs::GenericType1))
                             % *(memberType->getParsed(CsParseAs::GenericType2))
                             % *(memberName->getParsed(CsParseAs::Default))
-                            % *(memberType->getParsed(CsParseAs::GenericTypeSerializer1))
-                            % *(memberType->getParsed(CsParseAs::GenericTypeSerializer2));
+                            % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName1))
+                            % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName2));
                     }
                     break;
 
@@ -344,7 +344,7 @@ using namespace Krystal;
                         parsed << format(TCS_PACKET_MEMBER_AS_GET_LENGTH_LIST)
                             % *(memberType->getParsed(CsParseAs::GenericType1))
                             % *(memberName->getParsed(CsParseAs::Default))
-                            % *(memberType->getParsed(CsParseAs::GenericTypeSerializer1));
+                            % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName1));
                     }
                     break;
                 }
@@ -389,8 +389,8 @@ using namespace Krystal;
                         else // map<primitive, primitive>
                         {
                             parsedWriteBlock << format(TCS_PACKET_MEMBER_AS_WRITE_MAP_PRIMITIVE_VALUE)
-                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializer1))
-                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializer2));
+                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName1))
+                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName2));
                         }
 
                         parsed << *(indent(new string(parsedWriteBlock.str())));
@@ -411,12 +411,12 @@ using namespace Krystal;
                         if ( memberType->getParsed(CsParseAs::IsPrimitiveTypeValue) == NULL)
                         {
                             parsedWriteBlock << format(TCS_PACKET_MEMBER_AS_WRITE_LIST_REFERENCE_VALUE)
-                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializer1));
+                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName1));
                         }
                         else // list<primitive>
                         {
                             parsedWriteBlock << format(TCS_PACKET_MEMBER_AS_WRITE_LIST_PRIMITIVE_VALUE)
-                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializer1));
+                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName1));
                         }
 
                         parsed << *(indent(new string(parsedWriteBlock.str())));
@@ -462,7 +462,7 @@ using namespace Krystal;
                             parsedReadBlock << format(TCS_PACKET_MEMBER_AS_READ_MAP_REFERENCE_VALUE)
                                 % *(memberType->getParsed(CsParseAs::GenericType1))
                                 % *(memberName->getParsed(CsParseAs::Default))
-                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializer1))
+                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName1))
                                 % *(memberType->getParsed(CsParseAs::GenericType2));
                         }
                         else // map<primitive, primitive>
@@ -470,9 +470,9 @@ using namespace Krystal;
                             parsedReadBlock << format(TCS_PACKET_MEMBER_AS_READ_MAP_PRIMITIVE_VALUE)
                                 % *(memberType->getParsed(CsParseAs::GenericType1))
                                 % *(memberName->getParsed(CsParseAs::Default))
-                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializer1))
+                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName1))
                                 % *(memberType->getParsed(CsParseAs::GenericType2))
-                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializer2));
+                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName2));
                         }
 
                         parsed << *(indent(new string(parsedReadBlock.str())));
@@ -499,7 +499,7 @@ using namespace Krystal;
                         {
                             parsedReadBlock << format(TCS_PACKET_MEMBER_AS_READ_LIST_PRIMITIVE_VALUE)
                                 % *(memberType->getParsed(CsParseAs::GenericType1))
-                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializer1))
+                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName1))
                                 % *(memberName->getParsed(CsParseAs::Default));
                         }
 
@@ -730,19 +730,19 @@ using namespace Krystal;
             }
             break;
 
-            case CsParseAs::GenericTypeSerializer1:
+            case CsParseAs::GenericTypeSerializerName1:
             {
                 parsed << *(generic1->getParsed(CsParseAs::SerializerName));
             }
             break;
 
-            case CsParseAs::GenericTypeSerializer2:
+            case CsParseAs::GenericTypeSerializerName2:
             {
                 parsed << *(generic2->getParsed(CsParseAs::SerializerName));
             }
             break;
 
-            case CsParseAs::GenericTypeSerializer3:
+            case CsParseAs::GenericTypeSerializerName3:
             {
                 parsed << *(generic3->getParsed(CsParseAs::SerializerName));
             }
