@@ -6,6 +6,9 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/algorithm/string/trim.hpp>
 
+using namespace std;
+using namespace boost;
+
 // must correspond with the rules in scanner.l, plus a LENGTH_OF_ item (used for LENGTH)
 namespace KstDataType
 {
@@ -58,31 +61,31 @@ KstDataType::Enum lookupKstDataType(string* typeString)
 }
 
 
-std::string* indent(std::string* src)
+string* indent(string* src)
 {
-    boost::algorithm::replace_all(*src, "\n", "\n\t");
-    boost::algorithm::trim_right_if(*src, boost::algorithm::is_any_of("\t"));
-    std::string result("\t");
+    algorithm::replace_all(*src, "\n", "\n\t");
+    algorithm::trim_right_if(*src, algorithm::is_any_of("\t"));
+    string result("\t");
     result = result + *src;
     delete src;
-    return new std::string(result);
+    return new string(result);
 }
 
-boost::hash<std::string> str_hash;
-std::size_t getHashCode(std::string* str)
+hash<string> str_hash;
+size_t getHashCode(string* str)
 {	
 	return str_hash(*str);
 }
 
-boost::hash<int> int_hash;
-std::size_t getHashCode(int intValue)
+hash<int> int_hash;
+size_t getHashCode(int intValue)
 {	
 	return int_hash(intValue);
 }
 
-void combineHashCode(std::size_t &targetHash, std::size_t additionalHash)
+void combineHashCode(size_t &targetHash, size_t additionalHash)
 {
-	boost::hash_combine(targetHash, (unsigned int)additionalHash);
+	hash_combine(targetHash, (unsigned int)additionalHash);
 }
 
 #endif //TEMPLATE_COMMON_H
