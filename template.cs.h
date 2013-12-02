@@ -26,7 +26,7 @@ string* lookupSerializerName(string* typeString)
 	KstDataType::Enum kstDataType = lookupKstDataType(typeString);
     if (((int)kstDataType) == -1)
     {
-        throw(runtime_error("Data type not found"));
+        throw string("Data type not found during lookup SerializerName");
     }
     string* serializerName = &(CsSerializerName[kstDataType]);
     return serializerName;
