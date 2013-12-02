@@ -40,6 +40,7 @@ namespace CsParseAs
 		GetLength,
 		Write,
 		Read,
+		ParseJsonObjectData,
 		Initialization,
 		SerializerName,
 		GenericType1,
@@ -314,6 +315,7 @@ namespace CsNodeType
 #define TCS_PACKET_PARSE_JSON_OBJECT_DATA_END	"\treturn true;\n" \
 												"}\n"
 
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_PRIMITIVE	"%1% = Krystal.Serializer.JSon.%2%.Read( \"%1%\", jsonArrayList_Overall );\n"
 
 
 #endif // TEMPLATE_CS_H

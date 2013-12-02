@@ -244,7 +244,13 @@ using namespace Krystal;
 
                     body << format(TCS_PACKET_PARSE_JSON_OBJECT_DATA_BEGIN) % packetMembers->size();
                     {
-                        ;
+                        stringstream bodyParseJsonObjectDataBlock;
+                        for (i = packetMembers->begin(); i != end; i++)
+                        {
+                            bodyParseJsonObjectDataBlock << *((*i)->getParsed(CsParseAs::ParseJsonObjectData));
+                        }
+
+                        body << *(indent(new string(bodyParseJsonObjectDataBlock.str())));
                     }
                     body << TCS_PACKET_PARSE_JSON_OBJECT_DATA_END;
 
@@ -500,6 +506,23 @@ using namespace Krystal;
                         parsed << *(indent(new string(parsedReadBlock.str())));
 
                         parsed << TCS_PACKET_MEMBER_AS_READ_LIST_END;
+                    }
+                    break;
+                }
+            }
+            break;
+
+            case CsParseAs::ParseJsonObjectData:
+            {
+                int typeType = memberType->getType();
+                switch (typeType)
+                {
+                    case CsNodeType::packetMemberTypePrimitive:
+                    {
+                        string* serializerName = lookupSerializerName(memberType->getParsed(CsParseAs::Default));
+                        parsed << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_PRIMITIVE)
+                            % *(memberName->getParsed(CsParseAs::Default))
+                            % *serializerName;
                     }
                     break;
                 }
