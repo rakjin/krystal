@@ -334,21 +334,45 @@ using namespace Krystal;
 
                     case CsNodeType::packetMemberTypeMap:
                     {
-                        parsed << format(TCS_PACKET_MEMBER_AS_GET_LENGTH_MAP)
-                            % *(memberType->getParsed(CsParseAs::GenericType1))
-                            % *(memberType->getParsed(CsParseAs::GenericType2))
-                            % *(memberName->getParsed(CsParseAs::Default))
-                            % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName1))
-                            % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName2));
+                        string* isPrimitiveTypeValue = memberType->getParsed(CsParseAs::IsPrimitiveTypeValue);
+                        // if map<primitive, primitive>
+                        if (isPrimitiveTypeValue->compare(YES) == EQUAL)
+                        {
+                            parsed << format(TCS_PACKET_MEMBER_AS_GET_LENGTH_MAP_PRIMITIVE_VALUE)
+                                % *(memberType->getParsed(CsParseAs::GenericType1))
+                                % *(memberType->getParsed(CsParseAs::GenericType2))
+                                % *(memberName->getParsed(CsParseAs::Default))
+                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName1))
+                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName2));
+                        }
+                        else // if map<primitive, CUSTOM>
+                        {
+                            parsed << format(TCS_PACKET_MEMBER_AS_GET_LENGTH_MAP_REFERENCE_VALUE)
+                                % *(memberType->getParsed(CsParseAs::GenericType1))
+                                % *(memberType->getParsed(CsParseAs::GenericType2))
+                                % *(memberName->getParsed(CsParseAs::Default))
+                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName1));
+                        }
                     }
                     break;
 
                     case CsNodeType::packetMemberTypeList:
                     {
-                        parsed << format(TCS_PACKET_MEMBER_AS_GET_LENGTH_LIST)
-                            % *(memberType->getParsed(CsParseAs::GenericType1))
-                            % *(memberName->getParsed(CsParseAs::Default))
-                            % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName1));
+                        string* isPrimitiveTypeValue = memberType->getParsed(CsParseAs::IsPrimitiveTypeValue);
+                        // if map<primitive, primitive>
+                        if (isPrimitiveTypeValue->compare(YES) == EQUAL)
+                        {
+                            parsed << format(TCS_PACKET_MEMBER_AS_GET_LENGTH_LIST_PRIMITIVE_VALUE)
+                                % *(memberType->getParsed(CsParseAs::GenericType1))
+                                % *(memberName->getParsed(CsParseAs::Default))
+                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName1));
+                        }
+                        else
+                        {
+                            parsed << format(TCS_PACKET_MEMBER_AS_GET_LENGTH_LIST_REFERENCE_VALUE)
+                                % *(memberType->getParsed(CsParseAs::GenericType1))
+                                % *(memberName->getParsed(CsParseAs::Default));
+                        }
                     }
                     break;
                 }

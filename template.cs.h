@@ -185,18 +185,31 @@ namespace CsNodeType
 
 #define TCS_PACKET_MEMBER_AS_GET_LENGTH_REFERENCE	"length += Krystal.Serializer.Custom.GetLength(%1%, true);\n"
 
-#define TCS_PACKET_MEMBER_AS_GET_LENGTH_MAP			"length += 4;\n" \
-													"foreach ( KeyValuePair<%1%, %2%> %3%Temp in %3% )\n" \
-													"{\n" \
-													"\tlength += Krystal.Serializer.%4%.GetLength(%3%Temp.Key);\n" \
-													"\tlength += Krystal.Serializer.%5%.GetLength(%3%Temp.Value);\n" \
-													"}\n"
+#define TCS_PACKET_MEMBER_AS_GET_LENGTH_MAP_PRIMITIVE_VALUE		"length += 4;\n" \
+																"foreach ( KeyValuePair<%1%, %2%> %3%Temp in %3% )\n" \
+																"{\n" \
+																"\tlength += Krystal.Serializer.%4%.GetLength(%3%Temp.Key);\n" \
+																"\tlength += Krystal.Serializer.%5%.GetLength(%3%Temp.Value);\n" \
+																"}\n"
 
-#define TCS_PACKET_MEMBER_AS_GET_LENGTH_LIST		"length += 4;\n" \
-													"foreach ( %1% val in %2% )\n" \
-													"{\n" \
-													"\tlength += Krystal.Serializer.%3%.GetLength(val, true);\n" \
-													"}\n"
+#define TCS_PACKET_MEMBER_AS_GET_LENGTH_MAP_REFERENCE_VALUE		"length += 4;\n" \
+																"foreach ( KeyValuePair<%1%, %2%> %3%Temp in %3% )\n" \
+																"{\n" \
+																"\tlength += Krystal.Serializer.%4%.GetLength(%3%Temp.Key);\n" \
+																"\tlength += Krystal.Serializer.Custom.GetLength(%3%Temp.Value);\n" \
+																"}\n"
+
+#define TCS_PACKET_MEMBER_AS_GET_LENGTH_LIST_PRIMITIVE_VALUE	"length += 4;\n" \
+																"foreach ( %1% val in %2% )\n" \
+																"{\n" \
+																"\tlength += Krystal.Serializer.%3%.GetLength(val);\n" \
+																"}\n"
+
+#define TCS_PACKET_MEMBER_AS_GET_LENGTH_LIST_REFERENCE_VALUE	"length += 4;\n" \
+																"foreach ( %1% val in %2% )\n" \
+																"{\n" \
+																"\tlength += Krystal.Serializer.Custom.GetLength(val, true);\n" \
+																"}\n"
 
 #define TCS_PACKET_GET_NAME		"public string GetName()\n" \
 								"{\n" \
