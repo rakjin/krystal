@@ -317,5 +317,16 @@ namespace CsNodeType
 
 #define TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_PRIMITIVE	"%1% = Krystal.Serializer.JSon.%2%.Read( \"%1%\", jsonArrayList_Overall );\n"
 
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_REFERENCE	"if ( jsonArrayList_Overall[\"%1%\"] is Dictionary<string, object> )\n" \
+																"{\n" \
+																"\tDictionary<string, object> %1%Value1 = jsonArrayList_Overall[\"%1%\"] as Dictionary<string, object>;\n" \
+																"\tif ( null == %1%Value1 || 0 == %1%Value1.Count )\n" \
+																"\t{\n" \
+																"\t\treturn false;\n" \
+																"\t}\n" \
+																"\tKrystal.Serializer.JSon.Custom.Read( %1%Value1, \"%1%\", %1%, true );\n" \
+																"}\n" \
+
+
 
 #endif // TEMPLATE_CS_H

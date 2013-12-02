@@ -1,6 +1,8 @@
 
 #include "test2.kst"
 
+packet P0 { int a; };
+
 packet P1
 {
 	bool boolField;
@@ -15,6 +17,8 @@ packet P1
 	float floatField;
 	double doubleField;
 	string stringField;
+	P2 myClassTypeField1;
+	P2 myClassTypeField2;
 	map <ushort, P2> mapField1;
 	map <short, long> mapField2;
 	list <P2> listField1;

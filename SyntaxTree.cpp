@@ -525,6 +525,13 @@ using namespace Krystal;
                             % *serializerName;
                     }
                     break;
+
+                    case CsNodeType::packetMemberTypeReference:
+                    {
+                        parsed << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_REFERENCE)
+                            % *(memberName->getParsed(CsParseAs::Default));
+                    }
+                    break;
                 }
             }
             break;
