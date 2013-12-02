@@ -72,12 +72,16 @@ namespace CsParseAs
 		ParseJsonObjectData,
 		Initialization,
 		SerializerName,
+		ConvertPhrase,
 		GenericType1,
 		GenericType2,
 		GenericType3,
 		GenericTypeSerializerName1,
 		GenericTypeSerializerName2,
 		GenericTypeSerializerName3,
+		GenericTypeConvertPhrase1,
+		GenericTypeConvertPhrase2,
+		GenericTypeConvertPhrase3,
 		IsPrimitiveTypeValue // if primitive, return Non-NULL
 	};
 }
@@ -356,6 +360,26 @@ namespace CsNodeType
 																"\tKrystal.Serializer.JSon.Custom.Read( %1%Value1, \"%1%\", %1%, true );\n" \
 																"}\n" \
 
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_MAP_BEGIN	"%1%.Clear();\n" \
+																"if ( jsonArrayList_Overall[\"%1%\"] is Dictionary<string, object> )\n" \
+																"{\n" \
+																"\tDictionary<string, object> %1%Value1 = jsonArrayList_Overall[\"%1%\"] as Dictionary<string, object>;\n" \
+																"\tforeach ( KeyValuePair<string, object> %1%Value7 in %1%Value1 )\n" \
+																"\t{\n"
+
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_MAP_END		"\t}\n" \
+																"}\n"
+
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_MAP_PRIMITIVE_VALUE		"%1% keyVal = %2%(%3%Value7.Key);\n" \
+																			"%4% valueVal = Krystal.Serializer.JSon.%5%.Read( %3%Value7.Key, %3%Value1 );\n" \
+																			"%3%.Add( keyVal, valueVal );\n"
+																			// generic1, convert1, name, generic2, serializer2
+
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_MAP_REFERENCE_VALUE		"%1% keyVal = %2%(%3%Value7.Key);\n" \
+																			"%4% valueVal = new %4%();\n" \
+																			"Krystal.Serializer.JSon.Custom.Read( %3%Value7.Value, %3%Value7.Key, valueVal, true );\n" \
+																			"%3%.Add( keyVal, valueVal );\n"
+																			// generic1, convert1, name, generic2
 
 
 #endif // TEMPLATE_CS_H
