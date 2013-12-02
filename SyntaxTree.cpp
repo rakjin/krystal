@@ -752,7 +752,7 @@ using namespace Krystal;
             {
                 if (typeType == Parser::token::MAP)
                 {
-                    if (generic2->getType() == Parser::token::PRIMITIVE_DATA_TYPE)
+                    if (generic2->getType() == CsNodeType::packetMemberTypePrimitive)
                     {
                         parsed << "Non-NULL";
                     }
@@ -763,7 +763,7 @@ using namespace Krystal;
                 }
                 else if (typeType == Parser::token::LIST)
                 {
-                    if (generic1->getType() == Parser::token::PRIMITIVE_DATA_TYPE)
+                    if (generic1->getType() == CsNodeType::packetMemberTypePrimitive)
                     {
                         parsed << "Non-NULL";
                     }
@@ -777,6 +777,7 @@ using namespace Krystal;
                     throw string("CsParseAs::IsPrimitiveTypeValue passed to non-generic type.");
                 }
             }
+            break;
 
             case CsParseAs::SerializerName:
             {
