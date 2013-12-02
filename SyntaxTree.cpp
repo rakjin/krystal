@@ -575,6 +575,34 @@ using namespace Krystal;
                         parsed << TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_MAP_END;
                     }
                     break;
+
+                    case CsNodeType::packetMemberTypeList:
+                    {
+                        parsed << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_LIST_BEGIN)
+                            % *(memberName->getParsed(CsParseAs::Default));
+
+                        stringstream parsedParseJsonObjectDataBlock;
+
+                        // if map<primitive>
+                        string* isPrimitiveTypeValue = memberType->getParsed(CsParseAs::IsPrimitiveTypeValue);
+                        if (isPrimitiveTypeValue->compare(YES) == EQUAL)
+                        {
+                            parsedParseJsonObjectDataBlock << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_LIST_PRIMITIVE_VALUE)
+                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName1))
+                                % *(memberName->getParsed(CsParseAs::Default));
+                        }
+                        else // if list<CUSTOM>
+                        {
+                            parsedParseJsonObjectDataBlock << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_LIST_REFERENCE_VALUE)
+                                % *(memberName->getParsed(CsParseAs::Default))
+                                % *(memberType->getParsed(CsParseAs::GenericType1));
+                        }
+
+                        parsed << parsedParseJsonObjectDataBlock.str();
+
+                        //parsed << TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_LIST_END; // no end string
+                    }
+                    break;
                 }
             }
             break;

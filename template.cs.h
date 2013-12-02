@@ -381,5 +381,20 @@ namespace CsNodeType
 																			"%3%.Add( keyVal, valueVal );\n"
 																			// generic1, convert1, name, generic2
 
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_LIST_BEGIN	"%1%.Clear();\n" \
+																"ArrayList jsonArrayList_%1% = jsonArrayList_Overall[\"%1%\"] as ArrayList;\n"
+
+//#define TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_LIST_END // no end string
+
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_LIST_PRIMITIVE_VALUE	"Krystal.Serializer.JSon.%1%.Read( \"%2%\", %2%, jsonArrayList_%2% );\n"
+
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_LIST_REFERENCE_VALUE	"foreach ( var jsonArrayListIter_%1% in jsonArrayList_%1% )\n" \
+																			"{\n" \
+																			"\t%2% dataItem = new %2%();\n" \
+																			"\tKrystal.Serializer.JSon.Custom.Read( jsonArrayListIter_%1%, \"%2%\", dataItem, true );\n" \
+																			"\t%1%.Add( dataItem );\n" \
+																			"}\n"
+
+
 
 #endif // TEMPLATE_CS_H
