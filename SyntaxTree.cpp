@@ -385,15 +385,15 @@ using namespace Krystal;
 
                         stringstream parsedWriteBlock;
 
-                        // if map<primitive, CUSTOM>
                         string* isPrimitiveTypeValue = memberType->getParsed(CsParseAs::IsPrimitiveTypeValue);
+                        // if map<primitive, primitive>
                         if (isPrimitiveTypeValue->compare(YES) == EQUAL)
                         {
                             parsedWriteBlock << format(TCS_PACKET_MEMBER_AS_WRITE_MAP_PRIMITIVE_VALUE)
                                 % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName1))
                                 % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName2));
                         }
-                        else // map<primitive, primitive>
+                        else // if map<primitive, CUSTOM>
                         {
                             parsedWriteBlock << TCS_PACKET_MEMBER_AS_WRITE_MAP_REFERENCE_VALUE;
                         }
@@ -412,14 +412,14 @@ using namespace Krystal;
 
                         stringstream parsedWriteBlock;
 
-                        // if list<CUSTOM>
                         string* isPrimitiveTypeValue = memberType->getParsed(CsParseAs::IsPrimitiveTypeValue);
+                        // if list<primitive>
                         if (isPrimitiveTypeValue->compare(YES) == EQUAL)
                         {
                             parsedWriteBlock << format(TCS_PACKET_MEMBER_AS_WRITE_LIST_PRIMITIVE_VALUE)
                                 % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName1));
                         }
-                        else // list<primitive>
+                        else // if list<CUSTOM>
                         {
                             parsedWriteBlock << format(TCS_PACKET_MEMBER_AS_WRITE_LIST_REFERENCE_VALUE)
                                 % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName1));
@@ -462,8 +462,8 @@ using namespace Krystal;
 
                         stringstream parsedReadBlock;
 
-                        // if map<primitive, CUSTOM>
                         string* isPrimitiveTypeValue = memberType->getParsed(CsParseAs::IsPrimitiveTypeValue);
+                        // if map<primitive, primitive>
                         if (isPrimitiveTypeValue->compare(YES) == EQUAL)
                         {
                             parsedReadBlock << format(TCS_PACKET_MEMBER_AS_READ_MAP_PRIMITIVE_VALUE)
@@ -473,7 +473,7 @@ using namespace Krystal;
                                 % *(memberType->getParsed(CsParseAs::GenericType2))
                                 % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName2));
                         }
-                        else // map<primitive, primitive>
+                        else // if map<primitive, CUSTOM>
                         {
                             parsedReadBlock << format(TCS_PACKET_MEMBER_AS_READ_MAP_REFERENCE_VALUE)
                                 % *(memberType->getParsed(CsParseAs::GenericType1))
@@ -495,8 +495,8 @@ using namespace Krystal;
 
                         stringstream parsedReadBlock;
 
-                        // if list<CUSTOM>
                         string* isPrimitiveTypeValue = memberType->getParsed(CsParseAs::IsPrimitiveTypeValue);
+                        // if list<primitive>
                         if (isPrimitiveTypeValue->compare(YES) == EQUAL)
                         {
                             parsedReadBlock << format(TCS_PACKET_MEMBER_AS_READ_LIST_PRIMITIVE_VALUE)
@@ -504,7 +504,7 @@ using namespace Krystal;
                                 % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName1))
                                 % *(memberName->getParsed(CsParseAs::Default));
                         }
-                        else // list<primitive>
+                        else // if list<CUSTOM>
                         {
                             parsedReadBlock << format(TCS_PACKET_MEMBER_AS_READ_LIST_REFERENCE_VALUE)
                                 % *(memberType->getParsed(CsParseAs::GenericType1))
@@ -548,8 +548,8 @@ using namespace Krystal;
 
                         stringstream parsedParseJsonObjectDataBlock;
 
-                        // if map<primitive, CUSTOM>
                         string* isPrimitiveTypeValue = memberType->getParsed(CsParseAs::IsPrimitiveTypeValue);
+                        // if map<primitive, primitive>
                         if (isPrimitiveTypeValue->compare(YES) == EQUAL)
                         {
                             // generic1, convert1, name, generic2, serializer2
@@ -560,7 +560,7 @@ using namespace Krystal;
                                 % *(memberType->getParsed(CsParseAs::GenericType2))
                                 % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName2));
                         }
-                        else // map<primitive, primitive>
+                        else // if map<primitive, CUSTOM>
                         {
                             // generic1, convert1, name, generic2
                             parsedParseJsonObjectDataBlock << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_MAP_REFERENCE_VALUE)
