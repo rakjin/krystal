@@ -21,6 +21,23 @@ string CsSerializerName[KstDataType::LENGTH_OF_KST_DATA_TYPES] =
 	"String"
 };
 
+// must correspond with KstDataType enum in template.common.h
+string CsConvertPhrase[KstDataType::LENGTH_OF_KST_DATA_TYPES] =
+{
+	"Convert.ToBoolean", //bool
+	"Convert.ToByte", //byte
+	"Convert.ToSByte", //sbyte
+	"Convert.ToChar", //short
+	"Convert.ToChar", //ushort
+	"Convert.ToInt32", //int
+	"Convert.ToUInt32", //uint
+	"(long)Convert.ToDouble", //long
+	"(ulong)Convert.ToDouble", //ulong
+	"(float)Convert.ToDouble", //float
+	"Convert.ToDouble", //double
+	"Convert.ToString" //string
+};
+
 string* lookupSerializerName(string* typeString)
 {
 	KstDataType::Enum kstDataType = lookupKstDataType(typeString);
@@ -31,6 +48,18 @@ string* lookupSerializerName(string* typeString)
     string* serializerName = &(CsSerializerName[kstDataType]);
     return serializerName;
 }
+
+string* lookupConvertPhrase(string* typeString)
+{
+	KstDataType::Enum kstDataType = lookupKstDataType(typeString);
+    if (((int)kstDataType) == -1)
+    {
+        throw string("Data type not found during lookup ConvertPhrase");
+    }
+    string* convertPhrase = &(CsConvertPhrase[kstDataType]);
+    return convertPhrase;
+}
+
 
 namespace CsParseAs
 {
