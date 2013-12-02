@@ -540,6 +540,41 @@ using namespace Krystal;
                             % *(memberName->getParsed(CsParseAs::Default));
                     }
                     break;
+
+                    case CsNodeType::packetMemberTypeMap:
+                    {
+                        parsed << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_MAP_BEGIN)
+                            % *(memberName->getParsed(CsParseAs::Default));
+
+                        stringstream parsedParseJsonObjectDataBlock;
+
+                        // if map<primitive, CUSTOM>
+                        string* isPrimitiveTypeValue = memberType->getParsed(CsParseAs::IsPrimitiveTypeValue);
+                        if (isPrimitiveTypeValue->compare(YES) == EQUAL)
+                        {
+                            // generic1, convert1, name, generic2, serializer2
+                            parsedParseJsonObjectDataBlock << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_MAP_PRIMITIVE_VALUE)
+                                % *(memberType->getParsed(CsParseAs::GenericType1))
+                                % *(memberType->getParsed(CsParseAs::GenericTypeConvertPhrase1))
+                                % *(memberName->getParsed(CsParseAs::Default))
+                                % *(memberType->getParsed(CsParseAs::GenericType2))
+                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName2));
+                        }
+                        else // map<primitive, primitive>
+                        {
+                            // generic1, convert1, name, generic2
+                            parsedParseJsonObjectDataBlock << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_MAP_REFERENCE_VALUE)
+                                % *(memberType->getParsed(CsParseAs::GenericType1))
+                                % *(memberType->getParsed(CsParseAs::GenericTypeConvertPhrase1))
+                                % *(memberName->getParsed(CsParseAs::Default))
+                                % *(memberType->getParsed(CsParseAs::GenericType2));
+                        }
+
+                        parsed << *(indent(new string(parsedParseJsonObjectDataBlock.str())));
+
+                        parsed << TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_MAP_END;
+                    }
+                    break;
                 }
             }
             break;
@@ -756,6 +791,24 @@ using namespace Krystal;
             }
             break;
 
+            case CsParseAs::GenericTypeConvertPhrase1:
+            {
+                parsed << *(generic1->getParsed(CsParseAs::ConvertPhrase));
+            }
+            break;
+
+            case CsParseAs::GenericTypeConvertPhrase2:
+            {
+                parsed << *(generic2->getParsed(CsParseAs::ConvertPhrase));
+            }
+            break;
+
+            case CsParseAs::GenericTypeConvertPhrase3:
+            {
+                parsed << *(generic3->getParsed(CsParseAs::ConvertPhrase));
+            }
+            break;
+
             case CsParseAs::IsPrimitiveTypeValue:
             {
                 if (typeType == Parser::token::MAP)
@@ -807,6 +860,26 @@ using namespace Krystal;
                     default:
                     {
                         throw string("Serializer not supported for nested generic type");
+                    }
+                    break;
+                }
+            }
+            break;
+
+            case CsParseAs::ConvertPhrase:
+            {
+                switch (typeType)
+                {
+                    case Parser::token::PRIMITIVE_DATA_TYPE:
+                    {
+                        string* convertPhrase = lookupConvertPhrase(value);
+                        parsed << *convertPhrase;
+                    }
+                    break;
+
+                    default:
+                    {
+                        throw string("Krystal assertion failed: ConvertPhrase called for non-primitive type");
                     }
                     break;
                 }
