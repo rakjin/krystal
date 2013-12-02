@@ -242,6 +242,12 @@ using namespace Krystal;
 
                     body << TCS_PACKET_FIXED_METHODS_AFTER_READ;
 
+                    body << format(TCS_PACKET_PARSE_JSON_OBJECT_DATA_BEGIN) % packetMembers->size();
+                    {
+                        ;
+                    }
+                    body << TCS_PACKET_PARSE_JSON_OBJECT_DATA_END;
+
                     parsed << *(indent(new string(body.str())));
                 }
 

@@ -299,7 +299,20 @@ namespace CsNodeType
 												"\treturn false;\n" \
 												"}\n"
 
+#define TCS_PACKET_PARSE_JSON_OBJECT_DATA_BEGIN	"public bool ParseJsonObjectData(object requestObject, bool isInner = false)\n" \
+												"{\n" \
+												"\tDictionary<string,object> jsonArrayList_Overall = requestObject as Dictionary<string,object>;\n" \
+												"\tif ( %1% > jsonArrayList_Overall.Count )\n" \
+												"\t{\n" \
+												"\t\treturn false;\n" \
+												"\t}\n" \
+												"\tif ( false == isInner )\n" \
+												"\t{\n" \
+												"\t\tCOOKIE = Krystal.Serializer.JSon.String.Read(\"COOKIE\", jsonArrayList_Overall );\n" \
+												"\t}\n"
 
+#define TCS_PACKET_PARSE_JSON_OBJECT_DATA_END	"\treturn true;\n" \
+												"}\n"
 
 
 
