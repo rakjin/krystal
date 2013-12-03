@@ -12,6 +12,7 @@
 // Include Bison for types / tokens
 #include "parser.tab.hh"
 
+using namespace std;
 
 namespace Krystal
 {
@@ -19,7 +20,7 @@ namespace Krystal
 		public:
 			// constructor accepts the input and output streams
 			// 0 means std equivilant (stdin, stdout)
-			Scanner(std::istream * in = 0, std::ostream * out = 0) : yyFlexLexer(in, out) { }
+			Scanner(istream * in = 0, ostream * out = 0) : yyFlexLexer(in, out) { }
 
 			// overloaded version of yylex - we need a pointer to yylval and yylloc
 			inline int yylex(Parser::semantic_type * lval,
