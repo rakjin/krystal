@@ -23,6 +23,7 @@ packet P1
 	map <short, long> mapField2;
 	list <P2> listField1;
 	list <double> listField2;
+	//int doubleField; // packet member name duplication check
 };
 
 /*

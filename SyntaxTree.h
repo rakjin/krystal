@@ -12,6 +12,8 @@
 
 using namespace std;
 
+#define PARSE_AS_NAME   1024
+
 namespace Krystal
 {
 
