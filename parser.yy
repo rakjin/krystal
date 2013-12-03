@@ -120,6 +120,11 @@ command :
 		$$ = $1;
 	}
 	|
+	SEMICOLON
+	{
+		$$ = NULL;
+	}
+	|
 	unknown_command
 	{
 		$$ = NULL;
@@ -163,6 +168,19 @@ packet_members :
 	{
 		//std::cout << "\tpacket_members packet_member\n";
 		//std::cout << "\t\t" << *($2->getParsed()) << "\n";
+
+		// packet member name duplication check
+		std::string* currentMemberName = $2->getParsed(PARSE_AS_NAME);
+		std::list<Node*>::iterator i = $1->begin();
+		std::list<Node*>::iterator end = $1->end();
+		for (; i != end; i++)
+		{
+			std::string* memberName = (*i)->getParsed(PARSE_AS_NAME);
+			if (currentMemberName->compare(*memberName) == 0) //packet member name duplication
+			{
+				error(yyloc, std::string("DUPLICATED packet member: ") + *memberName);
+			}
+		}
 
 		$1->push_back( $2 );
 		$$ = $1;

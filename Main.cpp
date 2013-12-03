@@ -7,8 +7,6 @@
 #include "KstFile.h"
 #include "Context.h"
 
-#include "template.cs.h"
-
 using namespace std;
 
 int main(int argc, char * argv[]) {
@@ -39,14 +37,14 @@ int main(int argc, char * argv[]) {
 			new Krystal::KstFile(fileNameToProcess, context);
 			context.markIncludedFileAsProcessed(fileNameToProcess);
 		}
+
+		cout << *(kstFile->getParsed()); // the first parsed
 	}
 	catch (string error)
 	{
 		cerr << "ERROR: " << error << endl;
 		return 255;
 	}
-
-	cout << *(kstFile->getParsed()); // the first parsed
 
     delete kstFile;
 	return 0;
