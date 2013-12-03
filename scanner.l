@@ -2,6 +2,8 @@
 	#include "Scanner.h"
 	// used to keep track of location
 	#define YY_USER_ACTION yylloc->columns(yyleng);
+
+	using namespace std;
 %}
 
 %option nodefault yyclass="Scanner" noyywrap c++
@@ -41,8 +43,8 @@ COMMENT_CPP			"//"[^\n]*$
 ","					{ return Krystal::Parser::token::COMMA; }
 
 \"(\\.|[^\\"])*\"	{
-						yylval->string = new std::string(yytext + 1, yyleng - 2); // +1/-2 to remove quotes
-						//std::cout << *(yylval->string);
+						yylval->stringValue = new string(yytext + 1, yyleng - 2); // +1/-2 to remove quotes
+						//cout << *(yylval->stringValue);
 						return Krystal::Parser::token::STRING_LITERAL;
 					}
 
@@ -66,27 +68,27 @@ COMMENT_CPP			"//"[^\n]*$
 "float"		|
 "double"	|
 "string"			{
-						yylval->string = new std::string(yytext, yyleng);
+						yylval->stringValue = new string(yytext, yyleng);
 						return Krystal::Parser::token::PRIMITIVE_DATA_TYPE;
 					}
 
 "map"				{
-						yylval->string = new std::string(yytext, yyleng);
+						yylval->stringValue = new string(yytext, yyleng);
 						return Krystal::Parser::token::MAP;
 					}
 
 "list"				{
-						yylval->string = new std::string(yytext, yyleng);
+						yylval->stringValue = new string(yytext, yyleng);
 						return Krystal::Parser::token::LIST;
 					}
 
 {ID}				{
-						yylval->string = new std::string(yytext, yyleng);
+						yylval->stringValue = new string(yytext, yyleng);
 						return Krystal::Parser::token::ID;
 					}
 
 .					{
-						yylval->string = new std::string(yytext, yyleng);
+						yylval->stringValue = new string(yytext, yyleng);
 						return Krystal::Parser::token::UNKNOWN_CHARACTER;
 					}
 

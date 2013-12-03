@@ -6,7 +6,7 @@
 %define parser_class_name "Parser"
 %parse-param { Krystal::Scanner &scanner }
 %parse-param { Node* &root }
-%parse-param { std::string* fileName }
+%parse-param { string* fileName }
 %parse-param { Krystal::Context* &context }
 %lex-param   { Krystal::Scanner &scanner }
 
@@ -22,8 +22,7 @@
 	#include "SyntaxTree.h"
 	#include "Context.h"
 
-	// We want to return a string
-	// #define YYSTYPE std::string
+	using namespace std;
 
 	#define ALLOW_DUPLICATED_INCLUDE		true
 	namespace Krystal {
@@ -42,9 +41,9 @@
 
 %union {
 	int integerValue;
-	std::string* string;
+	string* stringValue;
 	Node* node;
-	std::list<Node*>* nodes;
+	list<Node*>* nodes;
 }
 
 %token BLOCK_BEGIN BLOCK_END
@@ -55,14 +54,14 @@
 %token PACKET
 %token INCLUDE
 
-%token <string>	ID
-%token <string>	STRING_LITERAL
-%token <string>	UNKNOWN_CHARACTER
+%token <stringValue>	ID
+%token <stringValue>	STRING_LITERAL
+%token <stringValue>	UNKNOWN_CHARACTER
 
-%token <string>	PRIMITIVE_DATA_TYPE
-%token <string>	REFERENCE_DATA_TYPE
+%token <stringValue>	PRIMITIVE_DATA_TYPE
+%token <stringValue>	REFERENCE_DATA_TYPE
 
-%type <string>				unknown_command
+%type <stringValue>				unknown_command
 //%destructor { delete $$; }	unknown_command
 
 %type <node>				kst command include packet packet_member packet_member_type packet_member_name
@@ -78,7 +77,7 @@
 kst :
 	/* null */
 	{
-		std::list<Node*>* emptyCommands = new std::list<Node*>;
+		list<Node*>* emptyCommands = new list<Node*>;
 		root = new NodeKst(context, emptyCommands, fileName);
 		$$ = root;
 	}
@@ -92,7 +91,7 @@ kst :
 commands :
 	command
 	{
-		$$ = new std::list<Node*>;
+		$$ = new list<Node*>;
 
 		if ($1 != NULL)
 		{
@@ -128,7 +127,7 @@ command :
 	unknown_command
 	{
 		$$ = NULL;
-		error(yyloc, std::string("Unknown Command \"") + *$1 + "\"");
+		error(yyloc, string("Unknown Command \"") + *$1 + "\"");
 		delete $1;
 		YYERROR;
 	}
@@ -136,49 +135,49 @@ command :
 packet :
 	PACKET ID BLOCK_BEGIN packet_members BLOCK_END
 	{
-		//std::cout << "packet: " << *$2 << "\n";
+		//cout << "packet: " << *$2 << "\n";
 
-		//std::list<Node*>::iterator i   = $4->begin();
-		//std::list<Node*>::iterator end = $4->end();
+		//list<Node*>::iterator i   = $4->begin();
+		//list<Node*>::iterator end = $4->end();
 		//for (; i != end; ++i)
 		//{
-		//	std::cout << "packet - member:" << *((*i)->getParsed()) << "\n";
+		//	cout << "packet - member:" << *((*i)->getParsed()) << "\n";
 		//}
 
 		$$ = new NodePacket(context, $2, $4);
-		//std::cout << *($$->getParsed()) << "\n";
+		//cout << *($$->getParsed()) << "\n";
 		bool success = context->insertDeclaration($2, $$);
 		if (success == false)
 		{
-			error(yyloc, std::string("DUPLICATED packet ") + *$2);
+			error(yyloc, string("DUPLICATED packet ") + *$2);
 		}
 	}
 
 packet_members :
 	packet_member
 	{
-		//std::cout << "\tpacket_member\n";
-		//std::cout << "\t\t" << *($1->getParsed()) << "\n";
+		//cout << "\tpacket_member\n";
+		//cout << "\t\t" << *($1->getParsed()) << "\n";
 
-		$$ = new std::list<Node*>;
+		$$ = new list<Node*>;
 		$$->push_back( $1 );
 	}
 	|
 	packet_members packet_member
 	{
-		//std::cout << "\tpacket_members packet_member\n";
-		//std::cout << "\t\t" << *($2->getParsed()) << "\n";
+		//cout << "\tpacket_members packet_member\n";
+		//cout << "\t\t" << *($2->getParsed()) << "\n";
 
 		// packet member name duplication check
-		std::string* currentMemberName = $2->getParsed(PARSE_AS_NAME);
-		std::list<Node*>::iterator i = $1->begin();
-		std::list<Node*>::iterator end = $1->end();
+		string* currentMemberName = $2->getParsed(PARSE_AS_NAME);
+		list<Node*>::iterator i = $1->begin();
+		list<Node*>::iterator end = $1->end();
 		for (; i != end; i++)
 		{
-			std::string* memberName = (*i)->getParsed(PARSE_AS_NAME);
+			string* memberName = (*i)->getParsed(PARSE_AS_NAME);
 			if (currentMemberName->compare(*memberName) == 0) //packet member name duplication
 			{
-				error(yyloc, std::string("DUPLICATED packet member: ") + *memberName);
+				error(yyloc, string("DUPLICATED packet member: ") + *memberName);
 			}
 		}
 
@@ -190,13 +189,13 @@ packet_member :
 	packet_member_type packet_member_name SEMICOLON
 	{
 		$$ = new NodePacketMember(context, $1, $2);
-		//std::cout << "packet_member: " << *($$->getParsed()) << "\n";
+		//cout << "packet_member: " << *($$->getParsed()) << "\n";
 	}
 
 packet_member_type :
 	PRIMITIVE_DATA_TYPE
 	{
-		//std::cout << "packet_member_type: " << *$1 << "\n";
+		//cout << "packet_member_type: " << *$1 << "\n";
 		$$ = new NodePacketMemberType(context, token::PRIMITIVE_DATA_TYPE, $1);
 	}
 	|
@@ -218,20 +217,20 @@ packet_member_type :
 packet_member_name :
 	ID
 	{
-		//std::cout << "packet_member_name: " << *$1 << "\n";
+		//cout << "packet_member_name: " << *$1 << "\n";
 		$$ = new NodePacketMemberName(context, $1);
 	}
 
 include :
 	INCLUDE STRING_LITERAL
 	{
-		//std::cout << "include directive: " << *$2 << "\n";
+		//cout << "include directive: " << *$2 << "\n";
 		$$ = new NodeInclude(context, $2);
-		//std::cout << *($$->getParsed()) << "\n";
+		//cout << *($$->getParsed()) << "\n";
 		bool success = context->insertIncludedFile($2);
 		if (success == false && ALLOW_DUPLICATED_INCLUDE == false)
 		{
-			error(yyloc, std::string("DUPLICATED #include \"") + *$2 + "\"");
+			error(yyloc, string("DUPLICATED #include \"") + *$2 + "\"");
 		}
 	}
 
@@ -252,10 +251,10 @@ unknown_command :
 	
 %%
 
-// Error function throws an exception (std::string) with the location and error message
+// Error function throws an exception (string) with the location and error message
 void Krystal::Parser::error(const Krystal::Parser::location_type &loc,
-                                          const std::string &msg) {
-	std::ostringstream ret;
+                                          const string &msg) {
+	ostringstream ret;
 	ret << "Parser Error at " << *fileName << " " << loc << ": " << msg;
 	throw ret.str();
 }
