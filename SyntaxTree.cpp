@@ -258,7 +258,16 @@ using namespace Krystal;
                     }
                     body << TCS_PACKET_PARSE_JSON_OBJECT_DATA_END;
 
-                    body << TCS_PACKET_PARSE_JSON_ARRAY_DATA_BEGIN;
+                    body << format(TCS_PACKET_PARSE_JSON_ARRAY_DATA_BEGIN) % packetMembers->size();
+                    {
+                        stringstream bodyParseJsonArrayDataBlock;
+                        for (i = packetMembers->begin(); i != end; i++)
+                        {
+                            bodyParseJsonArrayDataBlock << *((*i)->getParsed(CsParseAs::ParseJsonArrayData));
+                        }
+
+                        body << *(indent(new string(bodyParseJsonArrayDataBlock.str())));
+                    }
                     body << TCS_PACKET_PARSE_JSON_ARRAY_DATA_END;
 
                     parsed << *(indent(new string(body.str())));
@@ -628,6 +637,93 @@ using namespace Krystal;
                         parsed << parsedParseJsonObjectDataBlock.str();
 
                         //parsed << TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_LIST_END; // no end string
+                    }
+                    break;
+                }
+            }
+            break;
+
+            case CsParseAs::ParseJsonArrayData:
+            {
+                int typeType = memberType->getType();
+                switch (typeType)
+                {
+                    case CsNodeType::packetMemberTypePrimitive:
+                    {
+                        string* serializerName = lookupSerializerName(memberType->getParsed(CsParseAs::Default));
+                        parsed << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_PRIMITIVE)
+                            % *(memberName->getParsed(CsParseAs::Default))
+                            % *serializerName;
+                    }
+                    break;
+
+                    case CsNodeType::packetMemberTypeReference:
+                    {
+                        parsed << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_REFERENCE)
+                            % *(memberName->getParsed(CsParseAs::Default));
+                    }
+                    break;
+
+                    case CsNodeType::packetMemberTypeMap:
+                    {
+                        parsed << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_MAP_BEGIN)
+                            % *(memberName->getParsed(CsParseAs::Default));
+
+                        stringstream parsedParseJsonArrayDataBlock;
+
+                        string* isPrimitiveTypeValue = memberType->getParsed(CsParseAs::IsPrimitiveTypeValue);
+                        // if map<primitive, primitive>
+                        if (isPrimitiveTypeValue->compare(YES) == EQUAL)
+                        {
+                            // generic1, generic1convert, name, generic2, generic2serializer
+                            parsedParseJsonArrayDataBlock << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_MAP_PRIMITIVE_VALUE)
+                                % *(memberType->getParsed(CsParseAs::GenericType1))
+                                % *(memberType->getParsed(CsParseAs::GenericTypeConvertPhrase1))
+                                % *(memberName->getParsed(CsParseAs::Default))
+                                % *(memberType->getParsed(CsParseAs::GenericType2))
+                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName2));
+                        }
+                        else // if map<primitive, CUSTOM>
+                        {
+                            // generic1, generic1convert, name, generic2
+                            parsedParseJsonArrayDataBlock << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_MAP_REFERENCE_VALUE)
+                                % *(memberType->getParsed(CsParseAs::GenericType1))
+                                % *(memberType->getParsed(CsParseAs::GenericTypeConvertPhrase1))
+                                % *(memberName->getParsed(CsParseAs::Default))
+                                % *(memberType->getParsed(CsParseAs::GenericType2));
+                        }
+
+                        parsed << *(indent(new string(parsedParseJsonArrayDataBlock.str()), 5));
+
+                        parsed << TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_MAP_END;
+                    }
+                    break;
+
+                    case CsNodeType::packetMemberTypeList:
+                    {
+                        parsed << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_LIST_BEGIN)
+                            % *(memberName->getParsed(CsParseAs::Default));
+
+                        stringstream parsedParseJsonArrayDataBlock;
+
+                        // if map<primitive>
+                        string* isPrimitiveTypeValue = memberType->getParsed(CsParseAs::IsPrimitiveTypeValue);
+                        if (isPrimitiveTypeValue->compare(YES) == EQUAL)
+                        {
+                            parsedParseJsonArrayDataBlock << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_LIST_PRIMITIVE_VALUE)
+                                % *(memberType->getParsed(CsParseAs::GenericTypeSerializerName1))
+                                % *(memberName->getParsed(CsParseAs::Default));
+                        }
+                        else // if list<CUSTOM>
+                        {
+                            parsedParseJsonArrayDataBlock << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_LIST_REFERENCE_VALUE)
+                                % *(memberName->getParsed(CsParseAs::Default))
+                                % *(memberType->getParsed(CsParseAs::GenericType1));
+                        }
+
+                        parsed << parsedParseJsonArrayDataBlock.str();
+
+                        parsed << TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_LIST_END;
                     }
                     break;
                 }

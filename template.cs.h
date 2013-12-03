@@ -70,6 +70,7 @@ namespace CsParseAs
 		Write,
 		Read,
 		ParseJsonObjectData,
+		ParseJsonArrayData,
 		Initialization,
 		SerializerName,
 		ConvertPhrase,
@@ -423,6 +424,83 @@ namespace CsNodeType
 
 #define TCS_PACKET_PARSE_JSON_ARRAY_DATA_END	"\treturn true;\n" \
 												"}\n"
+
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_PRIMITIVE	"%1% = Krystal.Serializer.JSon.%2%.Read( \"%1%\", jsonArrayList_Overall[arrayIndex] );\n" \
+																"arrayIndex += 1;\n"
+																// name, serializer
+
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_REFERENCE	"if ( jsonArrayList_Overall[arrayIndex] is Dictionary<string, object> )\n" \
+																"{\n" \
+																"\tDictionary<string, object> %1%Value1 = jsonArrayList_Overall[arrayIndex] as Dictionary<string, object>;\n" \
+																"\tif ( null == %1%Value1 || 0 == %1%Value1.Count )\n" \
+																"\t{\n" \
+																"\t\treturn false;\n" \
+																"\t}\n" \
+																"\tobject %1%Value2 = null;\n" \
+																"\tif ( true == %1%Value1.TryGetValue( \"%1%\", out %1%Value2 ) )\n" \
+																"\t{\n" \
+																"\t\tKrystal.Serializer.JSon.Custom.Read( %1%Value2, \"%1%\", %1%, true );\n" \
+																"\t}\n" \
+																"}\n" \
+																"arrayIndex += 1;\n"
+																// name
+
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_MAP_BEGIN	"%1%.Clear();\n" \
+																"if ( jsonArrayList_Overall[arrayIndex] is Dictionary<string, object> )\n" \
+																"{\n" \
+																"\tDictionary<string, object> %1%Value1 = jsonArrayList_Overall[arrayIndex] as Dictionary<string, object>;\n" \
+																"\tobject %1%Value2 = null;\n" \
+																"\tif ( true == %1%Value1.TryGetValue(\"%1%\", out %1%Value2 ) )\n" \
+																"\t{\n" \
+																"\t\tArrayList %1%Value3 = %1%Value2 as ArrayList;\n" \
+																"\t\tArrayList %1%Value4 = %1%Value3 as ArrayList;\n" \
+																"\t\tforeach ( ArrayList %1%Value5 in %1%Value4 )\n" \
+																"\t\t{\n" \
+																"\t\t\tforeach ( Dictionary<string, object> %1%Value6 in %1%Value5 )\n" \
+																"\t\t\t{\n" \
+																"\t\t\t\tforeach ( KeyValuePair<string, object> %1%Value7 in %1%Value6 )\n" \
+																"\t\t\t\t{\n"
+																// name
+
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_MAP_END		"\t\t\t\t}\n" \
+																"\t\t\t}\n" \
+																"\t\t}\n" \
+																"\t}\n" \
+																"}\n"
+
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_MAP_PRIMITIVE_VALUE		"%1% keyVal = %2%(%3%Value7.Key);\n" \
+																			"%4% valueVal = Krystal.Serializer.JSon.%5%.Read( %3%Value7.Key, %3%Value6 );\n" \
+																			"%3%.Add( keyVal, valueVal );\n"
+																			// generic1, generic1convert, name, generic2, generic2serializer
+
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_MAP_REFERENCE_VALUE		"%1% keyVal = %2%(%3%Value7.Key);\n" \
+																			"%4% valueVal = new %4%();\n" \
+																			"Krystal.Serializer.JSon.Custom.Read( %3%Value7.Value, %3%Value7.Key, valueVal, true );\n" \
+																			"%3%.Add( keyVal, valueVal );\n"
+																			// generic1, generic1convert, name, generic2
+
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_LIST_BEGIN	"%1%.Clear();\n" \
+																"ArrayList jsonArrayList_%1% = jsonArrayList_Overall[arrayIndex] as ArrayList;\n"
+
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_LIST_END		"arrayIndex += 1;\n"
+
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_LIST_PRIMITIVE_VALUE		"Krystal.Serializer.JSon.%1%.Read( \"%2%\", %2%, jsonArrayList_%2% );\n"
+																			// generic1serializer, name
+
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_LIST_REFERENCE_VALUE		"foreach ( ArrayList jsonArrayListIter_%1% in jsonArrayList_%1% )\n" \
+																			"{\n" \
+																			"\tforeach ( Dictionary<string, object> jsonDictionaryInList_%1% in jsonArrayListIter_%1% )\n" \
+																			"\t{\n" \
+																			"\t\tobject objectItem_%1% = null;\n" \
+																			"\t\tif ( true == jsonDictionaryInList_%1%.TryGetValue( \"%1%\", out objectItem_%1% ) )\n" \
+																			"\t\t{\n" \
+																			"\t\t\t%2% dataItem = new %2%();\n" \
+																			"\t\t\tKrystal.Serializer.JSon.Custom.Read( objectItem_%1%, \"%2%\", dataItem, true );\n" \
+																			"\t\t\t%1%.Add( dataItem );\n" \
+																			"\t\t}\n" \
+																			"\t}\n" \
+																			"}\n"
+																			// name, generic1
 
 
 #endif // TEMPLATE_CS_H
