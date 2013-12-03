@@ -302,6 +302,12 @@ using namespace Krystal;
 
         switch (as)
         {
+            case PARSE_AS_NAME:
+            {
+                parsed << *(memberName->getParsed(CsParseAs::Default));
+            }
+            break;
+
             case CsParseAs::Default:
             {
                 parsed << format(TCS_PACKET_MEMBER_AS_DEFAULT)
