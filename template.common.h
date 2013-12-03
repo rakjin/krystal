@@ -65,10 +65,18 @@ string* indent(string* src)
 {
     algorithm::replace_all(*src, "\n", "\n\t");
     algorithm::trim_right_if(*src, algorithm::is_any_of("\t"));
-    string result("\t");
-    result = result + *src;
-    delete src;
-    return new string(result);
+    if (src->compare("") == 0)
+    {
+    	delete src;
+    	return new string("");
+    }
+    else
+    {
+	    string result("\t");
+	    result = result + *src;
+	    delete src;
+	    return new string(result);
+	}
 }
 
 string* indent(string* src, unsigned int depth)
