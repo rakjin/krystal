@@ -258,6 +258,9 @@ using namespace Krystal;
                     }
                     body << TCS_PACKET_PARSE_JSON_OBJECT_DATA_END;
 
+                    body << TCS_PACKET_PARSE_JSON_ARRAY_DATA_BEGIN;
+                    body << TCS_PACKET_PARSE_JSON_ARRAY_DATA_END;
+
                     parsed << *(indent(new string(body.str())));
                 }
 

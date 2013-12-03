@@ -408,6 +408,21 @@ namespace CsNodeType
 																			"\t%1%.Add( dataItem );\n" \
 																			"}\n"
 
+#define TCS_PACKET_PARSE_JSON_ARRAY_DATA_BEGIN	"public bool ParseJsonArrayData(object requestObject, bool isInner = false)\n" \
+												"{\n" \
+												"\tArrayList jsonArrayList_Overall = requestObject as ArrayList;\n" \
+												"\tif ( %1% > jsonArrayList_Overall.Count )\n" \
+												"\t{\n" \
+												"\t\treturn false;\n" \
+												"\t}\n" \
+												"\tint arrayIndex = 0;\n" \
+												"\tif ( false == isInner )\n" \
+												"\t{\n" \
+												"\t\tCOOKIE = Krystal.Serializer.JSon.String.Read(\"COOKIE\", jsonArrayList_Overall[arrayIndex++] );\n" \
+												"\t}\n"
+
+#define TCS_PACKET_PARSE_JSON_ARRAY_DATA_END	"\treturn true;\n" \
+												"}\n"
 
 
 #endif // TEMPLATE_CS_H
