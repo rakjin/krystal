@@ -60,6 +60,8 @@
 %token <stringValue>	STRING_LITERAL
 %token <stringValue>	UNKNOWN_CHARACTER
 
+%token <stringValue>	URI
+
 %token <stringValue>	PRIMITIVE_DATA_TYPE
 %token <stringValue>	REFERENCE_DATA_TYPE
 
@@ -144,6 +146,16 @@ packet :
 	PACKET ID BLOCK_BEGIN packet_members BLOCK_END
 	{
 		$$ = new NodePacket(context, $2, $4);
+		bool success = context->insertDeclaration($2, $$);
+		if (success == false)
+		{
+			error(yyloc, string("DUPLICATED packet ") + *$2);
+		}
+	}
+	|
+	PACKET ID BLOCK_BEGIN URI packet_members BLOCK_END
+	{
+		$$ = new NodePacket(context, $2, $5, $4);
 		bool success = context->insertDeclaration($2, $$);
 		if (success == false)
 		{

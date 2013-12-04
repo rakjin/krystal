@@ -5,6 +5,7 @@ packet P0 { int a; };
 
 packet P1
 {
+	[uri:/get/my/uri/please]
 	bool boolField;
 	byte byteField;
 	sbyte sbyteField;

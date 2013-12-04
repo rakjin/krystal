@@ -48,6 +48,11 @@ COMMENT_CPP			"//"[^\n]*$
 						return Krystal::Parser::token::STRING_LITERAL;
 					}
 
+"\[uri:"({ID}|"/")+"\]"	{
+							yylval->stringValue = new string(yytext + 5, yyleng - 6);
+							return Krystal::Parser::token::URI;
+						}
+
 "packet"			{ return Krystal::Parser::token::PACKET; }
 "#include"			{ return Krystal::Parser::token::INCLUDE; }
 

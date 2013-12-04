@@ -133,6 +133,14 @@ using namespace Krystal;
     {
         packetName = _packetName;
         packetMembers = _packetMembers;
+        uri = new string("");
+    }
+
+    Krystal::NodePacket::NodePacket(Context* _context, string* _packetName, list<NodePacketMember*>* _packetMembers, string* _uri) : Node(_context)
+    {
+        packetName = _packetName;
+        packetMembers = _packetMembers;
+        uri = _uri;
     }
 
     int Krystal::NodePacket::getType()
@@ -189,7 +197,7 @@ using namespace Krystal;
 
                     body << format(TCS_PACKET_ID_FIELD) % ((TCS_PACKET_ID_TYPE)getHash(NULL));
 
-                    body << format(TCS_PACKET_URI) % "";
+                    body << format(TCS_PACKET_URI) % *uri;
 
                     body << TCS_PACKET_COOKIE_FIELD;
 
