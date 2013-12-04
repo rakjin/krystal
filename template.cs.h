@@ -71,6 +71,8 @@ namespace CsParseAs
 		Read,
 		ParseJsonObjectData,
 		ParseJsonArrayData,
+		ToJsonPackageArray,
+		ToJsonPackageDictionary,
 		Initialization,
 		SerializerName,
 		ConvertPhrase,
@@ -514,6 +516,100 @@ namespace CsNodeType
 										"\t}\n" \
 										"\treturn false;\n" \
 										"}\n"
+
+#define TCS_PACKET_TO_JSON_PACKAGE_ARRAY_BEGIN			"public void ToJSonPackage( ArrayList objList, bool isInner = false )\n" \
+														"{\n" \
+														"\tif ( false == isInner )\n" \
+														"\t{\n" \
+														"\t\tKrystal.Serializer.JSon.String.Write( objList, \"COOKIE\", COOKIE );\n" \
+														"\t}\n"
+
+#define TCS_PACKET_TO_JSON_PACKAGE_ARRAY_END			"}\n"
+
+#define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_ARRAY_PRIMITIVE		"Krystal.Serializer.JSon.%1%.Write( objList, \"%2%\", %2% );\n"
+																	// serializer, name
+
+#define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_ARRAY_REFERENCE		"Krystal.Serializer.JSon.Custom.Write( objList, \"%1%\", %1%, true );\n"
+																	// name
+
+#define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_ARRAY_MAP_PRIMITIVE_VALUE			"ArrayList %1%Value1 = new ArrayList();\n" \
+																				"foreach ( KeyValuePair<%2%, %3%> val in %1% )\n" \
+																				"{\n" \
+																				"\tArrayList %1%Value2 = new ArrayList();\n" \
+																				"\tKrystal.Serializer.JSon.%4%.Write( %1%Value2, val.Key.ToString(), val.Value );\n" \
+																				"\t%1%Value1.Add( %1%Value2 );\n" \
+																				"}\n" \
+																				"Dictionary<string, object> %1%Value3 = new Dictionary<string, object>();\n" \
+																				"%1%Value3.Add( \"%1%\", %1%Value1 );\n" \
+																				"objList.Add( %1%Value3 );\n"
+																				// name, generic1, generic2, generic2serializer
+
+#define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_ARRAY_MAP_REFERENCE_VALUE			"ArrayList %1%Value1 = new ArrayList();\n" \
+																				"foreach ( KeyValuePair<%2%, %3%> val in %1% )\n" \
+																				"{\n" \
+																				"\tArrayList %1%Value2 = new ArrayList();\n" \
+																				"\tKrystal.Serializer.JSon.Custom.Write( %1%Value2, val.Key.ToString(), val.Value, true );\n" \
+																				"\t%1%Value1.Add( %1%Value2 );\n" \
+																				"}\n" \
+																				"Dictionary<string, object> %1%Value3 = new Dictionary<string, object>();\n" \
+																				"%1%Value3.Add( \"%1%\", %1%Value1 );\n" \
+																				"objList.Add( %1%Value3 );\n"
+																				// name, generic1, generic2
+
+#define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_ARRAY_LIST_PRIMITIVE_VALUE			"Krystal.Serializer.JSon.%1%.Write( objList, \"%2%\", %2% );\n"
+																				// serializer1, name
+
+#define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_ARRAY_LIST_REFERENCE_VALUE			"ArrayList %1%Value1 = new ArrayList();\n" \
+																				"foreach ( %2% val in %1% )\n" \
+																				"{\n" \
+																				"\tArrayList %1%Value2 = new ArrayList();\n" \
+																				"\tKrystal.Serializer.JSon.Custom.Write( %1%Value2, \"%1%\", val, true );\n" \
+																				"\t%1%Value1.Add( %1%Value2 );\n" \
+																				"}\n" \
+																				"objList.Add( %1%Value1 );\n"
+																				// name, generic1
+
+#define TCS_PACKET_TO_JSON_PACKAGE_DICTIONARY_BEGIN		"public void ToJSonPackage( Dictionary<string,object> objDic, bool isInner = false )\n" \
+														"{\n" \
+														"\tif ( false == isInner )\n" \
+														"\t{\n" \
+														"\t\tKrystal.Serializer.JSon.String.Write( objDic, \"COOKIE\", COOKIE );\n" \
+														"\t}\n" \
+
+#define TCS_PACKET_TO_JSON_PACKAGE_DICTIONARY_END		"}\n"
+
+#define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_DICTIONARY_PRIMITIVE	"Krystal.Serializer.JSon.%1%.Write( objDic, \"%2%\", %2% );\n"
+
+#define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_DICTIONARY_REFERENCE	"Krystal.Serializer.JSon.Custom.Write( objDic, \"%1%\", %1%, true );\n"
+
+#define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_DICTIONARY_MAP_PRIMITIVE_VALUE		"Dictionary<string,object> %1%Value1 = new Dictionary<string,object>();\n" \
+																				"foreach ( KeyValuePair<%2%, %3%> val in %1% )\n" \
+																				"{\n" \
+																				"\tKrystal.Serializer.JSon.%4%.Write( %1%Value1, val.Key.ToString(), val.Value );\n" \
+																				"}\n" \
+																				"objDic.Add( \"%1%\", %1%Value1 );\n"
+																				// name, generic1, generic2, generic2serializer
+
+#define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_DICTIONARY_MAP_REFERENCE_VALUE		"Dictionary<string,object> %1%Value1 = new Dictionary<string,object>();\n" \
+																				"foreach ( KeyValuePair<%2%, %3%> val in %1% )\n" \
+																				"{\n" \
+																				"\tKrystal.Serializer.JSon.Custom.Write( %1%Value1, val.Key.ToString(), val.Value, true );\n" \
+																				"}\n" \
+																				"objDic.Add( \"%1%\", %1%Value1 );\n"
+																				// name, generic1, generic2
+
+#define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_DICTIONARY_LIST_PRIMITIVE_VALUE	"Krystal.Serializer.JSon.%1%.Write( objDic, \"%2%\", %2% );\n"
+																				// serializer1, name
+
+#define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_DICTIONARY_LIST_REFERENCE_VALUE	"ArrayList %1%Value1 = new ArrayList();\n" \
+																				"foreach ( %2% val in %1% )\n" \
+																				"{\n" \
+																				"\tDictionary<string,object> %1%Value2 = new Dictionary<string,object>();\n" \
+																				"\tKrystal.Serializer.JSon.Custom.WriteForList( %1%Value2, \"%1%\", val, true );\n" \
+																				"\t%1%Value1.Add( %1%Value2 );\n" \
+																				"}\n" \
+																				"objDic.Add(\"%1%\", %1%Value1 );\n" \
+																				// name, generic1
 
 
 #endif // TEMPLATE_CS_H
