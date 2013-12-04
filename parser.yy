@@ -143,17 +143,7 @@ command :
 packet :
 	PACKET ID BLOCK_BEGIN packet_members BLOCK_END
 	{
-		//cout << "packet: " << *$2 << "\n";
-
-		//list<Node*>::iterator i   = $4->begin();
-		//list<Node*>::iterator end = $4->end();
-		//for (; i != end; ++i)
-		//{
-		//	cout << "packet - member:" << *((*i)->getParsed()) << "\n";
-		//}
-
 		$$ = new NodePacket(context, $2, $4);
-		//cout << *($$->getParsed()) << "\n";
 		bool success = context->insertDeclaration($2, $$);
 		if (success == false)
 		{
@@ -164,19 +154,12 @@ packet :
 packet_members :
 	packet_member
 	{
-		//cout << "\tpacket_member\n";
-		//cout << "\t\t" << *($1->getParsed()) << "\n";
-
 		$$ = new list<NodePacketMember*>;
 		$$->push_back( $1 );
 	}
 	|
 	packet_members packet_member
 	{
-		//cout << "\tpacket_members packet_member\n";
-		//cout << "\t\t" << *($2->getParsed()) << "\n";
-
-		// packet member name duplication check
 		string* currentMemberName = $2->getName();
 		list<NodePacketMember*>::iterator i = $1->begin();
 		list<NodePacketMember*>::iterator end = $1->end();
@@ -197,13 +180,11 @@ packet_member :
 	packet_member_type packet_member_name SEMICOLON
 	{
 		$$ = new NodePacketMember(context, $1, $2);
-		//cout << "packet_member: " << *($$->getParsed()) << "\n";
 	}
 
 packet_member_type :
 	PRIMITIVE_DATA_TYPE
 	{
-		//cout << "packet_member_type: " << *$1 << "\n";
 		$$ = new NodePacketMemberType(context, token::PRIMITIVE_DATA_TYPE, $1);
 	}
 	|
@@ -225,16 +206,13 @@ packet_member_type :
 packet_member_name :
 	ID
 	{
-		//cout << "packet_member_name: " << *$1 << "\n";
 		$$ = new NodePacketMemberName(context, $1);
 	}
 
 include :
 	INCLUDE STRING_LITERAL
 	{
-		//cout << "include directive: " << *$2 << "\n";
 		$$ = new NodeInclude(context, $2);
-		//cout << *($$->getParsed()) << "\n";
 		bool success = context->insertIncludedFile($2);
 		if (success == false && ALLOW_DUPLICATED_INCLUDE == false)
 		{
