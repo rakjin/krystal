@@ -128,6 +128,8 @@ namespace CsNodeType
 								"using Krystal;\n" \
 								"\n"
 
+#define TCS_USING_BY_INCLUDE	"using %1%;\n"
+
 #define TCS_NAMESPACE_BEGIN		"namespace %1%\n" \
 								"{\n"
 

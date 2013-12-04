@@ -68,17 +68,35 @@ using namespace Krystal;
         parsed << format(TCS_HEADER) % *fileName;
         parsed << TCS_USINGS;
 
+        list<Node*>::iterator i = commands->begin();
+        list<Node*>::iterator end = commands->end();
+
+        stringstream parsedIncludeCommands;
+        for (; i != end; i++)
+        {
+            if ((*i)->getType() == CsNodeType::include)
+            {
+                string* fileNameOfIncludeCommand = (*i)->getParsed(CsParseAs::Default);
+                string namespaceByIncludeCommand = fileNameOfIncludeCommand->substr(0, fileNameOfIncludeCommand->find("."));
+                parsedIncludeCommands << format(TCS_USING_BY_INCLUDE) % namespaceByIncludeCommand;
+            }
+        }
+        parsed << parsedIncludeCommands.str();
+
+        parsed << "\n";
+
         string namespaceByFileName = fileName->substr(0, fileName->find("."));
 
         parsed << format(TCS_NAMESPACE_BEGIN) % namespaceByFileName;
 
-        list<Node*>::iterator i = commands->begin();
-        list<Node*>::iterator end = commands->end();
-
         string* temp;
 
-        for (; i != end; i++)
+        for (i = commands->begin(); i != end; i++)
         {
+            if ((*i)->getType() == CsNodeType::include)
+            {
+                continue;
+            }
             temp = (*i)->getParsed(CsParseAs::Default);
             temp = indent(temp);
             parsed << *temp;
@@ -87,7 +105,7 @@ using namespace Krystal;
 
         parsed << TCS_NAMESPACE_END;
 
-        parsed << "\n\n";
+        parsed << "\n";
 
         return new string(parsed.str());
     }
@@ -114,13 +132,7 @@ using namespace Krystal;
 
     string* Krystal::NodeInclude::getParsed(int as)
     {
-        stringstream parsed;
-
-        parsed << "#include \"";
-        parsed << *(value);
-        parsed << "\"";
-
-        return new string(parsed.str());
+        return value;
     }
 // };
 
