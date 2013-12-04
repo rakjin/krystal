@@ -142,6 +142,8 @@ namespace CsNodeType
 
 #define TCS_PACKET_ID_FIELD		"public static readonly int ID = %1%;\n"
 
+#define TCS_PACKET_URI			"public static readonly string URI = \"%1%\";\n"
+
 #define TCS_PACKET_COOKIE_FIELD	"public string COOKIE = \"\";\n"
 
 #define TCS_PACKET_MEMBER_AS_DEFAULT	"public %1% %2%%3%;\n" //type name initialization
@@ -159,6 +161,11 @@ namespace CsNodeType
 #define TCS_PACKET_GET_ID			"public int GetID()\n" \
 									"{\n" \
 									"\treturn ID;\n" \
+									"}\n"
+
+#define TCS_PACKET_GET_URI			"public string GetURI()\n" \
+									"{\n" \
+									"\treturn URI;\n" \
 									"}\n"
 
 #define TCS_PACKET_SET_COOKIE		"public void SetCookie(string cookie)\n" \

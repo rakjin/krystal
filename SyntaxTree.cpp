@@ -189,6 +189,8 @@ using namespace Krystal;
 
                     body << format(TCS_PACKET_ID_FIELD) % ((TCS_PACKET_ID_TYPE)getHash(NULL));
 
+                    body << format(TCS_PACKET_URI) % "";
+
                     body << TCS_PACKET_COOKIE_FIELD;
 
                     // Member Variables
@@ -202,6 +204,8 @@ using namespace Krystal;
                     body << format(TCS_PACKET_CONSTRUCTOR) % *packetName;
 
                     body << TCS_PACKET_GET_ID;
+
+                    body << TCS_PACKET_GET_URI;
 
                     body << TCS_PACKET_SET_COOKIE;
                     body << TCS_PACKET_GET_COOKIE;
