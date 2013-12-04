@@ -296,6 +296,8 @@ using namespace Krystal;
                     }
                     body << TCS_PACKET_TO_JSON_PACKAGE_DICTIONARY_END;
 
+                    body << TCS_PACKET_TO_JSON;
+
                     parsed << *(indent(new string(body.str())));
                 }
 

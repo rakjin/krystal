@@ -611,5 +611,17 @@ namespace CsNodeType
 																				"objDic.Add(\"%1%\", %1%Value1 );\n" \
 																				// name, generic1
 
+#define TCS_PACKET_TO_JSON	"public byte[] ToJSon(bool isInner = false)\n" \
+							"{\n" \
+							"\tstring response = \"\";\n" \
+							"\tDictionary<string,object> objDic = new Dictionary<string,object>();\n" \
+							"\tToJSonPackage( objDic, isInner );\n" \
+							"\tDictionary<string, object> jsonList = new Dictionary<string, object>();\n" \
+							"\tjsonList.Add( \"request\", objDic );\n" \
+							"\tfastJSON.JSON.Instance.Parameters.UseExtensions = false;\n" \
+							"\tresponse = fastJSON.JSON.Instance.ToJSON(jsonList);\n" \
+							"\treturn Encoding.ASCII.GetBytes(response);\n" \
+							"}\n"
+
 
 #endif // TEMPLATE_CS_H
