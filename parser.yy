@@ -43,7 +43,9 @@
 	int integerValue;
 	string* stringValue;
 	Node* node;
+	NodePacketMember* nodePacketMember;
 	list<Node*>* nodes;
+	list<NodePacketMember*>* nodePacketMembers;
 }
 
 %token BLOCK_BEGIN BLOCK_END
@@ -64,11 +66,17 @@
 %type <stringValue>				unknown_command
 //%destructor { delete $$; }	unknown_command
 
-%type <node>				kst command include packet packet_member packet_member_type packet_member_name
-//%destructor { delete $$; }	kst command include packet packet_member packet_member_type packet_member_name
+%type <node>				kst command include packet packet_member_type packet_member_name
+//%destructor { delete $$; }	kst command include packet packet_member_type packet_member_name
 
-%type <nodes>				commands packet_members
-//%destructor { delete $$; }	commands packet_members
+%type <nodePacketMember>	packet_member
+//%destructor { delete $$; }	packet_member
+
+%type <nodes>				commands
+//%destructor { delete $$; }	commands
+
+%type <nodePacketMembers>				packet_members
+//%destructor { delete $$; }	packet_members
 
 
 %%
@@ -159,7 +167,7 @@ packet_members :
 		//cout << "\tpacket_member\n";
 		//cout << "\t\t" << *($1->getParsed()) << "\n";
 
-		$$ = new list<Node*>;
+		$$ = new list<NodePacketMember*>;
 		$$->push_back( $1 );
 	}
 	|
@@ -170,8 +178,8 @@ packet_members :
 
 		// packet member name duplication check
 		string* currentMemberName = $2->getParsed(PARSE_AS_NAME);
-		list<Node*>::iterator i = $1->begin();
-		list<Node*>::iterator end = $1->end();
+		list<NodePacketMember*>::iterator i = $1->begin();
+		list<NodePacketMember*>::iterator end = $1->end();
 		for (; i != end; i++)
 		{
 			string* memberName = (*i)->getParsed(PARSE_AS_NAME);

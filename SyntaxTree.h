@@ -64,9 +64,9 @@ class Krystal::NodeInclude : public Krystal::Node
 class Krystal::NodePacket : public Krystal::Node
 {
     string* packetName;
-    list<Node*>* packetMembers;
+    list<NodePacketMember*>* packetMembers;
     public:
-    explicit NodePacket(Context* _context, string* _packetName, list<Node*>* _packetMembers);
+    explicit NodePacket(Context* _context, string* _packetName, list<NodePacketMember*>* _packetMembers);
     virtual int getType();
     virtual size_t getHash(vector<Node*>* referencingStack);
     virtual string* getParsed(int as);
