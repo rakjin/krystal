@@ -127,9 +127,9 @@ using namespace Krystal;
 // class NodePacket : public Node
 // {
 //     string* packetName;
-//     list<Node*>* packetMembers;
+//     list<NodePacketMember*>* packetMembers;
 //     public:
-    Krystal::NodePacket::NodePacket(Context* _context, string* _packetName, list<Node*>* _packetMembers) : Node(_context)
+    Krystal::NodePacket::NodePacket(Context* _context, string* _packetName, list<NodePacketMember*>* _packetMembers) : Node(_context)
     {
         packetName = _packetName;
         packetMembers = _packetMembers;
@@ -162,8 +162,8 @@ using namespace Krystal;
 
         size_t packetHash = getHashCode(packetName);
 
-        list<Node*>::iterator i = packetMembers->begin();
-        list<Node*>::iterator end = packetMembers->end();
+        list<NodePacketMember*>::iterator i = packetMembers->begin();
+        list<NodePacketMember*>::iterator end = packetMembers->end();
         for (; i != end; i++)
         {
             combineHashCode(packetHash, (*i)->getHash(referencingStack));
@@ -192,8 +192,8 @@ using namespace Krystal;
                     body << TCS_PACKET_COOKIE_FIELD;
 
                     // Member Variables
-                    list<Node*>::iterator i = packetMembers->begin();
-                    list<Node*>::iterator end = packetMembers->end();
+                    list<NodePacketMember*>::iterator i = packetMembers->begin();
+                    list<NodePacketMember*>::iterator end = packetMembers->end();
                     for (; i != end; i++)
                     {
                         body << *((*i)->getParsed(CsParseAs::Default));
@@ -314,12 +314,6 @@ using namespace Krystal;
 
         switch (as)
         {
-            case PARSE_AS_NAME:
-            {
-                parsed << *(memberName->getParsed(CsParseAs::Default));
-            }
-            break;
-
             case CsParseAs::Default:
             {
                 parsed << format(TCS_PACKET_MEMBER_AS_DEFAULT)
@@ -738,6 +732,10 @@ using namespace Krystal;
         }
 
         return new string(parsed.str());
+    }
+    string* Krystal::NodePacketMember::getName()
+    {
+        return memberName->getParsed(CsParseAs::Default);
     }
 // };
 
