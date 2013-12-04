@@ -12,8 +12,6 @@
 
 using namespace std;
 
-#define PARSE_AS_NAME   1024
-
 namespace Krystal
 {
 
@@ -33,7 +31,7 @@ class Krystal::Node
     Context* context;
     
     public:
-    Node(Context* _context);
+    explicit Node(Context* _context);
     virtual ~Node();
     virtual int getType(); //TODO: remove getType() if unnecessary
     virtual size_t getHash(vector<Node*>* referencingStack);
@@ -81,6 +79,7 @@ class Krystal::NodePacketMember : public Krystal::Node
     virtual int getType();
     virtual size_t getHash(vector<Node*>* referencingStack);
     virtual string* getParsed(int as);
+    virtual string* getName();
 };
 
 class Krystal::NodePacketMemberType : public Krystal::Node

@@ -177,12 +177,12 @@ packet_members :
 		//cout << "\t\t" << *($2->getParsed()) << "\n";
 
 		// packet member name duplication check
-		string* currentMemberName = $2->getParsed(PARSE_AS_NAME);
+		string* currentMemberName = $2->getName();
 		list<NodePacketMember*>::iterator i = $1->begin();
 		list<NodePacketMember*>::iterator end = $1->end();
 		for (; i != end; i++)
 		{
-			string* memberName = (*i)->getParsed(PARSE_AS_NAME);
+			string* memberName = (*i)->getName();
 			if (currentMemberName->compare(*memberName) == 0) //packet member name duplication
 			{
 				error(yyloc, string("DUPLICATED packet member: ") + *memberName);
