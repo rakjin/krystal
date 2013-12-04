@@ -7,7 +7,7 @@
 // must correspond with KstDataType enum in template.common.h
 string CsSerializerName[KstDataType::LENGTH_OF_KST_DATA_TYPES] =
 {
-	"Bool",
+	"Boolean",
 	"Byte",
 	"SByte",
 	"Short",
@@ -475,7 +475,8 @@ namespace CsNodeType
 																"\t\t\t}\n" \
 																"\t\t}\n" \
 																"\t}\n" \
-																"}\n"
+																"}\n" \
+																"arrayIndex += 1;\n"
 
 #define TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_MAP_PRIMITIVE_VALUE		"%1% keyVal = %2%(%3%Value7.Key);\n" \
 																			"%4% valueVal = Krystal.Serializer.JSon.%5%.Read( %3%Value7.Key, %3%Value6 );\n" \
