@@ -502,5 +502,18 @@ namespace CsNodeType
 																			"}\n"
 																			// name, generic1
 
+#define TCS_PACKET_FROM_JSON_PACKAGE	"public bool FromJSonPackage(object objList, bool isInner = false)\n" \
+										"{\n" \
+										"\tif (objList is Dictionary<string, object>)\n" \
+										"\t{\n" \
+										"\treturn ParseJsonObjectData(objList, isInner);\n" \
+										"\t}\n" \
+										"\telse if (objList is ArrayList)\n" \
+										"\t{\n" \
+										"\treturn ParseJsonArrayData(objList, isInner);\n" \
+										"\t}\n" \
+										"\treturn false;\n" \
+										"}\n"
+
 
 #endif // TEMPLATE_CS_H
