@@ -27,6 +27,8 @@ packet P1
 	//int doubleField; // packet member name duplication check
 };
 
+packet Empty {};
+
 /*
 packet P3 { int a; };
 packet P4 { map<ushort, P3> a; };

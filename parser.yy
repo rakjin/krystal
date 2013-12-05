@@ -162,6 +162,18 @@ packet :
 			error(yyloc, string("DUPLICATED packet ") + *$2);
 		}
 	}
+	|
+	PACKET ID BLOCK_BEGIN BLOCK_END
+	{
+		list<NodePacketMember*>* emptyMembers = new list<NodePacketMember*>();
+		$$ = new NodePacket(context, $2, emptyMembers);
+	}
+	|
+	PACKET ID BLOCK_BEGIN URI BLOCK_END
+	{
+		list<NodePacketMember*>* emptyMembers = new list<NodePacketMember*>();
+		$$ = new NodePacket(context, $2, emptyMembers, $4);
+	}
 
 packet_members :
 	packet_member
