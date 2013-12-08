@@ -145,7 +145,7 @@ packet :
 		bool success = context->insertDeclaration($2, $$);
 		if (success == false)
 		{
-			error(yyloc, std::string("DUPLICATED packet ") + *$2);
+			error(yyloc, std::string("DUPLICATED declaration name: ") + *$2);
 		}
 	}
 
