@@ -54,3 +54,132 @@ bison --version
 ```
 
 http://stackoverflow.com/questions/3987683/homebrew-install-specific-version-of-formula
+
+## hash calculation
+
+depends on boost::hash and boost::hash_combine
+
+### `Packet.getHash`
+
+* hash = hash(packetName)
+* foreach PacketMembers as member:
+    * combineHash(hash, member.getHash)
+* return hash
+
+### `PacketMember.getHash`
+
+* hash = PacketMemberType.getHash
+* combineHash(hash, PacketMemberName.getHash)
+* return hash
+
+### `PacketMemberType.getHash`
+
+* if PRIMITIVE_TYPE:
+    * hash = hash(typeName)
+* else if REFERENCE_TYPE:
+    * PacketNode = lookupNodeByName(value)
+    * hash = hash(PacketNode.getHash)
+* else if MAP:
+    * hash = hash((int)Parser::token::MAP)
+    * combineHash(hash, generic1.getHash)
+    * combineHash(hash, generic2.getHash)
+* else if LIST:
+    * hash = hash((int)Parser::token::LIST)
+    * combineHash(hash, generic1.getHash)
+* return hash
+
+### `PacketMemberName.getHash`
+
+* return hash(name)
+
+### example
+
+```
+packet A {
+    long A1;
+};
+
+packet B {
+    short B1;
+};
+
+packet C {
+    double C1;
+    A C2;
+    map<int, A> C3;
+    list<B> C4;
+};
+```
+
+assume that `A + B` means `hash_combine(hash("A"), hash("B"))`:
+
+hash of packet C produced by:
+
+```
+(
+    C
+    +
+    (
+        double
+        +
+        C1
+    )
+    +
+    (
+        (
+            A
+            +
+            (
+                long
+                +
+                A1
+            )
+        )
+        +
+        C2
+    )
+    +
+    (
+        (
+            Parser::token::MAP
+            +
+            int
+            +
+            (
+                A
+                +
+                (
+                    long
+                    +
+                    A1
+                )
+            )
+        )
+        +
+        C3
+    )
+    +
+    (
+        (
+            Parser::token::LIST
+            +
+            (
+                B
+                +
+                (
+                    short
+                    +
+                    B1
+                )
+            )
+        )
+        +
+        C4
+    )
+)
+```
+
+### NOTE:
+dependency to Parser::token::MAP and LIST while hash calculation
+may unexpectedly change hash result
+if bison/flex implementations vary.

@@ -149,7 +149,7 @@ packet :
 		bool success = context->insertDeclaration($2, $$);
 		if (success == false)
 		{
-			error(yyloc, string("DUPLICATED packet ") + *$2);
+			error(yyloc, string("DUPLICATED declaration name: ") + *$2);
 		}
 	}
 	|
