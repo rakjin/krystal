@@ -182,4 +182,4 @@ hash of packet C produced by:
 ### NOTE:
 dependency to Parser::token::MAP and LIST while hash calculation
 may unexpectedly change hash result
-if bison/flex implementations vary.
+if flex/bison implementations vary.
