@@ -396,6 +396,8 @@ namespace CsNodeType
 																"\tKrystal.Serializer.JSon.Custom.Read( %1%Value1, \"%1%\", %1%, true );\n" \
 																"}\n" \
 
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_STREAM		"// %1% : stream type not supported in JSON mode\n"
+
 #define TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_MAP_BEGIN	"%1%.Clear();\n" \
 																"if ( jsonArrayList_Overall[\"%1%\"] is Dictionary<string, object> )\n" \
 																"{\n" \
