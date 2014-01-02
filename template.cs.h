@@ -559,6 +559,9 @@ namespace CsNodeType
 #define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_ARRAY_REFERENCE		"Krystal.Serializer.JSon.Custom.Write( objList, \"%1%\", %1%, true );\n"
 																	// name
 
+#define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_ARRAY_STREAM			"// %1% : stream type not supported in JSON mode\n"
+																	// name
+
 #define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_ARRAY_MAP_PRIMITIVE_VALUE			"ArrayList %1%Value1 = new ArrayList();\n" \
 																				"foreach ( KeyValuePair<%2%, %3%> val in %1% )\n" \
 																				"{\n" \

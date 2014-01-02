@@ -838,6 +838,13 @@ using namespace Krystal;
                     }
                     break;
 
+                    case CsNodeType::packetMemberTypeStream:
+                    {
+                        parsed << format(TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_ARRAY_STREAM)
+                            % *(memberName->getParsed(CsParseAs::Default));
+                    }
+                    break;
+
                     case CsNodeType::packetMemberTypeMap:
                     {
                         string* isPrimitiveTypeValue = memberType->getParsed(CsParseAs::IsPrimitiveTypeValue);
