@@ -92,6 +92,7 @@ class Krystal::NodePacketMemberType : public Krystal::Node
     Node* generic2; // MAP <generic1, generic2>
     Node* generic3; // reserved
     public:
+    explicit NodePacketMemberType(Context* _context, int _type); // for the case of only the type itself needed (ex: stream type)
     explicit NodePacketMemberType(Context* _context, int _type, string* _value);
     explicit NodePacketMemberType(Context* _context, int _type, Node* _generic1);
     explicit NodePacketMemberType(Context* _context, int _type, Node* _generic1, Node* _generic2);

@@ -933,6 +933,15 @@ using namespace Krystal;
 //     Node* generic2; // MAP <generic1, generic2>
 //     Node* generic3; // reserved
 //     public:
+    Krystal::NodePacketMemberType::NodePacketMemberType(Context* _context, int _type) : Node(_context)
+    {
+        typeType = _type;
+        value = NULL;
+        generic1 = NULL;
+        generic2 = NULL;
+        generic3 = NULL;
+    }
+
     Krystal::NodePacketMemberType::NodePacketMemberType(Context* _context, int _type, string* _value) : Node(_context)
     {
         typeType = _type;

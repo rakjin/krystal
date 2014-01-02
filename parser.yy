@@ -230,7 +230,7 @@ packet_member_type :
 	|
 	STREAM
 	{
-		error(yyloc, string("NOT IMPLEMENTED: stream type"));
+		$$ = new NodePacketMemberType(context, token::STREAM);
 	}
 
 packet_member_name :
