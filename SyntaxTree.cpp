@@ -1065,6 +1065,12 @@ using namespace Krystal;
                 combineHashCode(packetMemberTypeHash, generic1->getHash(referencingStack));
             }
             break;
+
+            case Parser::token::STREAM:
+            {
+                packetMemberTypeHash = getHashCode((int)Parser::token::STREAM);
+            }
+            break;
         }
 
         return packetMemberTypeHash;
