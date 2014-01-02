@@ -286,6 +286,8 @@ namespace CsNodeType
 
 #define TCS_PACKET_MEMBER_AS_READ_REFERENCE		"Krystal.Serializer.Custom.Read( stream, %1%, true );\n"
 
+#define TCS_PACKET_MEMBER_AS_READ_STREAM		"Krystal.Serializer.KrystalWrapper.Read( stream, %1% );\n"
+
 #define TCS_PACKET_MEMBER_AS_READ_MAP_BEGIN		"%1%.Clear();\n" \
 												"int %1%Count = Krystal.Serializer.Int.Read(stream);\n" \
 												"for ( int %1%Index = 0; %1%Index < %1%Count; ++%1%Index )\n" \
