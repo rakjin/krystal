@@ -52,6 +52,7 @@
 %token LT GT
 %token SEMICOLON COMMA
 %token MAP LIST
+%token STREAM
 
 %token PACKET
 %token INCLUDE
@@ -225,6 +226,11 @@ packet_member_type :
 	MAP LT packet_member_type COMMA packet_member_type GT
 	{
 		$$ = new NodePacketMemberType(context, token::MAP, $3, $5);
+	}
+	|
+	STREAM
+	{
+		$$ = new NodePacketMemberType(context, token::STREAM);
 	}
 
 packet_member_name :

@@ -87,6 +87,11 @@ COMMENT_CPP			"//"[^\n]*$
 						return Krystal::Parser::token::LIST;
 					}
 
+"stream"			{
+						yylval->stringValue = new string(yytext, yyleng);
+						return Krystal::Parser::token::STREAM;
+					}
+
 {ID}				{
 						yylval->stringValue = new string(yytext, yyleng);
 						return Krystal::Parser::token::ID;

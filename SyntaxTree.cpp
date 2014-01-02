@@ -439,6 +439,13 @@ using namespace Krystal;
                         }
                     }
                     break;
+
+                    case CsNodeType::packetMemberTypeStream:
+                    {
+                        parsed << format(TCS_PACKET_MEMBER_AS_GET_LENGTH_STREAM)
+                            % *(memberName->getParsed(CsParseAs::Default));
+                    }
+                    break;
                 }
             }
             break;
@@ -460,6 +467,13 @@ using namespace Krystal;
                     case CsNodeType::packetMemberTypeReference:
                     {
                         parsed << format(TCS_PACKET_MEMBER_AS_WRITE_REFERENCE)
+                            % *(memberName->getParsed(CsParseAs::Default));
+                    }
+                    break;
+
+                    case CsNodeType::packetMemberTypeStream:
+                    {
+                        parsed << format(TCS_PACKET_MEMBER_AS_WRITE_STREAM)
                             % *(memberName->getParsed(CsParseAs::Default));
                     }
                     break;
@@ -539,6 +553,13 @@ using namespace Krystal;
                     case CsNodeType::packetMemberTypeReference:
                     {
                         parsed << format(TCS_PACKET_MEMBER_AS_READ_REFERENCE)
+                            % *(memberName->getParsed(CsParseAs::Default));
+                    }
+                    break;
+
+                    case CsNodeType::packetMemberTypeStream:
+                    {
+                        parsed << format(TCS_PACKET_MEMBER_AS_READ_STREAM)
                             % *(memberName->getParsed(CsParseAs::Default));
                     }
                     break;
@@ -625,6 +646,13 @@ using namespace Krystal;
                     case CsNodeType::packetMemberTypeReference:
                     {
                         parsed << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_REFERENCE)
+                            % *(memberName->getParsed(CsParseAs::Default));
+                    }
+                    break;
+
+                    case CsNodeType::packetMemberTypeStream:
+                    {
+                        parsed << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_STREAM)
                             % *(memberName->getParsed(CsParseAs::Default));
                     }
                     break;
@@ -716,6 +744,13 @@ using namespace Krystal;
                     }
                     break;
 
+                    case CsNodeType::packetMemberTypeStream:
+                    {
+                        parsed << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_STREAM)
+                            % *(memberName->getParsed(CsParseAs::Default));
+                    }
+                    break;
+
                     case CsNodeType::packetMemberTypeMap:
                     {
                         parsed << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_MAP_BEGIN)
@@ -803,6 +838,13 @@ using namespace Krystal;
                     }
                     break;
 
+                    case CsNodeType::packetMemberTypeStream:
+                    {
+                        parsed << format(TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_ARRAY_STREAM)
+                            % *(memberName->getParsed(CsParseAs::Default));
+                    }
+                    break;
+
                     case CsNodeType::packetMemberTypeMap:
                     {
                         string* isPrimitiveTypeValue = memberType->getParsed(CsParseAs::IsPrimitiveTypeValue);
@@ -870,6 +912,13 @@ using namespace Krystal;
                     }
                     break;
 
+                    case CsNodeType::packetMemberTypeStream:
+                    {
+                        parsed << format(TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_DICTIONARY_STREAM)
+                            % *(memberName->getParsed(CsParseAs::Default));
+                    }
+                    break;
+
                     case CsNodeType::packetMemberTypeMap:
                     {
                         string* isPrimitiveTypeValue = memberType->getParsed(CsParseAs::IsPrimitiveTypeValue);
@@ -933,6 +982,15 @@ using namespace Krystal;
 //     Node* generic2; // MAP <generic1, generic2>
 //     Node* generic3; // reserved
 //     public:
+    Krystal::NodePacketMemberType::NodePacketMemberType(Context* _context, int _type) : Node(_context)
+    {
+        typeType = _type;
+        value = NULL;
+        generic1 = NULL;
+        generic2 = NULL;
+        generic3 = NULL;
+    }
+
     Krystal::NodePacketMemberType::NodePacketMemberType(Context* _context, int _type, string* _value) : Node(_context)
     {
         typeType = _type;
@@ -1003,6 +1061,12 @@ using namespace Krystal;
                 return CsNodeType::packetMemberTypeList;
             }
             break;
+
+            case Parser::token::STREAM:
+            {
+                return CsNodeType::packetMemberTypeStream;
+            }
+            break;
         }
         return CsNodeType::packetMemberType;
     }
@@ -1050,6 +1114,12 @@ using namespace Krystal;
                 combineHashCode(packetMemberTypeHash, generic1->getHash(referencingStack));
             }
             break;
+
+            case Parser::token::STREAM:
+            {
+                packetMemberTypeHash = getHashCode((int)Parser::token::STREAM);
+            }
+            break;
         }
 
         return packetMemberTypeHash;
@@ -1084,6 +1154,12 @@ using namespace Krystal;
                     {
                         parsed << format(TCS_PACKET_MEMBER_TYPE_LIST_AS_DEFAULT)
                             % *(generic1->getParsed(CsParseAs::Default));
+                    }
+                    break;
+
+                    case Parser::token::STREAM:
+                    {
+                        parsed << TCS_PACKET_MEMBER_TYPE_STREAM_AS_DEFAULT;
                     }
                     break;
 
@@ -1245,6 +1321,12 @@ using namespace Krystal;
                             % *(getParsed(CsParseAs::Default));
                     }
                     break;
+
+                    case Parser::token::STREAM:
+                    {
+                        parsed << TCS_PACKET_MEMBER_TYPE_STREAM_AS_INITIALIZATION;
+                    }
+                    break;                    
 
                     default:
                     {

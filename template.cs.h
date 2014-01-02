@@ -105,6 +105,7 @@ namespace CsNodeType
 							packetMemberTypeReference,
 							packetMemberTypeMap,
 							packetMemberTypeList,
+							packetMemberTypeStream,
 						packetMemberName,
 			enumeration,
 				enumerationName,
@@ -154,7 +155,11 @@ namespace CsNodeType
 
 #define TCS_PACKET_MEMBER_TYPE_LIST_AS_DEFAULT	"List<%1%>"
 
+#define TCS_PACKET_MEMBER_TYPE_STREAM_AS_DEFAULT		"Krystal.Stream"
+
 #define TCS_PACKET_MEMBER_TYPE_NEW_AS_INITIALIZATION	" = new %1%()"
+
+#define TCS_PACKET_MEMBER_TYPE_STREAM_AS_INITIALIZATION	" = new Krystal.Stream()"
 
 #define TCS_PACKET_CONSTRUCTOR		"public %1%()\n" \
 									"{\n" \
@@ -196,6 +201,8 @@ namespace CsNodeType
 #define TCS_PACKET_MEMBER_AS_GET_LENGTH_PRIMITIVE	"length += Krystal.Serializer.%1%.GetLength(%2%);\n" // serializer member_name
 
 #define TCS_PACKET_MEMBER_AS_GET_LENGTH_REFERENCE	"length += Krystal.Serializer.Custom.GetLength(%1%, true);\n"
+
+#define TCS_PACKET_MEMBER_AS_GET_LENGTH_STREAM		"length += Krystal.Serializer.KrystalWrapper.GetLength(%1%);\n"
 
 #define TCS_PACKET_MEMBER_AS_GET_LENGTH_MAP_PRIMITIVE_VALUE		"length += 4;\n" \
 																"foreach ( KeyValuePair<%1%, %2%> %3%Temp in %3% )\n" \
@@ -241,6 +248,8 @@ namespace CsNodeType
 
 #define TCS_PACKET_MEMBER_AS_WRITE_REFERENCE	"Krystal.Serializer.Custom.Write( stream, %1%, true );\n"
 
+#define TCS_PACKET_MEMBER_AS_WRITE_STREAM		"Krystal.Serializer.KrystalWrapper.Write( stream, %1% );\n"
+
 #define TCS_PACKET_MEMBER_AS_WRITE_MAP_BEGIN	"Krystal.Serializer.Int.Write( stream, %1%.Count );\n" \
 												"foreach( KeyValuePair<%2%, %3%> keyValueTemp in %1% )\n" \
 												"{\n"
@@ -276,6 +285,8 @@ namespace CsNodeType
 #define TCS_PACKET_MEMBER_AS_READ_PRIMITIVE		"%1% = Krystal.Serializer.%2%.Read( stream );\n"
 
 #define TCS_PACKET_MEMBER_AS_READ_REFERENCE		"Krystal.Serializer.Custom.Read( stream, %1%, true );\n"
+
+#define TCS_PACKET_MEMBER_AS_READ_STREAM		"Krystal.Serializer.KrystalWrapper.Read( stream, %1% );\n"
 
 #define TCS_PACKET_MEMBER_AS_READ_MAP_BEGIN		"%1%.Clear();\n" \
 												"int %1%Count = Krystal.Serializer.Int.Read(stream);\n" \
@@ -385,6 +396,8 @@ namespace CsNodeType
 																"\tKrystal.Serializer.JSon.Custom.Read( %1%Value1, \"%1%\", %1%, true );\n" \
 																"}\n" \
 
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_STREAM		"// %1% : stream type not supported in JSON mode\n"
+
 #define TCS_PACKET_MEMBER_AS_PARSE_JSON_OBJECT_DATA_MAP_BEGIN	"%1%.Clear();\n" \
 																"if ( jsonArrayList_Overall[\"%1%\"] is Dictionary<string, object> )\n" \
 																"{\n" \
@@ -455,6 +468,10 @@ namespace CsNodeType
 																"}\n" \
 																"arrayIndex += 1;\n"
 																// name
+
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_STREAM		"// %1% : stream type not supported in JSON mode\n" \
+																"arrayIndex += 1;\n"
+																// name, serializer
 
 #define TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_MAP_BEGIN	"%1%.Clear();\n" \
 																"if ( jsonArrayList_Overall[arrayIndex] is Dictionary<string, object> )\n" \
@@ -542,6 +559,9 @@ namespace CsNodeType
 #define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_ARRAY_REFERENCE		"Krystal.Serializer.JSon.Custom.Write( objList, \"%1%\", %1%, true );\n"
 																	// name
 
+#define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_ARRAY_STREAM			"// %1% : stream type not supported in JSON mode\n"
+																	// name
+
 #define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_ARRAY_MAP_PRIMITIVE_VALUE			"ArrayList %1%Value1 = new ArrayList();\n" \
 																				"foreach ( KeyValuePair<%2%, %3%> val in %1% )\n" \
 																				"{\n" \
@@ -591,6 +611,8 @@ namespace CsNodeType
 #define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_DICTIONARY_PRIMITIVE	"Krystal.Serializer.JSon.%1%.Write( objDic, \"%2%\", %2% );\n"
 
 #define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_DICTIONARY_REFERENCE	"Krystal.Serializer.JSon.Custom.Write( objDic, \"%1%\", %1%, true );\n"
+
+#define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_DICTIONARY_STREAM		"// %1% : stream type not supported in JSON mode\n"
 
 #define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_DICTIONARY_MAP_PRIMITIVE_VALUE		"Dictionary<string,object> %1%Value1 = new Dictionary<string,object>();\n" \
 																				"foreach ( KeyValuePair<%2%, %3%> val in %1% )\n" \
