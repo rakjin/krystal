@@ -1110,7 +1110,7 @@ using namespace Krystal;
 
                     case Parser::token::STREAM:
                     {
-                        parsed << "Krystal.Stream";
+                        parsed << TCS_PACKET_MEMBER_TYPE_STREAM_AS_DEFAULT;
                     }
                     break;
 
@@ -1275,7 +1275,7 @@ using namespace Krystal;
 
                     case Parser::token::STREAM:
                     {
-                        parsed << " = new Krystal.Stream()";
+                        parsed << TCS_PACKET_MEMBER_TYPE_STREAM_AS_INITIALIZATION;
                     }
                     break;                    
 

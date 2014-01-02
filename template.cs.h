@@ -155,7 +155,11 @@ namespace CsNodeType
 
 #define TCS_PACKET_MEMBER_TYPE_LIST_AS_DEFAULT	"List<%1%>"
 
+#define TCS_PACKET_MEMBER_TYPE_STREAM_AS_DEFAULT		"Krystal.Stream"
+
 #define TCS_PACKET_MEMBER_TYPE_NEW_AS_INITIALIZATION	" = new %1%()"
+
+#define TCS_PACKET_MEMBER_TYPE_STREAM_AS_INITIALIZATION	" = new Krystal.Stream()"
 
 #define TCS_PACKET_CONSTRUCTOR		"public %1%()\n" \
 									"{\n" \
