@@ -439,6 +439,13 @@ using namespace Krystal;
                         }
                     }
                     break;
+
+                    case CsNodeType::packetMemberTypeStream:
+                    {
+                        parsed << format(TCS_PACKET_MEMBER_AS_GET_LENGTH_STREAM)
+                            % *(memberName->getParsed(CsParseAs::Default));
+                    }
+                    break;
                 }
             }
             break;

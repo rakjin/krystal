@@ -202,6 +202,8 @@ namespace CsNodeType
 
 #define TCS_PACKET_MEMBER_AS_GET_LENGTH_REFERENCE	"length += Krystal.Serializer.Custom.GetLength(%1%, true);\n"
 
+#define TCS_PACKET_MEMBER_AS_GET_LENGTH_STREAM		"length += Krystal.Serializer.KrystalWrapper.GetLength(%1%);\n"
+
 #define TCS_PACKET_MEMBER_AS_GET_LENGTH_MAP_PRIMITIVE_VALUE		"length += 4;\n" \
 																"foreach ( KeyValuePair<%1%, %2%> %3%Temp in %3% )\n" \
 																"{\n" \
