@@ -744,6 +744,13 @@ using namespace Krystal;
                     }
                     break;
 
+                    case CsNodeType::packetMemberTypeStream:
+                    {
+                        parsed << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_STREAM)
+                            % *(memberName->getParsed(CsParseAs::Default));
+                    }
+                    break;
+
                     case CsNodeType::packetMemberTypeMap:
                     {
                         parsed << format(TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_MAP_BEGIN)

@@ -469,6 +469,10 @@ namespace CsNodeType
 																"arrayIndex += 1;\n"
 																// name
 
+#define TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_STREAM		"// %1% : stream type not supported in JSON mode\n" \
+																"arrayIndex += 1;\n"
+																// name, serializer
+
 #define TCS_PACKET_MEMBER_AS_PARSE_JSON_ARRAY_DATA_MAP_BEGIN	"%1%.Clear();\n" \
 																"if ( jsonArrayList_Overall[arrayIndex] is Dictionary<string, object> )\n" \
 																"{\n" \
