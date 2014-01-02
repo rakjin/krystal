@@ -612,6 +612,8 @@ namespace CsNodeType
 
 #define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_DICTIONARY_REFERENCE	"Krystal.Serializer.JSon.Custom.Write( objDic, \"%1%\", %1%, true );\n"
 
+#define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_DICTIONARY_STREAM		"// %1% : stream type not supported in JSON mode\n"
+
 #define TCS_PACKET_MEMBER_AS_TO_JSON_PACKAGE_DICTIONARY_MAP_PRIMITIVE_VALUE		"Dictionary<string,object> %1%Value1 = new Dictionary<string,object>();\n" \
 																				"foreach ( KeyValuePair<%2%, %3%> val in %1% )\n" \
 																				"{\n" \
