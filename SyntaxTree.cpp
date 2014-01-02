@@ -1108,6 +1108,12 @@ using namespace Krystal;
                     }
                     break;
 
+                    case Parser::token::STREAM:
+                    {
+                        parsed << "Krystal.Stream";
+                    }
+                    break;
+
                     default:
                     {
                         throw string("Unknown NodePacketMemberType type.");
@@ -1266,6 +1272,12 @@ using namespace Krystal;
                             % *(getParsed(CsParseAs::Default));
                     }
                     break;
+
+                    case Parser::token::STREAM:
+                    {
+                        parsed << " = new Krystal.Stream()";
+                    }
+                    break;                    
 
                     default:
                     {

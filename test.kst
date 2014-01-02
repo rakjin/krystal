@@ -25,7 +25,7 @@ packet P1
 	list <P2> listField1;
 	list <double> listField2;
 	//int doubleField; // packet member name duplication check
-	//stream streamTypeField1;
+	stream streamTypeField1;
 };
 
 packet Empty {};
