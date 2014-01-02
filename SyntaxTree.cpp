@@ -1003,6 +1003,12 @@ using namespace Krystal;
                 return CsNodeType::packetMemberTypeList;
             }
             break;
+
+            case Parser::token::STREAM:
+            {
+                return CsNodeType::packetMemberTypeStream;
+            }
+            break;
         }
         return CsNodeType::packetMemberType;
     }

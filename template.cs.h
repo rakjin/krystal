@@ -105,6 +105,7 @@ namespace CsNodeType
 							packetMemberTypeReference,
 							packetMemberTypeMap,
 							packetMemberTypeList,
+							packetMemberTypeStream,
 						packetMemberName,
 			enumeration,
 				enumerationName,
