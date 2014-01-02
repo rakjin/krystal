@@ -471,6 +471,13 @@ using namespace Krystal;
                     }
                     break;
 
+                    case CsNodeType::packetMemberTypeStream:
+                    {
+                        parsed << format(TCS_PACKET_MEMBER_AS_WRITE_STREAM)
+                            % *(memberName->getParsed(CsParseAs::Default));
+                    }
+                    break;
+
                     case CsNodeType::packetMemberTypeMap:
                     {
                         parsed << format(TCS_PACKET_MEMBER_AS_WRITE_MAP_BEGIN)

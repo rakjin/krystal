@@ -248,6 +248,8 @@ namespace CsNodeType
 
 #define TCS_PACKET_MEMBER_AS_WRITE_REFERENCE	"Krystal.Serializer.Custom.Write( stream, %1%, true );\n"
 
+#define TCS_PACKET_MEMBER_AS_WRITE_STREAM		"Krystal.Serializer.KrystalWrapper.Write( stream, %1% );\n"
+
 #define TCS_PACKET_MEMBER_AS_WRITE_MAP_BEGIN	"Krystal.Serializer.Int.Write( stream, %1%.Count );\n" \
 												"foreach( KeyValuePair<%2%, %3%> keyValueTemp in %1% )\n" \
 												"{\n"
