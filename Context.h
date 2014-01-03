@@ -57,9 +57,9 @@ class Krystal::Context
  *     - <name_of_files_to_be_processed, is_processed>
  *     - including Aaa.kst as first element
  * Declarations Table
- *   map<string, int>* declarations;
- *     - <name_of_declarations, hash>
- *     - 0 hash means not yet been calculated
+ *   map<string, Node*>* declarations;
+ *     - <name_of_declarations, Node instance>
+ *     - Node reference to the declaration
  * 
  * * * * * * * * * * * * * * * * * * * */
 
