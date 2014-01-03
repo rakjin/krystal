@@ -68,6 +68,8 @@ using namespace Krystal;
         parsed << format(TCS_HEADER) % *fileName;
         parsed << TCS_USINGS;
 
+        // print #include "XXX.kst" as using XXX;
+        // {
         list<Node*>::iterator i = commands->begin();
         list<Node*>::iterator end = commands->end();
 
@@ -82,6 +84,7 @@ using namespace Krystal;
             }
         }
         parsed << parsedIncludeCommands.str();
+        // }
 
         parsed << "\n";
 
