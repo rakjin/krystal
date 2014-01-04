@@ -150,7 +150,7 @@ packet :
 		bool success = context->insertDeclaration($2, $$);
 		if (success == false)
 		{
-			error(yyloc, string("DUPLICATED declaration name: ") + *$2);
+			error(yyloc, string("DUPLICATED packet ") + *$2);
 		}
 	}
 	|
@@ -168,12 +168,22 @@ packet :
 	{
 		list<NodePacketMember*>* emptyMembers = new list<NodePacketMember*>();
 		$$ = new NodePacket(context, $2, emptyMembers);
+		bool success = context->insertDeclaration($2, $$);
+		if (success == false)
+		{
+			error(yyloc, string("DUPLICATED packet ") + *$2);
+		}
 	}
 	|
 	PACKET ID BLOCK_BEGIN URI BLOCK_END
 	{
 		list<NodePacketMember*>* emptyMembers = new list<NodePacketMember*>();
 		$$ = new NodePacket(context, $2, emptyMembers, $4);
+		bool success = context->insertDeclaration($2, $$);
+		if (success == false)
+		{
+			error(yyloc, string("DUPLICATED packet ") + *$2);
+		}
 	}
 
 packet_members :
