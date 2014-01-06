@@ -27,7 +27,7 @@ class Krystal::Context
 		bool insertDeclaration(string* declarationName, Node* node);
 		Node* getDeclarationNode(string* declarationName); // retreive Node* by declaration name from the table
 	private:
-		map<string, bool>* includedFiles; //table for INCLUDED_FILE_NAME as key and PROCESSED as value
+		map<string, bool>* filesToProcess; //table for INCLUDED_FILE_NAME as key and PROCESSED as value
 		map<string, Node*>* declarations; //table for DECLARATION_NAME(enums, packets) as key and Node* as value
 };
 
@@ -52,8 +52,8 @@ class Krystal::Context
  * should influence all the others' hash
  * even when processing Aaa.kst solely
  *
- * Included Files Table
- *   map <string, bool>* includedFiles;
+ * Table for files to be processed
+ *   map <string, bool>* filesToProcess;
  *     - <name_of_files_to_be_processed, is_processed>
  *     - including Aaa.kst as first element
  * Declarations Table

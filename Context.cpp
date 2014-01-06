@@ -7,22 +7,22 @@
 using namespace std;
 
 Krystal::Context::Context() {
-	includedFiles = new map<string, bool>();
+	filesToProcess = new map<string, bool>();
 	declarations = new map<string, Node*>();
 }
 
 bool Krystal::Context::insertIncludedFile(string* fileName)
 {
 	pair< map<string, bool>::iterator, bool > pr;
-	pr = includedFiles->insert( map<string, bool>::value_type(*fileName, false) );
+	pr = filesToProcess->insert( map<string, bool>::value_type(*fileName, false) );
 	return pr.second;
 }
 
 bool Krystal::Context::markIncludedFileAsProcessed(string* fileName)
 {
-	map<string, bool>::iterator findIterator = includedFiles->find(*fileName);
+	map<string, bool>::iterator findIterator = filesToProcess->find(*fileName);
 
-	if (findIterator != includedFiles->end())
+	if (findIterator != filesToProcess->end())
 	{
 		findIterator->second = true;
 		return true; // success
@@ -36,7 +36,7 @@ string* Krystal::Context::getUnprocessedFileName()
 	string* fileName = NULL; // if unprocessed file not found, return null
 
 	map<string, bool>::iterator i;
-	for(i = includedFiles->begin(); i != includedFiles->end(); i++)
+	for(i = filesToProcess->begin(); i != filesToProcess->end(); i++)
 	{
 		bool processed = i->second;
 		if (processed == false)
