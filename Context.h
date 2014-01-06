@@ -20,7 +20,7 @@ class Krystal::Context
 {
 	public:
 		Context();
-		bool insertIncludedFile(string* fileName);
+		bool insertUnprocessedFile(string* fileName);
 		bool markIncludedFileAsProcessed(string* fileName);
 		string* getUnprocessedFileName();
 

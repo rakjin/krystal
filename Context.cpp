@@ -11,7 +11,7 @@ Krystal::Context::Context() {
 	declarations = new map<string, Node*>();
 }
 
-bool Krystal::Context::insertIncludedFile(string* fileName)
+bool Krystal::Context::insertUnprocessedFile(string* fileName)
 {
 	pair< map<string, bool>::iterator, bool > pr;
 	pr = filesToProcess->insert( map<string, bool>::value_type(*fileName, false) );

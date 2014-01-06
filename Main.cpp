@@ -18,7 +18,7 @@ int main(int argc, char * argv[]) {
 
 	Krystal::Context context = Krystal::Context();
 	string* fileNameFromArg = new string(argv[1]);
-	context.insertIncludedFile(fileNameFromArg);
+	context.insertUnprocessedFile(fileNameFromArg);
 
 	Krystal::KstFile* kstFile = NULL;
 	string* fileNameToProcess = NULL;

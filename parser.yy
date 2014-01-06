@@ -253,7 +253,7 @@ include :
 	INCLUDE STRING_LITERAL
 	{
 		$$ = new NodeInclude(context, $2);
-		bool success = context->insertIncludedFile($2);
+		bool success = context->insertUnprocessedFile($2);
 		if (success == false && ALLOW_DUPLICATED_INCLUDE == false)
 		{
 			error(yyloc, string("DUPLICATED #include \"") + *$2 + "\"");
