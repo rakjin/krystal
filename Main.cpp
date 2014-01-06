@@ -27,7 +27,7 @@ int main(int argc, char * argv[]) {
 	{
 		// process file from argument
 		kstFile = new Krystal::KstFile(fileNameFromArg, context);
-		context.markIncludedFileAsProcessed(fileNameFromArg);
+		context.markFileAsProcessed(fileNameFromArg);
 
 		// process including files if any
 		for(fileNameToProcess = context.getUnprocessedFileName();
@@ -35,7 +35,7 @@ int main(int argc, char * argv[]) {
 			fileNameToProcess = context.getUnprocessedFileName())
 		{
 			new Krystal::KstFile(fileNameToProcess, context);
-			context.markIncludedFileAsProcessed(fileNameToProcess);
+			context.markFileAsProcessed(fileNameToProcess);
 		}
 
 		cout << *(kstFile->getParsed()); // the first parsed

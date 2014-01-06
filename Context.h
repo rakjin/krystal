@@ -21,7 +21,7 @@ class Krystal::Context
 	public:
 		Context();
 		bool insertUnprocessedFile(string* fileName);
-		bool markIncludedFileAsProcessed(string* fileName);
+		bool markFileAsProcessed(string* fileName);
 		string* getUnprocessedFileName();
 
 		bool insertDeclaration(string* declarationName, Node* node);

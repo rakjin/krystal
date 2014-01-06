@@ -18,7 +18,7 @@ bool Krystal::Context::insertUnprocessedFile(string* fileName)
 	return pr.second;
 }
 
-bool Krystal::Context::markIncludedFileAsProcessed(string* fileName)
+bool Krystal::Context::markFileAsProcessed(string* fileName)
 {
 	map<string, bool>::iterator findIterator = filesToProcess->find(*fileName);
 
