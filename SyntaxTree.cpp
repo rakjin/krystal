@@ -92,18 +92,22 @@ using namespace Krystal;
 
         parsed << format(TCS_NAMESPACE_BEGIN) % namespaceByFileName;
 
-        string* temp;
+        string* parsedBody;
 
         for (i = commands->begin(); i != end; i++)
         {
+            // ignore #include "..."
             if ((*i)->getType() == CsNodeType::include)
             {
                 continue;
             }
-            temp = (*i)->getParsed(CsParseAs::Default);
-            temp = indent(temp);
-            parsed << *temp;
-            parsed << "\n";
+            else // parse packet{...};
+            {
+                parsedBody = (*i)->getParsed(CsParseAs::Default);
+                parsedBody = indent(parsedBody);
+                parsed << *parsedBody;
+                parsed << "\n";
+            }
         }
 
         parsed << TCS_NAMESPACE_END;
